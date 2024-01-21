@@ -36,6 +36,12 @@ public class RobotContainer {
 
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+
+  private final SwerveRequest.FieldCentricFacingAngle fieldCentricFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
+  .withDeadband(MaxSpeed * 0.1)
+  .withRotationalDeadband(MaxAngularRate * 0.1)
+  .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private void configureBindings() {
@@ -51,15 +57,36 @@ public class RobotContainer {
                 .withRotationalRate(zRotationModifier.apply(-joystick.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ));
 
-    joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    // TODO: These need to be tuned to the real robot
+    fieldCentricFacingAngle.HeadingController.setPID(10,0,0);
+    fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+
+    joystick.a().whileTrue(drivetrain.applyRequest(
+      () -> fieldCentricFacingAngle
+      .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+      .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+      .withTargetDirection(Rotation2d.fromDegrees(180))
+    ));
 
     joystick.b().whileTrue(drivetrain.applyRequest(
-      () -> point.withModuleDirection(
-        new Rotation2d(
-          -joystick.getLeftY(),
-          -joystick.getLeftX()
-        )
-      )
+      () -> fieldCentricFacingAngle
+      .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+      .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+      .withTargetDirection(Rotation2d.fromDegrees(270))
+    ));
+
+    joystick.x().whileTrue(drivetrain.applyRequest(
+      () -> fieldCentricFacingAngle
+      .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+      .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+      .withTargetDirection(Rotation2d.fromDegrees(90))
+    ));
+
+    joystick.y().whileTrue(drivetrain.applyRequest(
+      () -> fieldCentricFacingAngle
+      .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+      .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+      .withTargetDirection(Rotation2d.fromDegrees(0))
     ));
 
     joystick.leftBumper().onTrue(
