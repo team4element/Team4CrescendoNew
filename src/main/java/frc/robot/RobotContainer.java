@@ -7,20 +7,17 @@ package frc.robot;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 
-/**
- * Question:
- * 1. How does the robot know what orientation the field is?
- * 2.
- */
 public class RobotContainer {
   // Variables describing the robot's max speed
   private double MaxSpeed = 6; // meters per second
@@ -43,11 +40,15 @@ public class RobotContainer {
 
   private void configureBindings() {
     // The default "drive" command when no other commands are using the drivetrain.
+    JoystickModifier yTranslationModifier = new JoystickModifier("yTranslationModifier");
+    JoystickModifier xTranslationModifier = new JoystickModifier("xTranslationModifier");
+    JoystickModifier zRotationModifier = new JoystickModifier("zRotationModifier");
+
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(
-            () -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            () -> drive.withVelocityX(yTranslationModifier.apply(-joystick.getLeftY()) * MaxSpeed) // Drive forward with negative Y (forward)
+                .withVelocityY(xTranslationModifier.apply(-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+                .withRotationalRate(zRotationModifier.apply(-joystick.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ));
 
     joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
