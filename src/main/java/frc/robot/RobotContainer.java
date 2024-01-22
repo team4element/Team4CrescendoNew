@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.generated.TunerConstants;
 
 public class RobotContainer {
@@ -61,33 +62,20 @@ public class RobotContainer {
     fieldCentricFacingAngle.HeadingController.setPID(10,0,0);
     fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
-    joystick.a().whileTrue(drivetrain.applyRequest(
-      () -> fieldCentricFacingAngle
-      .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-      .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
-      .withTargetDirection(Rotation2d.fromDegrees(180))
-    ));
 
-    joystick.b().whileTrue(drivetrain.applyRequest(
-      () -> fieldCentricFacingAngle
-      .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-      .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
-      .withTargetDirection(Rotation2d.fromDegrees(270))
-    ));
+    Trigger[] cardinalDirectionLockTriggers = { joystick.y(), joystick.x(), joystick.a(), joystick.b() };
+    // Loop through these triggers, and add 90 degrees to each one
 
-    joystick.x().whileTrue(drivetrain.applyRequest(
-      () -> fieldCentricFacingAngle
-      .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-      .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
-      .withTargetDirection(Rotation2d.fromDegrees(90))
-    ));
+    for (int i = 0; i < cardinalDirectionLockTriggers.length; i++) {
+      Trigger trigger = cardinalDirectionLockTriggers[i];
+      final int finalPosition = i;
 
-    joystick.y().whileTrue(drivetrain.applyRequest(
-      () -> fieldCentricFacingAngle
-      .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-      .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
-      .withTargetDirection(Rotation2d.fromDegrees(0))
-    ));
+      trigger.whileTrue(drivetrain.applyRequest(
+        () -> fieldCentricFacingAngle
+        .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+        .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+        .withTargetDirection(Rotation2d.fromDegrees(finalPosition * 90))));
+    }
 
     joystick.leftBumper().onTrue(
       drivetrain.runOnce(
