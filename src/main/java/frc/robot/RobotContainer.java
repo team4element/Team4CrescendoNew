@@ -19,6 +19,25 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.generated.TunerConstants;
 
+/**
+ * What does Auton Path Following Mean?
+ * 
+ * Drives on pre-written code.
+ * There is going to be a Command called "FollowDrivePath".
+ * 
+ * This command will need a predetermined path to follow.
+ * 
+ * How are commands scheduled/run?
+ * 1. In Teleop, When a "trigger" is fired, it tells the Scheduler to run a command.
+ * 2. A subsystem can be given a "Default command". This is scheduled when NO OTHER COMMANDS are using the subsystem.
+ * 
+ * 
+ * In Teleop, commands are scheduled to run when a certain "trigger" is triggered.
+ * 
+ * 
+ * 
+ * 
+ */
 public class RobotContainer {
   // Variables describing the robot's max speed
   private double MaxSpeed = 6; // meters per second
@@ -94,6 +113,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return drivetrain.getAutoPath("Tests");
   }
 }
