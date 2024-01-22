@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
@@ -13,6 +15,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -40,8 +43,8 @@ import frc.robot.generated.TunerConstants;
  */
 public class RobotContainer {
   // Variables describing the robot's max speed
-  private double MaxSpeed = 6; // meters per second
-  private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  Supplier<Double> maxSpeedSupplier = () -> SmartDashboard.getNumber("maxSpeed", 3);
+  Supplier<Double> maxAngularRateSupplier = () -> SmartDashboard.getNumber("maxAngularRate", 1.5 * Math.PI);
 
   // Setting up joystick to attach triggers later
   private final CommandXboxController joystick = new CommandXboxController(0);
@@ -50,19 +53,19 @@ public class RobotContainer {
 
   // Defines the type of driving when in open-loop (teleop)
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1)
-      .withRotationalDeadband(MaxAngularRate * 0.1)
+      .withDeadband(maxSpeedSupplier.get() * 0.1)
+      .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
   private final SwerveRequest.FieldCentricFacingAngle fieldCentricFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
-  .withDeadband(MaxSpeed * 0.1)
-  .withRotationalDeadband(MaxAngularRate * 0.1)
+  .withDeadband(maxSpeedSupplier.get() * 0.1)
+  .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
   .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-  private final Telemetry logger = new Telemetry(MaxSpeed);
+  private final Telemetry logger = new Telemetry(maxSpeedSupplier.get());
 
   private void configureBindings() {
     // The default "drive" command when no other commands are using the drivetrain.
@@ -72,9 +75,9 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(
-            () -> drive.withVelocityX(yTranslationModifier.apply(-joystick.getLeftY()) * MaxSpeed) // Drive forward with negative Y (forward)
-                .withVelocityY(xTranslationModifier.apply(-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
-                .withRotationalRate(zRotationModifier.apply(-joystick.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            () -> drive.withVelocityX(yTranslationModifier.apply(-joystick.getLeftY()) * maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
+                .withVelocityY(xTranslationModifier.apply(-joystick.getLeftX()) * maxSpeedSupplier.get()) // Drive left with negative X (left)
+                .withRotationalRate(zRotationModifier.apply(-joystick.getRightX()) * maxAngularRateSupplier.get()) // Drive counterclockwise with negative X (left)
         ));
 
     // TODO: These need to be tuned to the real robot
@@ -91,8 +94,8 @@ public class RobotContainer {
 
       trigger.whileTrue(drivetrain.applyRequest(
         () -> fieldCentricFacingAngle
-        .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-        .withVelocityY((-joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+        .withVelocityX(-joystick.getLeftY() * maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
+        .withVelocityY((-joystick.getLeftX()) * maxSpeedSupplier.get()) // Drive left with negative X (left)
         .withTargetDirection(Rotation2d.fromDegrees(finalPosition * 90))));
     }
 
