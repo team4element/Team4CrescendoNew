@@ -15,7 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Commands.drive;
+import frc.robot.Commands.OpenLoopDrive;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
@@ -128,7 +128,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return m_driveTrain.getAutoPath("Tests");
-    
   }
 
   /**
@@ -137,6 +136,6 @@ public class RobotContainer {
   private void setDefaultCommands()
   {
     //Add more default commands here
-    m_driveTrain.setDefaultCommand(new drive(m_driveTrain));
+    m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
   }
 }
