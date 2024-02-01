@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * We want to create a custom class which extends a joystick's reading and
@@ -23,7 +22,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 3. Quadratic --> No parameters needed.
  * 
  */
+
+
 public class JoystickModifier {
+    enum modifyType 
+    {
+
+    }
+
+
     // Member Variables
     // Saving variables for later
     String option = "Linear";
@@ -67,8 +74,14 @@ public class JoystickModifier {
                 .getEntry();
     }
 
-    // Member Functions
-    double apply(double input) {
+    /***
+     *  Modifies the joystick input based on the input mode
+     * 
+     * @param input Input from the joystick 
+     * @return The modified input
+     */
+
+    public double apply(double input) {
         // Apply Deadband
         double currentDeadband = deadbandEntry.getDouble(0);
 
@@ -83,19 +96,20 @@ public class JoystickModifier {
 
         lastInput = input;
 
+        double modifiedInput = input;
+
         if (option.equals("Linear")) {
-            return input;
+            modifiedInput = input;
         }
 
         if (option.equals("Quadratic")) {
-            return input * input;
+            modifiedInput = input * input;
         }
 
         if (option.equals("Slew")) {
-            return slewRateLimiter.calculate(input);
+            modifiedInput = slewRateLimiter.calculate(input);
         }
 
-        // This should never be reached
-        return input;
+        return modifiedInput;
     }
 }

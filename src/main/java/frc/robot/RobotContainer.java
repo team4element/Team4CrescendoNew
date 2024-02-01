@@ -4,23 +4,22 @@
 
 package frc.robot;
 
-import java.util.function.Supplier;
-
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.generated.TunerConstants;
+import frc.robot.Commands.OpenLoopDrive;
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.Constants.TunerConstants;
+import frc.robot.Subsystems.CommandSwerveDrivetrain;
 
 /**
  * What does Auton Path Following Mean?
@@ -42,80 +41,101 @@ import frc.robot.generated.TunerConstants;
  * 
  */
 public class RobotContainer {
-  // Variables describing the robot's max speed
-  Supplier<Double> maxSpeedSupplier = () -> SmartDashboard.getNumber("maxSpeed", 3);
-  Supplier<Double> maxAngularRateSupplier = () -> SmartDashboard.getNumber("maxAngularRate", 1.5 * Math.PI);
 
   // Setting up joystick to attach triggers later
-  private final CommandXboxController joystick = new CommandXboxController(0);
 
-  private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain;
+  
+  // Swerve Modules (think of this as a wheel)
+   private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kFrontLeftSteerMotorId,
+            DriveTrainConstants.kFrontLeftDriveMotorId,
+            DriveTrainConstants.kFrontLeftEncoderId, 
+            TunerConstants.kFrontLeftEncoderOffset, 
+            Units.inchesToMeters(TunerConstants.kFrontLeftXPosInches), 
+            Units.inchesToMeters(TunerConstants.kFrontLeftYPosInches), 
+            TunerConstants.kInvertLeftSide);
+    
+    private static final SwerveModuleConstants m_driveFrontRight = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kFrontRightSteerMotorId, 
+            DriveTrainConstants.kFrontRightDriveMotorId, 
+            DriveTrainConstants.kFrontRightEncoderId, 
+            TunerConstants.kFrontRightEncoderOffset, 
+            Units.inchesToMeters(TunerConstants.kFrontRightXPosInches),
+            Units.inchesToMeters(TunerConstants.kFrontRightYPosInches),
+            TunerConstants.kInvertRightSide);
 
-  // Defines the type of driving when in open-loop (teleop)
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(maxSpeedSupplier.get() * 0.1)
-      .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    private static final SwerveModuleConstants m_driveBackLeft = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kBackLeftSteerMotorId,
+            DriveTrainConstants.kBackLeftDriveMotorId,
+            DriveTrainConstants.kBackLeftEncoderId,
+            TunerConstants.kBackLeftEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kBackLeftXPosInches),
+            Units.inchesToMeters(TunerConstants.kBackLeftYPosInches),
+            TunerConstants.kInvertLeftSide);
 
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    private static final SwerveModuleConstants m_driveBackRight = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kBackRightSteerMotorId,
+            DriveTrainConstants.kBackRightDriveMotorId,
+            DriveTrainConstants.kBackRightEncoderId,
+            TunerConstants.kBackRightEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kBackRightXPosInches),
+            Units.inchesToMeters(TunerConstants.kBackRightYPosInches),
+            TunerConstants.kInvertRightSide);
+  
+  //Swerve Drive (This is like our entire driveTrain)
+  public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain(TunerConstants.swerveConstants, m_driveFrontLeft,
+  m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
 
-  private final SwerveRequest.FieldCentricFacingAngle fieldCentricFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
-  .withDeadband(maxSpeedSupplier.get() * 0.1)
-  .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
-  .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
-  private final Telemetry logger = new Telemetry(maxSpeedSupplier.get());
+  private void configureBindings() {     
 
-  private void configureBindings() {
-    // The default "drive" command when no other commands are using the drivetrain.
-    JoystickModifier yTranslationModifier = new JoystickModifier("yTranslationModifier");
-    JoystickModifier xTranslationModifier = new JoystickModifier("xTranslationModifier");
-    JoystickModifier zRotationModifier = new JoystickModifier("zRotationModifier");
-
-    drivetrain.setDefaultCommand(
-        drivetrain.applyRequest(
-            () -> drive.withVelocityX(yTranslationModifier.apply(-joystick.getLeftY()) * maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
-                .withVelocityY(xTranslationModifier.apply(-joystick.getLeftX()) * maxSpeedSupplier.get()) // Drive left with negative X (left)
-                .withRotationalRate(zRotationModifier.apply(-joystick.getRightX()) * maxAngularRateSupplier.get()) // Drive counterclockwise with negative X (left)
-        ));
-
-    // TODO: These need to be tuned to the real robot
-    fieldCentricFacingAngle.HeadingController.setPID(10,0,0);
-    fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-
-
-    Trigger[] cardinalDirectionLockTriggers = { joystick.y(), joystick.x(), joystick.a(), joystick.b() };
     // Loop through these triggers, and add 90 degrees to each one
+    Trigger[] cardinalDirectionLockTriggers = { 
+      ControllerConstants.driveController.y(),
+      ControllerConstants.driveController.x(),
+      ControllerConstants.driveController.a(),
+      ControllerConstants.driveController.b() };
 
     for (int i = 0; i < cardinalDirectionLockTriggers.length; i++) {
       Trigger trigger = cardinalDirectionLockTriggers[i];
       final int finalPosition = i;
 
-      trigger.whileTrue(drivetrain.applyRequest(
-        () -> fieldCentricFacingAngle
-        .withVelocityX(-joystick.getLeftY() * maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
-        .withVelocityY((-joystick.getLeftX()) * maxSpeedSupplier.get()) // Drive left with negative X (left)
+      //Todo::move to command not sure what this does here. Does this move the turn motors?
+      trigger.whileTrue(m_driveTrain.applyRequest(
+        () -> m_driveTrain.fieldCentricFacingAngle
+        .withVelocityX( -ControllerConstants.driveController.getLeftY() * m_driveTrain.maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
+        .withVelocityY((-ControllerConstants.driveController.getLeftX()) * m_driveTrain.maxSpeedSupplier.get()) // Drive left with negative X (left)
         .withTargetDirection(Rotation2d.fromDegrees(finalPosition * 90))));
     }
 
-    joystick.leftBumper().onTrue(
-      drivetrain.runOnce(
-        () -> drivetrain.seedFieldRelative()
+    ControllerConstants.driveController.leftBumper().onTrue(
+      m_driveTrain.runOnce(
+        () -> m_driveTrain.seedFieldRelative()
       )
     );
 
     if (Utils.isSimulation()) {
-      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+      m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
-    drivetrain.registerTelemetry(logger::telemeterize);
+    m_driveTrain.registerTelemetry(logger::telemeterize);
   }
 
   public RobotContainer() {
     configureBindings();
+    setDefaultCommands();
   }
 
   public Command getAutonomousCommand() {
-    return drivetrain.getAutoPath("Tests");
+    return m_driveTrain.getAutoPath("Tests");
+  }
+
+  /**
+   * Sets the default command per subsystem
+   */
+  private void setDefaultCommands()
+  {
+    //Add more default commands here
+    m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
   }
 }
