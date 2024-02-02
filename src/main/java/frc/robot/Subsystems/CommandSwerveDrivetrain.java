@@ -56,27 +56,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
-        configurePathPlanner();
-        // TODO: These need to be tuned to the real robot
-        fieldCentricFacingAngle.HeadingController.setPID(10,0,0);
-        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-        
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
+        init();
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
-        configurePathPlanner();
-
-        // TODO: These need to be tuned to the real robot
-        fieldCentricFacingAngle.HeadingController.setPID(10,0,0);
-        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
+        init();
     }
 
     private void configurePathPlanner() {
@@ -109,6 +94,17 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public ChassisSpeeds getCurrentRobotChassisSpeeds() {
         return m_kinematics.toChassisSpeeds(getState().ModuleStates);
+    }
+
+    private void init() {
+        configurePathPlanner();
+        // TODO: These need to be tuned to the real robot
+        fieldCentricFacingAngle.HeadingController.setPID(10,0,0);
+        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-180, 180);
+        
+        if (Utils.isSimulation()) {
+            startSimThread();
+        }
     }
 
     private void startSimThread() {
