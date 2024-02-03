@@ -1,5 +1,8 @@
 package frc.robot.Constants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DriveTrainConstants{
     
     public static final int kFrontLeftDriveMotorId = 5;
@@ -17,4 +20,14 @@ public class DriveTrainConstants{
     public static final int kBackRightDriveMotorId = 11;
     public static final int kBackRightSteerMotorId = 12;
     public static final int kBackRightEncoderId = 4;
+
+    public static final Map<Integer, String> IDtoEncoderName = new HashMap<Integer, String>(); 
+
+    DriveTrainConstants() {
+        // intialize map values
+        IDtoEncoderName.put(3, "FrontLeft");
+        IDtoEncoderName.put(1, "FrontRight");
+        IDtoEncoderName.put(2, "BackLeft");
+        IDtoEncoderName.put(4, "BackRight");
+    }
 }

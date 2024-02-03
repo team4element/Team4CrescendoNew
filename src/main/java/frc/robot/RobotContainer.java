@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,6 +26,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
+
 
 /**
  * What does Auton Path Following Mean?
@@ -88,7 +95,9 @@ public class RobotContainer {
 
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
-  private void configureBindings() {     
+  private ArrayList<CANcoder> m_CANcoders; 
+
+  private void configureBindings() {    
 
     // Loop through these triggers, and add 90 degrees to each one
     Trigger[] cardinalDirectionLockTriggers = { 
@@ -124,6 +133,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
     setDefaultCommands();
+    m_CANcoders = getCANcoders();
   }
 
   public Command getAutonomousCommand() {
@@ -137,5 +147,25 @@ public class RobotContainer {
   {
     //Add more default commands here
     m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
+  }
+
+  private ArrayList<CANcoder> getCANcoders() {
+    ArrayList<SwerveModule> swerveModules = m_driveTrain.getSwerveModules();
+    ArrayList<CANcoder> CANcoders = new ArrayList<CANcoder>();
+    for(SwerveModule swerveModule : swerveModules) {
+      CANcoders.add(swerveModule.getCANcoder());
+    }
+    return CANcoders;
+  }
+
+  public Map<String, Double> getCANcoderPositions() {
+    if (m_CANcoders == null) {
+      getCANcoders();
+    }
+    Map<String, Double> CANcoderPositions = new HashMap<String, Double>();
+    for(CANcoder temp_CANcoder : m_CANcoders) {
+      CANcoderPositions.put(DriveTrainConstants.IDtoEncoderName.get(temp_CANcoder.getDeviceID()), temp_CANcoder.getPosition().getValue());
+    }
+    return CANcoderPositions;
   }
 }
