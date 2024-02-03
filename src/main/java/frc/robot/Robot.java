@@ -48,9 +48,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    Map<String, Double> CANcoderPositions = m_robotContainer.getCANcoderPositions();
-    for(String CANcoderPositionsKey : m_robotContainer.getCANcoderPositions().keySet()) {
-      SmartDashboard.putNumber(CANcoderPositionsKey, CANcoderPositions.get(CANcoderPositionsKey));
+    if(!Robot.isSimulation()) {
+      Map<String, Double> CANcoderPositions = m_robotContainer.getSwerveCANcoderPositions();
+      for(String CANcoderPositionsKey : CANcoderPositions.keySet()) {
+        SmartDashboard.putNumber(CANcoderPositionsKey, CANcoderPositions.get(CANcoderPositionsKey));
+      }
     }
   }
 

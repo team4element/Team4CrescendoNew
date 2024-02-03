@@ -99,19 +99,19 @@ public class RobotContainer {
 
   private void configureBindings() {    
 
-    // Loop through these triggers, and add 90 degrees to each one
+    
     Trigger[] cardinalDirectionLockTriggers = { 
       ControllerConstants.driveController.y(),
       ControllerConstants.driveController.x(),
       ControllerConstants.driveController.a(),
       ControllerConstants.driveController.b() };
-
+    // Loop through these triggers, and add 90 degrees to each one
     for (int i = 0; i < cardinalDirectionLockTriggers.length; i++) {
       Trigger trigger = cardinalDirectionLockTriggers[i];
       final int finalPosition = i;
 
-      //Todo::move to command not sure what this does here. Does this move the turn motors?
-      trigger.whileTrue(m_driveTrain.applyRequest(
+      // TODO: move to command not sure what this does here. Does this move the turn motors?
+      trigger.whileTrue(m_driveTrain.applyRequest( // could be better to change whileTrue to onTrue or toggleOnTrue
         () -> m_driveTrain.fieldCentricFacingAngle
         .withVelocityX( -ControllerConstants.driveController.getLeftY() * m_driveTrain.maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
         .withVelocityY((-ControllerConstants.driveController.getLeftX()) * m_driveTrain.maxSpeedSupplier.get()) // Drive left with negative X (left)
@@ -133,7 +133,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
     setDefaultCommands();
-    m_CANcoders = getCANcoders();
+    m_CANcoders = getSwerveCANcoders();
   }
 
   public Command getAutonomousCommand() {
@@ -149,18 +149,17 @@ public class RobotContainer {
     m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
   }
 
-  private ArrayList<CANcoder> getCANcoders() {
-    ArrayList<SwerveModule> swerveModules = m_driveTrain.getSwerveModules();
+  private ArrayList<CANcoder> getSwerveCANcoders() {
     ArrayList<CANcoder> CANcoders = new ArrayList<CANcoder>();
-    for(SwerveModule swerveModule : swerveModules) {
+    for(SwerveModule swerveModule : m_driveTrain.getSwerveModules()) {
       CANcoders.add(swerveModule.getCANcoder());
     }
     return CANcoders;
   }
 
-  public Map<String, Double> getCANcoderPositions() {
+  public Map<String, Double> getSwerveCANcoderPositions() {
     if (m_CANcoders == null) {
-      getCANcoders();
+      getSwerveCANcoders();
     }
     Map<String, Double> CANcoderPositions = new HashMap<String, Double>();
     for(CANcoder temp_CANcoder : m_CANcoders) {
