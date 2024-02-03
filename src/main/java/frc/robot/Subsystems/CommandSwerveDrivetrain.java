@@ -128,6 +128,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     public ArrayList<SwerveModule> getSwerveModules() {
-        return new ArrayList<>(Arrays.asList(Modules));
+        return new ArrayList<>(Arrays.asList(this.Modules));
     }
 }
