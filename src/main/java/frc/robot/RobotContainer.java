@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.hardware.CANcoder;
+//import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+//import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,6 +26,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
+
 
 /**
  * What does Auton Path Following Mean?
@@ -88,21 +95,23 @@ public class RobotContainer {
 
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
-  private void configureBindings() {     
+  private ArrayList<CANcoder> m_CANcoders; 
 
-    // Loop through these triggers, and add 90 degrees to each one
+  private void configureBindings() {    
+
+    
     Trigger[] cardinalDirectionLockTriggers = { 
       ControllerConstants.driveController.y(),
       ControllerConstants.driveController.x(),
       ControllerConstants.driveController.a(),
       ControllerConstants.driveController.b() };
-
+    // Loop through these triggers, and add 90 degrees to each one
     for (int i = 0; i < cardinalDirectionLockTriggers.length; i++) {
       Trigger trigger = cardinalDirectionLockTriggers[i];
       final int finalPosition = i;
 
-      //Todo::move to command not sure what this does here. Does this move the turn motors?
-      trigger.whileTrue(m_driveTrain.applyRequest(
+      // TODO: move to command not sure what this does here. Does this move the turn motors?
+      trigger.whileTrue(m_driveTrain.applyRequest( // could be better to change whileTrue to onTrue or toggleOnTrue
         () -> m_driveTrain.fieldCentricFacingAngle
         .withVelocityX( -ControllerConstants.driveController.getLeftY() * m_driveTrain.maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
         .withVelocityY((-ControllerConstants.driveController.getLeftX()) * m_driveTrain.maxSpeedSupplier.get()) // Drive left with negative X (left)
@@ -124,6 +133,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
     setDefaultCommands();
+    m_CANcoders = getSwerveCANcoders();
   }
 
   public Command getAutonomousCommand() {
@@ -137,5 +147,24 @@ public class RobotContainer {
   {
     //Add more default commands here
     m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
+  }
+
+  private ArrayList<CANcoder> getSwerveCANcoders() {
+    ArrayList<CANcoder> CANcoders = new ArrayList<CANcoder>();
+    for(SwerveModule swerveModule : m_driveTrain.getSwerveModules()) {
+      CANcoders.add(swerveModule.getCANcoder());
+    }
+    return CANcoders;
+  }
+
+  public Map<String, Double> getSwerveCANcoderPositions() {
+    if (m_CANcoders == null) {
+      getSwerveCANcoders();
+    }
+    Map<String, Double> CANcoderPositions = new HashMap<String, Double>();
+    for(CANcoder temp_CANcoder : m_CANcoders) {
+      CANcoderPositions.put(DriveTrainConstants.IDtoEncoderName.get(temp_CANcoder.getDeviceID()), temp_CANcoder.getPosition().getValue());
+    }
+    return CANcoderPositions;
   }
 }

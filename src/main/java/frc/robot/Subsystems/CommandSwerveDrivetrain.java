@@ -1,10 +1,14 @@
 package frc.robot.Subsystems;
 
 import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.ctre.phoenix6.Utils;
+//import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
@@ -20,7 +24,6 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.LiveDoubleBinding;
 import frc.robot.Constants.TunerConstants;
 
 /**
@@ -50,23 +53,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    // TODO: These need to be tuned to the real robot
-    LiveDoubleBinding pBinding = new LiveDoubleBinding("Swerve", "pValue", 10.0, (event) -> {
-        System.out.println(event.valueData.value.getDouble());
-        fieldCentricFacingAngle.HeadingController.setP(
-                event.valueData.value.getDouble());
-    });
-
-    LiveDoubleBinding iBinding = new LiveDoubleBinding("Swerve", "iValue", 0.0, (event) -> {
-        fieldCentricFacingAngle.HeadingController.setI(
-                event.valueData.value.getDouble());
-    });
-
-    LiveDoubleBinding dBinding = new LiveDoubleBinding("Swerve", "dValue", 0.0, (event) -> {
-        fieldCentricFacingAngle.HeadingController.setD(
-                event.valueData.value.getDouble());
-    });
-
     // Defines the type of driving when in open-loop (teleop)
     public final SwerveRequest.FieldCentric m_drive = new SwerveRequest.FieldCentric()
             .withDeadband(maxSpeedSupplier.get() * 0.1)
@@ -76,25 +62,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
             SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
-        configurePathPlanner();
-        fieldCentricFacingAngle.HeadingController.setPID(pBinding.getDouble(), iBinding.getDouble(), dBinding.getDouble());
-        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
+        init();
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
-        configurePathPlanner();
-
-        fieldCentricFacingAngle.HeadingController.setPID(pBinding.getDouble(), iBinding.getDouble(), dBinding.getDouble());
-        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
+        init();
     }
 
     private void configurePathPlanner() {
@@ -130,6 +103,17 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         return m_kinematics.toChassisSpeeds(getState().ModuleStates);
     }
 
+    private void init() {
+        configurePathPlanner();
+        // TODO: These need to be tuned to the real robot
+        fieldCentricFacingAngle.HeadingController.setPID(10, 0, 0);
+        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-180, 180);
+
+        if (Utils.isSimulation()) {
+            startSimThread();
+        }
+    }
+
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
 
@@ -143,5 +127,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
+    }
+
+    public ArrayList<SwerveModule> getSwerveModules() {
+        return new ArrayList<>(Arrays.asList(this.Modules));
     }
 }
