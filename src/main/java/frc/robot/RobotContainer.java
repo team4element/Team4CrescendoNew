@@ -127,7 +127,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return m_driveTrain.getAutoPath("Tests");
+    return m_driveTrain.getAutoPath("StraightAuto");
   }
 
   /**
@@ -138,4 +138,8 @@ public class RobotContainer {
     //Add more default commands here
     m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
   }
+
+//   public double[] getEncoders() {
+//     return [m_driveFrontLeft.]
+// }
 }

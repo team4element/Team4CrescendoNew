@@ -27,6 +27,9 @@ import frc.robot.Constants.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
+    private double kP = 20;
+    private double kI = 0;
+    private double kD = 0;
 
     // Variables describing the robot's max speed
     public Supplier<Double> maxSpeedSupplier = () -> SmartDashboard.getNumber("maxSpeed", 3);
@@ -56,27 +59,13 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
-        configurePathPlanner();
-        // TODO: These need to be tuned to the real robot
-        fieldCentricFacingAngle.HeadingController.setPID(10,0,0);
-        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-        
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
+        init();
+
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
-        configurePathPlanner();
-
-        // TODO: These need to be tuned to the real robot
-        fieldCentricFacingAngle.HeadingController.setPID(10,0,0);
-        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
+        init();
     }
 
     private void configurePathPlanner() {
@@ -90,8 +79,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             this::seedFieldRelative,  // Consumer for seeding pose against auto
             this::getCurrentRobotChassisSpeeds,
             (speeds)->this.setControl(autoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
-            new HolonomicPathFollowerConfig(new PIDConstants(10, 0, 0),
-                                            new PIDConstants(10, 0, 0),
+            new HolonomicPathFollowerConfig(new PIDConstants(kP, kI, kD),
+                                            new PIDConstants(kP, kI, kD),
                                             TunerConstants.kSpeedAt12VoltsMps,
                                             driveBaseRadius,
                                             new ReplanningConfig()),
@@ -111,6 +100,18 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         return m_kinematics.toChassisSpeeds(getState().ModuleStates);
     }
 
+    private void init()
+    {
+        configurePathPlanner();
+        // TODO: These need to be tuned to the real robot
+        fieldCentricFacingAngle.HeadingController.setPID(kP,kI,kD);
+        fieldCentricFacingAngle.HeadingController.enableContinuousInput(-180, 180);
+        
+        if (Utils.isSimulation()) {
+            startSimThread();
+        }
+    }
+
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
 
@@ -125,4 +126,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
+
+    
 }
