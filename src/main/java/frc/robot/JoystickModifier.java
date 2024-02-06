@@ -2,8 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,25 +21,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * 
  */
 
-
 public class JoystickModifier {
-    enum modifyType 
-    {
+    enum modifyType {
 
     }
-
 
     // Member Variables
     // Saving variables for later
     String option = "Linear";
-    String internalName = "";
 
     // Need to manually check for changes in the slew rate
     double lastInput = 0;
     double currentSlewRate = 1;
 
-    GenericEntry deadbandEntry;
-    GenericEntry slewRateEntry;
+    LiveDoubleBinding deadbandEntry;
+    LiveDoubleBinding slewRateEntry;
 
     double deadband = 0;
 
@@ -61,29 +55,25 @@ public class JoystickModifier {
             option = newOption;
         });
 
-        internalName = name;
-
         ShuffleboardTab tab = Shuffleboard.getTab("Joystick");
+        // "Joystick"
 
-        tab.add(internalName + "/JoystickOptions", chooser);
-        slewRateEntry = tab
-                .add(internalName + "/SlewRateValue", 1)
-                .withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-        deadbandEntry = tab
-                .add(internalName + "/DeadbandValue", 0.005)
-                .getEntry();
+        tab.add(name + "/JoystickOptions", chooser);
+
+        deadbandEntry = new LiveDoubleBinding("Joystick", name + "/xTranslationModifier/DeadbandValue", 0.0);
+        slewRateEntry = new LiveDoubleBinding("Joystick", name + "/xTranslationModifier/SlewRateValue", 1.0);
     }
 
     /***
-     *  Modifies the joystick input based on the input mode
+     * Modifies the joystick input based on the input mode
      * 
-     * @param input Input from the joystick 
+     * @param input Input from the joystick
      * @return The modified input
      */
 
     public double apply(double input) {
         // Apply Deadband
-        double currentDeadband = deadbandEntry.getDouble(0);
+        double currentDeadband = deadbandEntry.getDouble();
 
         input = MathUtil.applyDeadband(input, currentDeadband);
 
