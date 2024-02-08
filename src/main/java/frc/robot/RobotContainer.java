@@ -113,8 +113,8 @@ public class RobotContainer {
       // TODO: move to command not sure what this does here. Does this move the turn motors?
       trigger.whileTrue(m_driveTrain.applyRequest( // could be better to change whileTrue to onTrue or toggleOnTrue
         () -> m_driveTrain.fieldCentricFacingAngle
-        .withVelocityX( -ControllerConstants.driveController.getLeftY() * m_driveTrain.maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
-        .withVelocityY((-ControllerConstants.driveController.getLeftX()) * m_driveTrain.maxSpeedSupplier.get()) // Drive left with negative X (left)
+        .withVelocityX( ControllerConstants.driveController.getLeftY() * m_driveTrain.maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
+        .withVelocityY((ControllerConstants.driveController.getLeftX()) * m_driveTrain.maxSpeedSupplier.get()) // Drive left with negative X (left)
         .withTargetDirection(Rotation2d.fromDegrees(finalPosition * 90))));
     }
 
