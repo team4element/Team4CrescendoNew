@@ -5,18 +5,13 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.BottomConveyor;
-import frc.robot.Subsystems.TopConveyor;
+import frc.robot.Subsystems.Conveyor;
 
 public class Roll extends Command {
-  
-  public TopConveyor m_TopConveyor;
-  public BottomConveyor m_BottomConveyor;
+  public Conveyor m_Conveyor;
 
-  public Roll(TopConveyor topConveyor, BottomConveyor bottomConveyor) {
-   
-    m_TopConveyor = topConveyor;
-    m_BottomConveyor = bottomConveyor;
+  public Roll(Conveyor bottomConveyor) {
+    m_Conveyor = bottomConveyor;
   }
 
   // Called when the command is initially scheduled.
@@ -29,8 +24,7 @@ public class Roll extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_TopConveyor.Spin(.5);
-    m_BottomConveyor.Spin(.5);
+    m_Conveyor.runBothAtSameSpeed(.5);
 
 
   }
@@ -38,9 +32,7 @@ public class Roll extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    m_TopConveyor.Stop();
-    m_BottomConveyor.Stop();
+    m_Conveyor.Stop();
   }
 
   // Returns true when the command should end.
