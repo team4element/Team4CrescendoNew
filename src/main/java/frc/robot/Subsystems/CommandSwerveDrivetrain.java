@@ -32,9 +32,9 @@ import frc.robot.Constants.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
-    private double kP = 20;
-    private double kI = 0;
-    private double kD = 0;
+   // private double kP = 20;
+   // private double kI = 0;
+    //private double kD = 0;
 
     // Variables describing the robot's max speed
     public Supplier<Double> maxSpeedSupplier = () -> SmartDashboard.getNumber("maxSpeed", 3);

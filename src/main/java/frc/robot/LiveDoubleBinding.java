@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+//import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 
 public class LiveDoubleBinding {
     DoubleSubscriber valueSubscriber;

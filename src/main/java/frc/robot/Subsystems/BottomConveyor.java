@@ -17,6 +17,18 @@ public class BottomConveyor extends SubsystemBase {
   public BottomConveyor() {
   }
 
+  public void Spin(double speed) {
+    m_firstMotor.set(speed);
+    m_secondMotor.set(speed);
+
+  }
+
+  public void Stop(){
+    m_firstMotor.set(0);
+    m_secondMotor.set(0);
+
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
