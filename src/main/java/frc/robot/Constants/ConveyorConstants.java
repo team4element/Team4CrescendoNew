@@ -5,4 +5,9 @@
 package frc.robot.Constants;
 
 /** Add your docs here. */
-public class ConveyorConstants {}
+public class ConveyorConstants {
+
+
+   public static final int leaderID = 0;
+    public static final int followerID = 1;
+}

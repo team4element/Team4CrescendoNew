@@ -9,39 +9,37 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ConveyorConstants;
 
 public class Conveyor extends SubsystemBase {
   // Define Motors and associated control requests
   // Bottom conveyor
-  public static TalonFX m_leader;
-  public static TalonFX m_follower;
+  public static TalonFX m_bottomLeader;
+  public static TalonFX m_bottomFollower; 
   DutyCycleOut leaderControlRequest;
   Follower followerControlRequest;
 
-  // TODO: Top Conveyor
+  // Top Conveyor
+
+    public static TalonFX m_top;
 
   public Conveyor() {
-    // TODO: Put in Constants
-    int leaderID = 0;
-    int followerID = 1;
 
-    // TODO: Specify that this is the bottom
-    m_leader = new TalonFX(leaderID);
-    m_follower = new TalonFX(followerID);
+    m_bottomLeader = new TalonFX(ConveyorConstants.leaderID);
+    m_bottomFollower = new TalonFX(ConveyorConstants.followerID);
 
     leaderControlRequest = new DutyCycleOut(0);
-    followerControlRequest = new Follower(leaderID, false);
+    followerControlRequest = new Follower(ConveyorConstants.leaderID, false);
   }
 
   // TODO: Rename to bottom
   public void setConveyor (double speed) {
     leaderControlRequest.Output = speed;
-    m_leader.setControl(leaderControlRequest);
+    m_bottomLeader.setControl(leaderControlRequest);
   }
 
-  // TODO: Fix this
   public void setTopConveyor(double speed) {
-
+    m_top.set(speed);
   }
 
   public void runBothAtSameSpeed(double speed) {
@@ -49,10 +47,21 @@ public class Conveyor extends SubsystemBase {
     setTopConveyor(speed);
   }
 
-  // TODO: Need to have one for each conveyor, then one combined.
-  public void Stop(){
+  public void StopBottom(){
     leaderControlRequest.Output = 0.0;
-    m_leader.setControl(leaderControlRequest);
+    m_bottomLeader.setControl(leaderControlRequest);
+  }
+
+  public void StopTop(){
+    m_top.set(0);
+  }
+
+  public void StopBoth(){
+    leaderControlRequest.Output = 0.0;
+    m_bottomLeader.setControl(leaderControlRequest);
+
+    m_top.set(0);
+
   }
 
   @Override
