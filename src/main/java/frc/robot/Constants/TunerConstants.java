@@ -2,12 +2,12 @@ package frc.robot.Constants;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
+//import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 
-import edu.wpi.first.math.util.Units;
+//import edu.wpi.first.math.util.Units;
 
 public class TunerConstants {
     // Both sets of gains need to be tuned to your individual robot.
@@ -85,28 +85,35 @@ public class TunerConstants {
 
 
     // Front Left
-    public static final double kFrontLeftEncoderOffset = -0.18408203125;
+    public static final double kFrontLeftEncoderOffset = -0.185546875;
+    // -0.10579101552000;
+    //
 
-    public static final double kFrontLeftXPosInches = 14;
-    public static final double kFrontLeftYPosInches = 16;
+    public static final double kFrontLeftXPosInches = 11.5;
+    public static final double kFrontLeftYPosInches = 13.5;
 
     // Front Right
-    public static final double kFrontRightEncoderOffset = -0.453125;
+    public static final double kFrontRightEncoderOffset = -0.4326171875;
+    //-0.4254609378;
+    // second up 2
 
-    public static final double kFrontRightXPosInches = 14;
-    public static final double kFrontRightYPosInches = -16;
+    public static final double kFrontRightXPosInches = 11.5;
+    public static final double kFrontRightYPosInches = -13.5;
 
     // Back Left
-    public static final double kBackLeftEncoderOffset = -0.059326171875;
+    public static final double kBackLeftEncoderOffset = -0.090576171875;
+// forth down 2
 
-    public static final double kBackLeftXPosInches = -14;
-    public static final double kBackLeftYPosInches = 16;
+    public static final double kBackLeftXPosInches = -11.5;
+    public static final double kBackLeftYPosInches = 13.5;
 
     // Back Right
-    public static final double kBackRightEncoderOffset = 0.17626953125;
+    public static final double kBackRightEncoderOffset = 0.177001953125;
+    //0.2538281319; 
+    //
 
-    public static final double kBackRightXPosInches = -14;
-    public static final double kBackRightYPosInches = -16;
+    public static final double kBackRightXPosInches = -11.5;
+    public static final double kBackRightYPosInches = -13.5;
 
 
 
