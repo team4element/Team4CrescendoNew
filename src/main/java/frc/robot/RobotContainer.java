@@ -26,8 +26,10 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
-
-
+import frc.robot.Subsystems.Conveyor;
+import frc.robot.Subsystems.Intake;
+import frc.robot.Commands.RollBack;
+import frc.robot.Commands.Take;
 /**
  * What does Auton Path Following Mean?
  * 
@@ -93,6 +95,13 @@ public class RobotContainer {
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain(TunerConstants.swerveConstants, m_driveFrontLeft,
   m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
 
+  //Conveyor 
+  public static final Conveyor m_conveyor = new Conveyor();
+
+  // Intake
+  public static final Intake m_intake = new Intake();
+
+  
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
   private ArrayList<CANcoder> m_CANcoders; 
@@ -116,6 +125,15 @@ public class RobotContainer {
         .withVelocityX((-ControllerConstants.driveController.getLeftY()) * m_driveTrain.maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
         .withVelocityY((-ControllerConstants.driveController.getLeftX()) * m_driveTrain.maxSpeedSupplier.get()) // Drive left with negative X (left)
         .withTargetDirection(Rotation2d.fromDegrees(finalPosition * 90))));
+
+        ControllerConstants.operatorController.b().whileTrue(
+          new RollBack(m_conveyor)
+      );
+
+        ControllerConstants.operatorController.a().whileTrue(
+          new Take(m_intake)
+        );
+
     }
 
     ControllerConstants.driveController.leftBumper().onTrue(
@@ -123,6 +141,8 @@ public class RobotContainer {
         () -> m_driveTrain.seedFieldRelative()
       )
     );
+
+    
 
     if (Utils.isSimulation()) {
       m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));

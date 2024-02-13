@@ -32,8 +32,7 @@ public class Conveyor extends SubsystemBase {
     followerControlRequest = new Follower(ConveyorConstants.leaderID, false);
   }
 
-  // TODO: Rename to bottom
-  public void setConveyor (double speed) {
+  public void setBottomConveyor (double speed) {
     leaderControlRequest.Output = speed;
     m_bottomLeader.setControl(leaderControlRequest);
   }
@@ -43,7 +42,7 @@ public class Conveyor extends SubsystemBase {
   }
 
   public void runBothAtSameSpeed(double speed) {
-    setConveyor(speed);
+    setBottomConveyor(speed);
     setTopConveyor(speed);
   }
 
