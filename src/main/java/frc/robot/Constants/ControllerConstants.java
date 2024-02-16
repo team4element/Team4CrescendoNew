@@ -6,6 +6,7 @@ import frc.robot.JoystickModifier;
 public class ControllerConstants{
 
     public static final CommandXboxController driveController = new CommandXboxController(0);
+    public static final CommandXboxController operatorController = new CommandXboxController(1);
 
     public static final JoystickModifier yTranslationModifier = new JoystickModifier("yTranslationModifier");
     public static final JoystickModifier xTranslationModifier = new JoystickModifier("xTranslationModifier");

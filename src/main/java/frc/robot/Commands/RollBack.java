@@ -10,28 +10,26 @@ import frc.robot.Subsystems.Conveyor;
 public class RollBack extends Command {
   public Conveyor m_Conveyor;
 
-  public RollBack(Conveyor bottomConveyor) {
-    m_Conveyor = bottomConveyor;
+  public RollBack(Conveyor Conveyor) {
+    m_Conveyor = Conveyor;
   }
 
-  // Called when the command is initially scheduled.
+
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
+
   @Override
   public void execute() {
     m_Conveyor.runBothAtSameSpeed(-.5);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_Conveyor.StopBoth();
 
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

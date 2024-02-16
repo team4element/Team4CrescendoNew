@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 2.0847797251150064,
+      "y": 5.558377783428191
+    },
+    "rotation": -179.9999999992742
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -8,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "balls"
+            "pathName": "Second from middle"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Middle",
   "choreoAuto": false
 }

@@ -5,26 +5,32 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Subsystems.Intake;
 
 public class Leave extends Command {
-  /** Creates a new Leave. */
-  public Leave() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+  public Intake m_intake = new Intake();
 
-  // Called when the command is initially scheduled.
+  public Leave(Intake intake) {
+    m_intake = intake;
+  }
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
 
-  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void execute() {
 
-  // Returns true when the command should end.
+    m_intake.ReverseNote(-.5);
+  }
+
+
+  @Override
+  public void end(boolean interrupted) {
+    m_intake.PauseIntake();
+
+  }
+
+
   @Override
   public boolean isFinished() {
     return false;

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class LiveDoubleBinding {
     DoubleSubscriber valueSubscriber;
-
+//TODO: ask about this stuff 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     NetworkTable shuffleboardTable = inst.getTable("Shuffleboard");
 

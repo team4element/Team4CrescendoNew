@@ -14,11 +14,16 @@ import com.ctre.phoenix6.hardware.CANcoder;
 //import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
+import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.OpenLoopDrive;
@@ -28,8 +33,14 @@ import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
 import frc.robot.Subsystems.Intake;
+import frc.robot.Subsystems.Pusher;
+import frc.robot.Subsystems.Shooter;
 import frc.robot.Commands.RollBack;
+import frc.robot.Commands.Shoot;
 import frc.robot.Commands.Take;
+import frc.robot.Commands.Roll;
+import frc.robot.Commands.Leave;
+import frc.robot.Commands.Push;
 /**
  * What does Auton Path Following Mean?
  * 
@@ -91,21 +102,57 @@ public class RobotContainer {
             Units.inchesToMeters(TunerConstants.kBackRightYPosInches),
             TunerConstants.kInvertRightSide);
   
+  //TODO: Sendable Chooser for auton
+  //1:PathPlannerTrajectory driveForward = PathPlannerTrajectory("Drive Forward from the right", new PathConstraints(3,3, 0, 0));
+
+  //2: ArrayList<PathPlannerTrajectory> pathGroup = PathPlannerTrajectory("Drive on left", new PathConstraints(3,3, 0, 0));
+
+  //HashMap<String, Command> eventMap = new HashMap<>();
+  //eventMap("drive", new PrintCommand("go forward"));
+
+ // SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+   // m_driveTrain::getPose,
+    //m_driveTrain::resetPose,
+   // m_driveTrain.kinematics,
+   // new PIDConstants(0, 0, 0),
+   // new PIDConstants(0,0,0),
+   // m_driveTrain::setModuleStates,
+   // eventMap,
+   // true,
+   // m_driveTrain
+
+//  );
+
+  //Command fullAuto = autoBuilder.fullAuto(pathGroup);
+
+ // 3. public static final Command m_auto = 
+    new DriveDistance(
+        AutonConstants.kAutonDriveDistanceInches,DriveTrainConstants.kAutoDriveSpeed, m_driveTrain);
+    
+  //public final Command m_driveForward = new DriveForward (m_driveTrain, m_shooter);
+
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+
+//Subsystems
+
   //Swerve Drive (This is like our entire driveTrain)
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain(TunerConstants.swerveConstants, m_driveFrontLeft,
   m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
-
   //Conveyor 
   public static final Conveyor m_conveyor = new Conveyor();
-
   // Intake
   public static final Intake m_intake = new Intake();
+  //Shooter
+  public static final Shooter m_shooter = new Shooter();
+  //Pusher
+  public static final Pusher m_pusher = new Pusher();
 
-  
+
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
   private ArrayList<CANcoder> m_CANcoders; 
-
+//Buttons
   private void configureBindings() {    
 
     
@@ -126,12 +173,17 @@ public class RobotContainer {
         .withVelocityY((-ControllerConstants.driveController.getLeftX()) * m_driveTrain.maxSpeedSupplier.get()) // Drive left with negative X (left)
         .withTargetDirection(Rotation2d.fromDegrees(finalPosition * 90))));
 
-        ControllerConstants.operatorController.b().whileTrue(
-          new RollBack(m_conveyor)
-      );
 
-        ControllerConstants.operatorController.a().whileTrue(
+        ControllerConstants.operatorController.a().onTrue(
           new Take(m_intake)
+        );
+
+        ControllerConstants.operatorController.y().onTrue(
+          new Leave(m_intake)
+        );
+
+        ControllerConstants.operatorController.x().onTrue(
+          new Push(m_pusher)
         );
 
     }
@@ -142,6 +194,18 @@ public class RobotContainer {
       )
     );
 
+    ControllerConstants.operatorController.leftBumper().onTrue(
+      new RollBack(m_conveyor)
+
+    );
+
+    ControllerConstants.operatorController.leftTrigger().onTrue(
+      new Roll(m_conveyor)
+    );
+
+    ControllerConstants.operatorController.rightTrigger().onTrue(
+        new Shoot(m_shooter)
+    );
     
 
     if (Utils.isSimulation()) {
@@ -150,14 +214,24 @@ public class RobotContainer {
     m_driveTrain.registerTelemetry(logger::telemeterize);
   }
 
+  private ArrayList<com.pathplanner.lib.path.PathPlannerTrajectory> PathPlannerTrajectory(String string, PathConstraints pathConstraints) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'PathPlannerTrajectory'");
+  }
+
   public RobotContainer() {
+
+    configureBindings();
+    // m_chooser.addOption();
+     SmartDashboard.putData(m_chooser);
+
     configureBindings();
     setDefaultCommands();
     m_CANcoders = getSwerveCANcoders();
   }
 
   public Command getAutonomousCommand() {
-    return m_driveTrain.getAutoPath("StraightAuto");
+    return m_chooser.getSelected();
   }
 
   /**

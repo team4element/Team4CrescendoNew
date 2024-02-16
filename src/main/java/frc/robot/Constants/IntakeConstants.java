@@ -5,4 +5,10 @@
 package frc.robot.Constants;
 
 /** Add your docs here. */
-public class IntakeConstants {}
+public class IntakeConstants {
+//TODO: get id for intake
+    public static final int m_frontIntakeID = 0;
+    public static final int m_backIntakeID = 0; 
+    
+
+}

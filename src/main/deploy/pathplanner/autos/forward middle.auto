@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.0,
-      "y": 7.0
+      "x": 1.8995004656675984,
+      "y": 5.529873281968787
     },
-    "rotation": 0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Straight"
+            "pathName": "Drive Forward from middle"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Middle",
   "choreoAuto": false
 }

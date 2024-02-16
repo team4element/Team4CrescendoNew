@@ -7,7 +7,7 @@ package frc.robot.Constants;
 /** Add your docs here. */
 
 public class ShooterConstants {
-
+//TODO: actual IDs
     public static final int m_leftMotorID = 5;
     public static final int m_rightMotorID = 6;
 }
