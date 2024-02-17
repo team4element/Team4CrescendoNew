@@ -14,9 +14,9 @@ import com.ctre.phoenix6.hardware.CANcoder;
 //import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
-import com.pathplanner.lib.util.PIDConstants;
+//import com.pathplanner.lib.path.PathConstraints;
+//import com.pathplanner.lib.path.PathPlannerTrajectory;
+//import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -126,13 +126,12 @@ public class RobotContainer {
   //Command fullAuto = autoBuilder.fullAuto(pathGroup);
 
  // 3. public static final Command m_auto = 
-    new DriveDistance(
-        AutonConstants.kAutonDriveDistanceInches,DriveTrainConstants.kAutoDriveSpeed, m_driveTrain);
+    //new DriveDistance(
+       // AutonConstants.kAutonDriveDistanceInches,DriveTrainConstants.kAutoDriveSpeed, m_driveTrain);
     
   //public final Command m_driveForward = new DriveForward (m_driveTrain, m_shooter);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-
 
 //Subsystems
 
@@ -151,8 +150,19 @@ public class RobotContainer {
 
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
-  private ArrayList<CANcoder> m_CANcoders; 
-//Buttons
+  private ArrayList<CANcoder> m_CANcoders;
+
+  public RobotContainer() {
+
+    configureBindings();
+    // m_chooser.addOption();
+     SmartDashboard.putData(m_chooser);
+
+    configureBindings();
+    setDefaultCommands();
+    m_CANcoders = getSwerveCANcoders();
+  }
+
   private void configureBindings() {    
 
     
@@ -214,21 +224,11 @@ public class RobotContainer {
     m_driveTrain.registerTelemetry(logger::telemeterize);
   }
 
-  private ArrayList<com.pathplanner.lib.path.PathPlannerTrajectory> PathPlannerTrajectory(String string, PathConstraints pathConstraints) {
+  ///private ArrayList<com.pathplanner.lib.path.PathPlannerTrajectory> PathPlannerTrajectory(String string, PathConstraints pathConstraints) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'PathPlannerTrajectory'");
-  }
+    //throw new UnsupportedOperationException("Unimplemented method 'PathPlannerTrajectory'");
+  //}
 
-  public RobotContainer() {
-
-    configureBindings();
-    // m_chooser.addOption();
-     SmartDashboard.putData(m_chooser);
-
-    configureBindings();
-    setDefaultCommands();
-    m_CANcoders = getSwerveCANcoders();
-  }
 
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();

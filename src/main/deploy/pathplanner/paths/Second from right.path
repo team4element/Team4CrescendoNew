@@ -20,12 +20,12 @@
         "y": 5.54412553269551
       },
       "prevControl": {
-        "x": 1.7109921806649104,
-        "y": 5.659646705578133
+        "x": 1.7561874053244049,
+        "y": 5.54412553269551
       },
       "nextControl": {
-        "x": 1.4609097186944449,
-        "y": 5.428604359812887
+        "x": 1.55744644822623,
+        "y": 5.54412553269551
       },
       "isLocked": false,
       "linkedName": null
@@ -60,20 +60,40 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
     {
-      "waypointRelativePos": 3.0,
-      "rotationDegrees": 0,
-      "rotateFast": false
+      "name": "Shoot Preloaded",
+      "waypointRelativePos": 0.95,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": []
+        }
+      }
     },
     {
-      "waypointRelativePos": 0.0,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
+      "name": "Intake",
+      "waypointRelativePos": 1.7999999999999998,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": []
+        }
+      }
     }
   ],
-  "constraintZones": [],
-  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -82,13 +102,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.49256424122515,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Right",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": -177.99526958604395,
     "velocity": 0
   },
   "useDefaultConstraints": true

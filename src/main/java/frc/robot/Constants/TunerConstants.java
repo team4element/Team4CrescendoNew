@@ -86,31 +86,27 @@ public class TunerConstants {
 
     // Front Left
     public static final double kFrontLeftEncoderOffset = -0.185546875;
-    // -0.10579101552000;
-    //
 
     public static final double kFrontLeftXPosInches = 11.5;
     public static final double kFrontLeftYPosInches = 13.5;
 
     // Front Right
     public static final double kFrontRightEncoderOffset = -0.4326171875;
-    //-0.4254609378;
-    // second up 2
+   
 
     public static final double kFrontRightXPosInches = 11.5;
     public static final double kFrontRightYPosInches = -13.5;
 
     // Back Left
     public static final double kBackLeftEncoderOffset = -0.090576171875;
-// forth down 2
+
 
     public static final double kBackLeftXPosInches = -11.5;
     public static final double kBackLeftYPosInches = 13.5;
 
     // Back Right
     public static final double kBackRightEncoderOffset = 0.177001953125;
-    //0.2538281319; 
-    //
+  
 
     public static final double kBackRightXPosInches = -11.5;
     public static final double kBackRightYPosInches = -13.5;

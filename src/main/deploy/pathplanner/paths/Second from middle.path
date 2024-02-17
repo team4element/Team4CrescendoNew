@@ -73,7 +73,38 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot preloaded",
+      "waypointRelativePos": 1.0499999999999998,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
