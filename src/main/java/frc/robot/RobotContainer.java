@@ -21,6 +21,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +39,7 @@ import frc.robot.Subsystems.Shooter;
 import frc.robot.Commands.RollBack;
 import frc.robot.Commands.Shoot;
 import frc.robot.Commands.Take;
+import frc.robot.Commands.Autos.ShootBack;
 import frc.robot.Commands.Roll;
 import frc.robot.Commands.Leave;
 import frc.robot.Commands.Push;
@@ -217,6 +219,9 @@ public class RobotContainer {
         new Shoot(m_shooter)
     );
     
+    ControllerConstants.operatorController.rightBumper().onTrue(
+        new ShootBack(m_shooter)
+    );
 
     if (Utils.isSimulation()) {
       m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
@@ -232,6 +237,9 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
+    //TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+   // 0, 0)
+   // .setKinematics(CommandSwerveDrivetrain.m_kinematics);
   }
 
   /**
