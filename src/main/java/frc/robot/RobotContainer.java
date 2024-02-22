@@ -20,12 +20,13 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
-
+import frc.robot.Subsystems.Conveyor;
 import frc.robot.Commands.OpenLoopDrive;
 
 public class RobotContainer {
@@ -71,6 +72,7 @@ public class RobotContainer {
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain(TunerConstants.swerveConstants,
       m_driveFrontLeft,
       m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
+  public static final Conveyor m_conveyor = new Conveyor();
 
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
@@ -107,6 +109,13 @@ public class RobotContainer {
         m_driveTrain.runOnce(
             () -> m_driveTrain.seedFieldRelative()));
 
+
+
+
+    // Conveyor
+    ControllerConstants.operatorController.y().whileTrue(Commands.run(m_conveyor::intakeBottom, m_conveyor));
+
+
     if (Utils.isSimulation()) {
       m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
@@ -115,9 +124,6 @@ public class RobotContainer {
   
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
-    // TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-    // 0, 0)
-    // .setKinematics(CommandSwerveDrivetrain.m_kinematics);
   }
 
   private void setDefaultCommands() {

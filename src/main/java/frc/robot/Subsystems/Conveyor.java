@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/*package frc.robot.Subsystems;
+package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
@@ -13,34 +13,28 @@ import frc.robot.Constants.ConveyorConstants;
 
 public class Conveyor extends SubsystemBase {
   // Define Motors and associated control requests
-  // Bottom conveyor
   public static TalonFX m_bottomLeader;
   public static TalonFX m_bottomFollower; 
-  DutyCycleOut leaderControlRequest;
-  Follower followerControlRequest;
-
-  // Top Conveyor
-
-    public static TalonFX m_top = new TalonFX(17);
+  DutyCycleOut bottomControlRequest = new DutyCycleOut(0);
 
   public Conveyor() {
+    // Setting Motors
+    m_bottomLeader = new TalonFX(ConveyorConstants.bottomLeaderId);
+    m_bottomFollower = new TalonFX(ConveyorConstants.bottomFollowerId);
 
-    m_bottomLeader = new TalonFX(ConveyorConstants.leaderID);
-    m_bottomFollower = new TalonFX(ConveyorConstants.followerID);
+    m_bottomFollower.setControl(new Follower(ConveyorConstants.bottomLeaderId, false));
+  }
 
-    leaderControlRequest = new DutyCycleOut(0);
-    followerControlRequest = new Follower(ConveyorConstants.leaderID, false);
+  public void intakeBottom() {
+    m_bottomLeader.setControl(bottomControlRequest.withOutput(0.5));
   }
 
   public void setBottomConveyor (double speed) {
-    leaderControlRequest.Output = speed;
-    m_bottomLeader.setControl(leaderControlRequest);
+    bottomControlRequest.Output = speed;
+    m_bottomLeader.setControl(bottomControlRequest);
   }
 
   public void setTopConveyor(double speed) {
-   
-    
-    m_top.set(speed);
   }
 
   public void runBothAtSameSpeed(double speed) {
@@ -49,25 +43,16 @@ public class Conveyor extends SubsystemBase {
   }
 
   public void StopBottom(){
-    leaderControlRequest.Output = 0.0;
-    m_bottomLeader.setControl(leaderControlRequest);
+    bottomControlRequest.Output = 0.0;
+    m_bottomLeader.setControl(bottomControlRequest);
   }
 
   public void StopTop(){
-    m_top.set(0);
+    // m_top.set(0);
   }
 
   public void StopBoth(){
-    leaderControlRequest.Output = 0.0;
-    m_bottomLeader.setControl(leaderControlRequest);
-
-    m_top.set(0);
-
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+    bottomControlRequest.Output = 0.0;
+    m_bottomLeader.setControl(bottomControlRequest);
   }
 }
-*/
