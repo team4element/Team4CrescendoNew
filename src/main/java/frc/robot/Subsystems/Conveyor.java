@@ -25,8 +25,8 @@ public class Conveyor extends SubsystemBase {
     m_bottomFollower.setControl(new Follower(ConveyorConstants.bottomLeaderId, false));
   }
 
-  public void intakeBottom() {
-    m_bottomLeader.setControl(bottomControlRequest.withOutput(0.5));
+  public void intakeBottom(double speed) {
+    m_bottomLeader.setControl(bottomControlRequest.withOutput(speed));
   }
 
   public void setBottomConveyor (double speed) {

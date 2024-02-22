@@ -113,7 +113,7 @@ public class RobotContainer {
 
 
     // Conveyor
-    ControllerConstants.operatorController.y().whileTrue(Commands.run(m_conveyor::intakeBottom, m_conveyor));
+    ControllerConstants.operatorController.y().whileTrue(Commands.run(() ->m_conveyor.intakeBottom(-1), m_conveyor));
 
 
     if (Utils.isSimulation()) {
