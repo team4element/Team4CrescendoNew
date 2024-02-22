@@ -26,6 +26,8 @@ import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 
+import frc.robot.Commands.OpenLoopDrive;
+
 public class RobotContainer {
   private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
       DriveTrainConstants.kFrontLeftSteerMotorId,
@@ -119,8 +121,7 @@ public class RobotContainer {
   }
 
   private void setDefaultCommands() {
-    // Add more default commands here
-    // m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
+    m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
   }
 
   private ArrayList<CANcoder> getSwerveCANcoders() {
