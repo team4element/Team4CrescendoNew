@@ -53,12 +53,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
-    // TODO: Need to add
-    // private final SwerveRequest.SwerveDriveBrake brake = new
-    // SwerveRequest.SwerveDriveBrake();
-    // private final SwerveRequest.PointWheelsAt point = new
-    // SwerveRequest.PointWheelsAt();
-
     public final SwerveRequest.FieldCentricFacingAngle fieldCentricFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
             .withDeadband(maxSpeedSupplier.get() * 0.1)
             .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
@@ -185,6 +179,14 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                                         .apply(-ControllerConstants.driveController.getRightX())
                                         * maxAngularRateSupplier.get()) // Drive counterclockwise with negative X (left)
         );
+    }
+
+    public Command c_brake() {
+        return applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
+    }
+
+    public Command c_pointWheelsAt(double angle) {
+        return applyRequest(() -> new SwerveRequest.PointWheelsAt().withModuleDirection(Rotation2d.fromDegrees(angle)));
     }
 
     public Command c_seedFieldRelative() {
