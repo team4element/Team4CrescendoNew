@@ -4,75 +4,21 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.DriveTrainConstants;
-import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
 
 public class RobotContainer {
-  private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
-      DriveTrainConstants.kFrontLeftSteerMotorId,
-      DriveTrainConstants.kFrontLeftDriveMotorId,
-      DriveTrainConstants.kFrontLeftEncoderId,
-      TunerConstants.kFrontLeftEncoderOffset,
-      Units.inchesToMeters(TunerConstants.kFrontLeftXPosInches),
-      Units.inchesToMeters(TunerConstants.kFrontLeftYPosInches),
-      TunerConstants.kInvertLeftSide);
-
-  private static final SwerveModuleConstants m_driveFrontRight = TunerConstants.ConstantCreator.createModuleConstants(
-      DriveTrainConstants.kFrontRightSteerMotorId,
-      DriveTrainConstants.kFrontRightDriveMotorId,
-      DriveTrainConstants.kFrontRightEncoderId,
-      TunerConstants.kFrontRightEncoderOffset,
-      Units.inchesToMeters(TunerConstants.kFrontRightXPosInches),
-      Units.inchesToMeters(TunerConstants.kFrontRightYPosInches),
-      TunerConstants.kInvertRightSide);
-
-  private static final SwerveModuleConstants m_driveBackLeft = TunerConstants.ConstantCreator.createModuleConstants(
-      DriveTrainConstants.kBackLeftSteerMotorId,
-      DriveTrainConstants.kBackLeftDriveMotorId,
-      DriveTrainConstants.kBackLeftEncoderId,
-      TunerConstants.kBackLeftEncoderOffset,
-      Units.inchesToMeters(TunerConstants.kBackLeftXPosInches),
-      Units.inchesToMeters(TunerConstants.kBackLeftYPosInches),
-      TunerConstants.kInvertLeftSide);
-
-  private static final SwerveModuleConstants m_driveBackRight = TunerConstants.ConstantCreator.createModuleConstants(
-      DriveTrainConstants.kBackRightSteerMotorId,
-      DriveTrainConstants.kBackRightDriveMotorId,
-      DriveTrainConstants.kBackRightEncoderId,
-      TunerConstants.kBackRightEncoderOffset,
-      Units.inchesToMeters(TunerConstants.kBackRightXPosInches),
-      Units.inchesToMeters(TunerConstants.kBackRightYPosInches),
-      TunerConstants.kInvertRightSide);
-
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Subsystems
-  public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain(TunerConstants.swerveConstants,
-      m_driveFrontLeft,
-      m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
+  public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain();
   public static final Conveyor m_conveyor = new Conveyor();
-
+  // TODO: Should this go inside drivetrain class or should it be abstracted to RobotState class?
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
   public RobotContainer() {

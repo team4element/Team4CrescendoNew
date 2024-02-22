@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import java.util.function.Supplier;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,12 +23,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.LiveDoubleBinding;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 
 /**
@@ -39,6 +42,42 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     // private double kP = 20;
     // private double kI = 0;
     // private double kD = 0;
+
+    private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kFrontLeftSteerMotorId,
+            DriveTrainConstants.kFrontLeftDriveMotorId,
+            DriveTrainConstants.kFrontLeftEncoderId,
+            TunerConstants.kFrontLeftEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kFrontLeftXPosInches),
+            Units.inchesToMeters(TunerConstants.kFrontLeftYPosInches),
+            TunerConstants.kInvertLeftSide);
+
+    private static final SwerveModuleConstants m_driveFrontRight = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kFrontRightSteerMotorId,
+            DriveTrainConstants.kFrontRightDriveMotorId,
+            DriveTrainConstants.kFrontRightEncoderId,
+            TunerConstants.kFrontRightEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kFrontRightXPosInches),
+            Units.inchesToMeters(TunerConstants.kFrontRightYPosInches),
+            TunerConstants.kInvertRightSide);
+
+    private static final SwerveModuleConstants m_driveBackLeft = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kBackLeftSteerMotorId,
+            DriveTrainConstants.kBackLeftDriveMotorId,
+            DriveTrainConstants.kBackLeftEncoderId,
+            TunerConstants.kBackLeftEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kBackLeftXPosInches),
+            Units.inchesToMeters(TunerConstants.kBackLeftYPosInches),
+            TunerConstants.kInvertLeftSide);
+
+    private static final SwerveModuleConstants m_driveBackRight = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kBackRightSteerMotorId,
+            DriveTrainConstants.kBackRightDriveMotorId,
+            DriveTrainConstants.kBackRightEncoderId,
+            TunerConstants.kBackRightEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kBackRightXPosInches),
+            Units.inchesToMeters(TunerConstants.kBackRightYPosInches),
+            TunerConstants.kInvertRightSide);
 
     // Variables describing the robot's max speed
     LiveDoubleBinding maxSpeedBinding = new LiveDoubleBinding("Swerve", "maxSpeed", 3.0);
@@ -83,9 +122,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         init();
     }
 
-    public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
-        super(driveTrainConstants, modules);
-        init();
+    public CommandSwerveDrivetrain() {
+        super(TunerConstants.swerveConstants, m_driveFrontLeft, m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
     }
 
     private void configurePathPlanner() {
