@@ -12,47 +12,27 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ConveyorConstants;
 
 public class Conveyor extends SubsystemBase {
-  // Define Motors and associated control requests
   public static TalonFX m_bottomLeader;
   public static TalonFX m_bottomFollower; 
   DutyCycleOut bottomControlRequest = new DutyCycleOut(0);
+
+  public static TalonFX m_topLeader;
+  DutyCycleOut topControlRequest = new DutyCycleOut(0);
 
   public Conveyor() {
     // Setting Motors
     m_bottomLeader = new TalonFX(ConveyorConstants.bottomLeaderId);
     m_bottomFollower = new TalonFX(ConveyorConstants.bottomFollowerId);
-
     m_bottomFollower.setControl(new Follower(ConveyorConstants.bottomLeaderId, false));
+
+    m_topLeader = new TalonFX(ConveyorConstants.topLeaderId);
   }
 
-  public void intakeBottom(double speed) {
+  public void setBottom(double speed) {
     m_bottomLeader.setControl(bottomControlRequest.withOutput(speed));
   }
 
-  public void setBottomConveyor (double speed) {
-    bottomControlRequest.Output = speed;
-    m_bottomLeader.setControl(bottomControlRequest);
-  }
-
-  public void setTopConveyor(double speed) {
-  }
-
-  public void runBothAtSameSpeed(double speed) {
-    setBottomConveyor(speed);
-    setTopConveyor(speed);
-  }
-
-  public void StopBottom(){
-    bottomControlRequest.Output = 0.0;
-    m_bottomLeader.setControl(bottomControlRequest);
-  }
-
-  public void StopTop(){
-    // m_top.set(0);
-  }
-
-  public void StopBoth(){
-    bottomControlRequest.Output = 0.0;
-    m_bottomLeader.setControl(bottomControlRequest);
+  public void setTop(double speed) {
+    m_topLeader.setControl(topControlRequest.withOutput(speed));
   }
 }

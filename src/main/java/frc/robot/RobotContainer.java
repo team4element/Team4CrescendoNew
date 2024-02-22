@@ -110,11 +110,30 @@ public class RobotContainer {
             () -> m_driveTrain.seedFieldRelative()));
 
     // Conveyor
-    ControllerConstants.operatorController.y().whileTrue(
-        Commands.startEnd(
-            () -> m_conveyor.intakeBottom(-0.5),
-            () -> m_conveyor.intakeBottom(0),
-            m_conveyor));
+    Command intakeBottom = Commands.startEnd(
+        () -> m_conveyor.setBottom(-0.5),
+        () -> m_conveyor.setBottom(0),
+        m_conveyor);
+
+    Command intakeTop = Commands.startEnd(
+        () -> m_conveyor.setTop(-0.5),
+        () -> m_conveyor.setTop(0),
+        m_conveyor);
+
+    Command outtakeBottom = Commands.startEnd(
+        () -> m_conveyor.setBottom(0.5),
+        () -> m_conveyor.setBottom(0),
+        m_conveyor);
+
+    Command outtakeTop = Commands.startEnd(
+        () -> m_conveyor.setTop(0.5),
+        () -> m_conveyor.setTop(0),
+        m_conveyor);
+
+    ControllerConstants.operatorController.y().whileTrue(intakeBottom);
+    ControllerConstants.operatorController.x().whileTrue(intakeTop);
+    ControllerConstants.operatorController.a().whileTrue(Commands.parallel(intakeBottom, intakeTop));
+    ControllerConstants.operatorController.b().whileTrue(Commands.parallel(outtakeBottom, outtakeTop));
 
     if (Utils.isSimulation()) {
       m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
