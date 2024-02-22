@@ -109,19 +109,19 @@ public class RobotContainer {
         m_driveTrain.runOnce(
             () -> m_driveTrain.seedFieldRelative()));
 
-
-
-
     // Conveyor
-    ControllerConstants.operatorController.y().whileTrue(Commands.run(() ->m_conveyor.intakeBottom(-1), m_conveyor));
-
+    ControllerConstants.operatorController.y().whileTrue(
+        Commands.startEnd(
+            () -> m_conveyor.intakeBottom(-0.5),
+            () -> m_conveyor.intakeBottom(0),
+            m_conveyor));
 
     if (Utils.isSimulation()) {
       m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
     m_driveTrain.registerTelemetry(logger::telemeterize);
   }
-  
+
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
   }
