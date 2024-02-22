@@ -27,7 +27,6 @@ import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
-import frc.robot.Commands.OpenLoopDrive;
 
 public class RobotContainer {
   private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
@@ -76,15 +75,12 @@ public class RobotContainer {
 
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
-  private ArrayList<CANcoder> m_CANcoders;
-
   public RobotContainer() {
     configureBindings();
     SmartDashboard.putData(m_chooser);
+    m_driveTrain.registerTelemetry(logger::telemeterize);
 
     configureBindings();
-    setDefaultCommands();
-    m_CANcoders = getSwerveCANcoders();
   }
 
   private void configureBindings() {
@@ -104,38 +100,9 @@ public class RobotContainer {
     ControllerConstants.operatorController.b().whileTrue(Commands.parallel(
         m_conveyor.c_runBottom(Conveyor.State.OUTTAKE, 0.5),
         m_conveyor.c_runTop(Conveyor.State.OUTTAKE, 0.5)));
-
-    if (Utils.isSimulation()) {
-      m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    }
-    m_driveTrain.registerTelemetry(logger::telemeterize);
   }
 
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
-  }
-
-  private void setDefaultCommands() {
-    m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
-  }
-
-  private ArrayList<CANcoder> getSwerveCANcoders() {
-    ArrayList<CANcoder> CANcoders = new ArrayList<CANcoder>();
-    for (SwerveModule swerveModule : m_driveTrain.getSwerveModules()) {
-      CANcoders.add(swerveModule.getCANcoder());
-    }
-    return CANcoders;
-  }
-
-  public Map<String, Double> getSwerveCANcoderPositions() {
-    if (m_CANcoders == null) {
-      getSwerveCANcoders();
-    }
-    Map<String, Double> CANcoderPositions = new HashMap<String, Double>();
-    for (CANcoder temp_CANcoder : m_CANcoders) {
-      CANcoderPositions.put(DriveTrainConstants.IDtoEncoderName.get(temp_CANcoder.getDeviceID()),
-          temp_CANcoder.getPosition().getValue());
-    }
-    return CANcoderPositions;
   }
 }

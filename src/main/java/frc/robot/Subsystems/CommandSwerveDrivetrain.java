@@ -18,7 +18,9 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
@@ -34,9 +36,9 @@ import frc.robot.Constants.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
-   // private double kP = 20;
-   // private double kI = 0;
-    //private double kD = 0;
+    // private double kP = 20;
+    // private double kI = 0;
+    // private double kD = 0;
 
     // Variables describing the robot's max speed
     public Supplier<Double> maxSpeedSupplier = () -> SmartDashboard.getNumber("maxSpeed", 3);
@@ -114,8 +116,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         fieldCentricFacingAngle.HeadingController.setPID(10, 0, 0);
         fieldCentricFacingAngle.HeadingController.enableContinuousInput(-180, 180);
 
+        // Each Subsystem has a default command that runs when no other command is
+        setDefaultCommand(c_OpenLoopDrive());
         if (Utils.isSimulation()) {
             startSimThread();
+            seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
         }
     }
 
@@ -141,10 +146,28 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     // Commands
     public Command c_cardinalLock(double angle) {
         return applyRequest( // could be better to change whileTrue to onTrue or toggleOnTrue
-          () -> fieldCentricFacingAngle
-              .withVelocityX((-ControllerConstants.driveController.getLeftY()) * maxSpeedSupplier.get())
-              .withVelocityY((-ControllerConstants.driveController.getLeftX()) * maxSpeedSupplier.get())
-              .withTargetDirection(Rotation2d.fromDegrees(angle)));
+                () -> fieldCentricFacingAngle
+                        .withVelocityX((-ControllerConstants.driveController.getLeftY()) * maxSpeedSupplier.get())
+                        .withVelocityY((-ControllerConstants.driveController.getLeftX()) * maxSpeedSupplier.get())
+                        .withTargetDirection(Rotation2d.fromDegrees(angle)));
+    }
+
+    public Command c_OpenLoopDrive() {
+        return applyRequest(
+                () -> m_drive
+                        .withVelocityX(
+                                ControllerConstants.yTranslationModifier
+                                        .apply(-ControllerConstants.driveController.getLeftY())
+                                        * maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
+                        .withVelocityY(
+                                ControllerConstants.xTranslationModifier
+                                        .apply(-ControllerConstants.driveController.getLeftX())
+                                        * maxSpeedSupplier.get()) // Drive left with negative X (left)
+                        .withRotationalRate(
+                                ControllerConstants.zRotationModifier
+                                        .apply(-ControllerConstants.driveController.getRightX())
+                                        * maxAngularRateSupplier.get()) // Drive counterclockwise with negative X (left)
+        );
     }
 
     public Command c_seedFieldRelative() {
