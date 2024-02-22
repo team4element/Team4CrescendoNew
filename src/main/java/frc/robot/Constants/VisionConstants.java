@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Constants;
+/*package frc.robot.Constants;
 
 public class VisionConstants {
     //TODO: tune these later
@@ -21,3 +21,4 @@ public class VisionConstants {
     public static final double kMinStability = 0;
 
 }
+*/

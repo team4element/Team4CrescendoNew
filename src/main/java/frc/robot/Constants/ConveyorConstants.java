@@ -2,12 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Constants;
+//package frc.robot.Constants;
 
 /** Add your docs here. */
-public class ConveyorConstants {
+//public class ConveyorConstants {
 
 //TODO: actual IDs
-   public static final int leaderID = 0;
-    public static final int followerID = 1;
-}
+  // public static final int leaderID = 3;
+   // public static final int followerID = 4;
+//}

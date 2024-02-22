@@ -32,17 +32,16 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
-import frc.robot.Subsystems.Conveyor;
-import frc.robot.Subsystems.Intake;
-import frc.robot.Subsystems.Pusher;
-import frc.robot.Subsystems.Shooter;
-import frc.robot.Commands.RollBack;
-import frc.robot.Commands.Shoot;
-import frc.robot.Commands.Take;
-import frc.robot.Commands.Autos.ShootBack;
-import frc.robot.Commands.Roll;
-import frc.robot.Commands.Leave;
-import frc.robot.Commands.Push;
+//import frc.robot.Subsystems.Conveyor;
+//import frc.robot.Subsystems.Pusher;
+//import frc.robot.Subsystems.Shooter;
+//import frc.robot.Commands.RollBack;
+//import frc.robot.Commands.Shoot;
+//import frc.robot.Commands.ShootBack;
+//import frc.robot.Commands.Take;
+//import frc.robot.Commands.Roll;
+//import frc.robot.Commands.Leave;
+//import frc.robot.Commands.Push;
 /**
  * What does Auton Path Following Mean?
  * 
@@ -141,13 +140,11 @@ public class RobotContainer {
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain(TunerConstants.swerveConstants, m_driveFrontLeft,
   m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
   //Conveyor 
-  public static final Conveyor m_conveyor = new Conveyor();
-  // Intake
-  public static final Intake m_intake = new Intake();
+  //public static final Conveyor m_conveyor = new Conveyor();
   //Shooter
-  public static final Shooter m_shooter = new Shooter();
+  //public static final Shooter m_shooter = new Shooter();
   //Pusher
-  public static final Pusher m_pusher = new Pusher();
+  //public static final Pusher m_pusher = new Pusher();
 
 
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
@@ -186,17 +183,17 @@ public class RobotContainer {
         .withTargetDirection(Rotation2d.fromDegrees(finalPosition * 90))));
 
 
-        ControllerConstants.operatorController.a().onTrue(
-          new Take(m_intake)
-        );
+        //ControllerConstants.operatorController.a().onTrue(
+          //new Take(m_intake)
+      //  );
 
-        ControllerConstants.operatorController.y().onTrue(
-          new Leave(m_intake)
-        );
+      //  ControllerConstants.operatorController.y().onTrue(
+       //   new Leave(m_intake)
+       // );
 
-        ControllerConstants.operatorController.x().onTrue(
-          new Push(m_pusher)
-        );
+       // ControllerConstants.operatorController.x().onTrue(
+       //   new Push(m_pusher)
+       // );
 
     }
 
@@ -206,22 +203,22 @@ public class RobotContainer {
       )
     );
 
-    ControllerConstants.operatorController.leftBumper().onTrue(
-      new RollBack(m_conveyor)
+   // ControllerConstants.operatorController.leftBumper().onTrue(
+     // new RollBack(m_conveyor)
 
-    );
+  //  );
 
-    ControllerConstants.operatorController.leftTrigger().onTrue(
-      new Roll(m_conveyor)
-    );
+  //  ControllerConstants.operatorController.leftTrigger().onTrue(
+  //    new Roll(m_conveyor)
+   // );
 
-    ControllerConstants.operatorController.rightTrigger().onTrue(
-        new Shoot(m_shooter)
-    );
+  //  ControllerConstants.operatorController.rightTrigger().onTrue(
+  //      new Shoot(m_shooter)
+  //  );
     
-    ControllerConstants.operatorController.rightBumper().onTrue(
-        new ShootBack(m_shooter)
-    );
+  //  ControllerConstants.operatorController.rightBumper().onTrue(
+  //      new ShootBack(m_shooter)
+  //  );
 
     if (Utils.isSimulation()) {
       m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
@@ -248,7 +245,7 @@ public class RobotContainer {
   private void setDefaultCommands()
   {
     //Add more default commands here
-    m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
+  //  m_driveTrain.setDefaultCommand(new OpenLoopDrive(m_driveTrain).GetCommand());
   }
 
   private ArrayList<CANcoder> getSwerveCANcoders() {
