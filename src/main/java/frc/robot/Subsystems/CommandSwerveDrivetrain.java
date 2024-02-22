@@ -18,12 +18,14 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.TunerConstants;
 
 /**
@@ -134,5 +136,18 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public ArrayList<SwerveModule> getSwerveModules() {
         return new ArrayList<>(Arrays.asList(this.Modules));
+    }
+
+    // Commands
+    public Command c_cardinalLock(double angle) {
+        return applyRequest( // could be better to change whileTrue to onTrue or toggleOnTrue
+          () -> fieldCentricFacingAngle
+              .withVelocityX((-ControllerConstants.driveController.getLeftY()) * maxSpeedSupplier.get())
+              .withVelocityY((-ControllerConstants.driveController.getLeftX()) * maxSpeedSupplier.get())
+              .withTargetDirection(Rotation2d.fromDegrees(angle)));
+    }
+
+    public Command c_seedFieldRelative() {
+        return runOnce(() -> seedFieldRelative());
     }
 }

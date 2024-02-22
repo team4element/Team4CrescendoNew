@@ -88,52 +88,22 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    Trigger[] cardinalDirectionLockTriggers = {
-        ControllerConstants.driveController.y(),
-        ControllerConstants.driveController.x(),
-        ControllerConstants.driveController.a(),
-        ControllerConstants.driveController.b() };
-    // Loop through these triggers, and add 90 degrees to each one
-    for (int i = 0; i < cardinalDirectionLockTriggers.length; i++) {
-      Trigger trigger = cardinalDirectionLockTriggers[i];
-      final int finalPosition = i;
+    ControllerConstants.driveController.y().whileTrue(m_driveTrain.c_cardinalLock(0));
+    ControllerConstants.driveController.x().whileTrue(m_driveTrain.c_cardinalLock(90));
+    ControllerConstants.driveController.a().whileTrue(m_driveTrain.c_cardinalLock(180));
+    ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
+    ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
 
-      trigger.whileTrue(m_driveTrain.applyRequest( // could be better to change whileTrue to onTrue or toggleOnTrue
-          () -> m_driveTrain.fieldCentricFacingAngle
-              .withVelocityX((-ControllerConstants.driveController.getLeftY()) * m_driveTrain.maxSpeedSupplier.get())
-              .withVelocityY((-ControllerConstants.driveController.getLeftX()) * m_driveTrain.maxSpeedSupplier.get())
-              .withTargetDirection(Rotation2d.fromDegrees(finalPosition * 90))));
-    }
+    ControllerConstants.operatorController.y().whileTrue(m_conveyor.c_runBottom(Conveyor.State.INTAKE, 0.5));
+    ControllerConstants.operatorController.x().whileTrue(m_conveyor.c_runTop(Conveyor.State.OUTTAKE, 0.5));
 
-    ControllerConstants.driveController.leftBumper().onTrue(
-        m_driveTrain.runOnce(
-            () -> m_driveTrain.seedFieldRelative()));
+    ControllerConstants.operatorController.a().whileTrue(Commands.parallel(
+        m_conveyor.c_runBottom(Conveyor.State.INTAKE, 0.5),
+        m_conveyor.c_runTop(Conveyor.State.INTAKE, 0.5)));
 
-    // Conveyor
-    Command intakeBottom = Commands.startEnd(
-        () -> m_conveyor.setBottom(-0.5),
-        () -> m_conveyor.setBottom(0),
-        m_conveyor);
-
-    Command intakeTop = Commands.startEnd(
-        () -> m_conveyor.setTop(-0.5),
-        () -> m_conveyor.setTop(0),
-        m_conveyor);
-
-    Command outtakeBottom = Commands.startEnd(
-        () -> m_conveyor.setBottom(0.5),
-        () -> m_conveyor.setBottom(0),
-        m_conveyor);
-
-    Command outtakeTop = Commands.startEnd(
-        () -> m_conveyor.setTop(0.5),
-        () -> m_conveyor.setTop(0),
-        m_conveyor);
-
-    ControllerConstants.operatorController.y().whileTrue(intakeBottom);
-    ControllerConstants.operatorController.x().whileTrue(intakeTop);
-    ControllerConstants.operatorController.a().whileTrue(Commands.parallel(intakeBottom, intakeTop));
-    ControllerConstants.operatorController.b().whileTrue(Commands.parallel(outtakeBottom, outtakeTop));
+    ControllerConstants.operatorController.b().whileTrue(Commands.parallel(
+        m_conveyor.c_runBottom(Conveyor.State.OUTTAKE, 0.5),
+        m_conveyor.c_runTop(Conveyor.State.OUTTAKE, 0.5)));
 
     if (Utils.isSimulation()) {
       m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
