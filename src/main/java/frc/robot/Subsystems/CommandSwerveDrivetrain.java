@@ -24,9 +24,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.LiveDoubleBinding;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.TunerConstants;
 
@@ -41,8 +41,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     // private double kD = 0;
 
     // Variables describing the robot's max speed
-    public Supplier<Double> maxSpeedSupplier = () -> SmartDashboard.getNumber("maxSpeed", 3);
-    public Supplier<Double> maxAngularRateSupplier = () -> SmartDashboard.getNumber("maxAngularRate", 1.5 * Math.PI);
+    LiveDoubleBinding maxSpeedBinding = new LiveDoubleBinding("Swerve", "maxSpeed", 3.0);
+    LiveDoubleBinding maxAngularRateBinding = new LiveDoubleBinding("Swerve", "maxAngularRate", 1.5 * Math.PI);
+
+    public Supplier<Double> maxSpeedSupplier = maxSpeedBinding.getSupplier();
+    public Supplier<Double> maxAngularRateSupplier = maxAngularRateBinding.getSupplier();
 
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
@@ -50,6 +53,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
+    // TODO: Need to add
     // private final SwerveRequest.SwerveDriveBrake brake = new
     // SwerveRequest.SwerveDriveBrake();
     // private final SwerveRequest.PointWheelsAt point = new
@@ -65,6 +69,19 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             .withDeadband(maxSpeedSupplier.get() * 0.1)
             .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+    // TODO: Need to tune
+    LiveDoubleBinding pHeadingBinding = new LiveDoubleBinding("Swerve", "pHeading", 10.0, (event) -> {
+        fieldCentricFacingAngle.HeadingController.setP(event.valueData.value.getDouble());
+    });
+
+    LiveDoubleBinding iHeadingBinding = new LiveDoubleBinding("Swerve", "iHeading", 0.0, (event) -> {
+        fieldCentricFacingAngle.HeadingController.setI(event.valueData.value.getDouble());
+    });
+
+    LiveDoubleBinding dHeadingBinding = new LiveDoubleBinding("Swerve", "dHeading", 0.0, (event) -> {
+        fieldCentricFacingAngle.HeadingController.setD(event.valueData.value.getDouble());
+    });
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
             SwerveModuleConstants... modules) {
@@ -112,8 +129,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     private void init() {
         configurePathPlanner();
-        // TODO: These need to be tuned to the real robot
-        fieldCentricFacingAngle.HeadingController.setPID(10, 0, 0);
+        fieldCentricFacingAngle.HeadingController.setPID(pHeadingBinding.getDouble(), iHeadingBinding.getDouble(),
+                dHeadingBinding.getDouble());
         fieldCentricFacingAngle.HeadingController.enableContinuousInput(-180, 180);
 
         // Each Subsystem has a default command that runs when no other command is
