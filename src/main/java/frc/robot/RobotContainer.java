@@ -39,13 +39,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.y().whileTrue(m_conveyor.c_runBottom(Conveyor.State.INTAKE, 0.5));
     ControllerConstants.operatorController.x().whileTrue(m_conveyor.c_runTop(Conveyor.State.OUTTAKE, 0.5));
 
-    ControllerConstants.operatorController.a().whileTrue(Commands.parallel(
-        m_conveyor.c_runBottom(Conveyor.State.INTAKE, 0.5),
-        m_conveyor.c_runTop(Conveyor.State.INTAKE, 0.5)));
-
-    ControllerConstants.operatorController.b().whileTrue(Commands.parallel(
-        m_conveyor.c_runBottom(Conveyor.State.OUTTAKE, 0.5),
-        m_conveyor.c_runTop(Conveyor.State.OUTTAKE, 0.5)));
+    ControllerConstants.operatorController.a().whileTrue(m_conveyor.c_runBoth(Conveyor.State.INTAKE, 0.5));
+    ControllerConstants.operatorController.b().whileTrue(m_conveyor.c_runBoth(Conveyor.State.OUTTAKE, 0.5));
   }
 
   public Command getAutonomousCommand() {

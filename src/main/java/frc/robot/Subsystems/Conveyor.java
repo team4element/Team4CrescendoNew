@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ConveyorConstants;
 
@@ -58,5 +59,11 @@ public class Conveyor extends SubsystemBase {
     return startEnd(
         () -> setBottom(modifiedSpeed),
         () -> setBottom(0));
+  }
+
+  public Command c_runBoth(State state, double speed) {
+    return Commands.parallel(
+        c_runTop(state, speed),
+        c_runBottom(state, speed));
   }
 }
