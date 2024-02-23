@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.EnumSet;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
@@ -11,14 +12,15 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 //import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 
+// TODO: How to set min/max values for the slider?
 public class LiveDoubleBinding {
     DoubleSubscriber valueSubscriber;
-//TODO: ask about this stuff 
+
+    //TODO: ask about this stuff 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     NetworkTable shuffleboardTable = inst.getTable("Shuffleboard");
 
     public LiveDoubleBinding(String tabName, String key, Double defaultValue, Consumer<NetworkTableEvent> listener) {
-
         Shuffleboard.getTab(tabName).add(key, defaultValue).withWidget(BuiltInWidgets.kNumberSlider);
         valueSubscriber = shuffleboardTable.getDoubleTopic(tabName + "/" + key).subscribe(defaultValue);
 
@@ -30,6 +32,7 @@ public class LiveDoubleBinding {
         }
     }
 
+    // Create another constructor without the listener
     public LiveDoubleBinding(String tabName, String key, Double defaultValue) {
         Shuffleboard.getTab(tabName).add(key, defaultValue).withWidget(BuiltInWidgets.kNumberSlider);
         valueSubscriber = shuffleboardTable.getDoubleTopic(key).subscribe(defaultValue);
@@ -37,6 +40,10 @@ public class LiveDoubleBinding {
 
     public DoubleSubscriber getSubscriber() {
         return valueSubscriber;
+    }
+
+    public Supplier<Double> getSupplier() {
+        return () -> valueSubscriber.get();
     }
 
     public double getDouble() {

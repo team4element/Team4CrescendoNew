@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import java.util.function.Supplier;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,12 +19,18 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.LiveDoubleBinding;
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 
 /**
@@ -32,24 +39,58 @@ import frc.robot.Constants.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
-   // private double kP = 20;
-   // private double kI = 0;
-    //private double kD = 0;
+    // private double kP = 20;
+    // private double kI = 0;
+    // private double kD = 0;
+
+    private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kFrontLeftSteerMotorId,
+            DriveTrainConstants.kFrontLeftDriveMotorId,
+            DriveTrainConstants.kFrontLeftEncoderId,
+            TunerConstants.kFrontLeftEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kFrontLeftXPosInches),
+            Units.inchesToMeters(TunerConstants.kFrontLeftYPosInches),
+            TunerConstants.kInvertLeftSide);
+
+    private static final SwerveModuleConstants m_driveFrontRight = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kFrontRightSteerMotorId,
+            DriveTrainConstants.kFrontRightDriveMotorId,
+            DriveTrainConstants.kFrontRightEncoderId,
+            TunerConstants.kFrontRightEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kFrontRightXPosInches),
+            Units.inchesToMeters(TunerConstants.kFrontRightYPosInches),
+            TunerConstants.kInvertRightSide);
+
+    private static final SwerveModuleConstants m_driveBackLeft = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kBackLeftSteerMotorId,
+            DriveTrainConstants.kBackLeftDriveMotorId,
+            DriveTrainConstants.kBackLeftEncoderId,
+            TunerConstants.kBackLeftEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kBackLeftXPosInches),
+            Units.inchesToMeters(TunerConstants.kBackLeftYPosInches),
+            TunerConstants.kInvertLeftSide);
+
+    private static final SwerveModuleConstants m_driveBackRight = TunerConstants.ConstantCreator.createModuleConstants(
+            DriveTrainConstants.kBackRightSteerMotorId,
+            DriveTrainConstants.kBackRightDriveMotorId,
+            DriveTrainConstants.kBackRightEncoderId,
+            TunerConstants.kBackRightEncoderOffset,
+            Units.inchesToMeters(TunerConstants.kBackRightXPosInches),
+            Units.inchesToMeters(TunerConstants.kBackRightYPosInches),
+            TunerConstants.kInvertRightSide);
 
     // Variables describing the robot's max speed
-    public Supplier<Double> maxSpeedSupplier = () -> SmartDashboard.getNumber("maxSpeed", 3);
-    public Supplier<Double> maxAngularRateSupplier = () -> SmartDashboard.getNumber("maxAngularRate", 1.5 * Math.PI);
+    LiveDoubleBinding maxSpeedBinding = new LiveDoubleBinding("Swerve", "maxSpeed", 3.0);
+    LiveDoubleBinding maxAngularRateBinding = new LiveDoubleBinding("Swerve", "maxAngularRate", 1.5 * Math.PI);
+
+    public Supplier<Double> maxSpeedSupplier = maxSpeedBinding.getSupplier();
+    public Supplier<Double> maxAngularRateSupplier = maxAngularRateBinding.getSupplier();
 
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
 
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
-
-    // private final SwerveRequest.SwerveDriveBrake brake = new
-    // SwerveRequest.SwerveDriveBrake();
-    // private final SwerveRequest.PointWheelsAt point = new
-    // SwerveRequest.PointWheelsAt();
 
     public final SwerveRequest.FieldCentricFacingAngle fieldCentricFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
             .withDeadband(maxSpeedSupplier.get() * 0.1)
@@ -62,15 +103,27 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
+    // TODO: Need to tune
+    LiveDoubleBinding pHeadingBinding = new LiveDoubleBinding("Swerve", "pHeading", 10.0, (event) -> {
+        fieldCentricFacingAngle.HeadingController.setP(event.valueData.value.getDouble());
+    });
+
+    LiveDoubleBinding iHeadingBinding = new LiveDoubleBinding("Swerve", "iHeading", 0.0, (event) -> {
+        fieldCentricFacingAngle.HeadingController.setI(event.valueData.value.getDouble());
+    });
+
+    LiveDoubleBinding dHeadingBinding = new LiveDoubleBinding("Swerve", "dHeading", 0.0, (event) -> {
+        fieldCentricFacingAngle.HeadingController.setD(event.valueData.value.getDouble());
+    });
+
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
             SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
         init();
     }
 
-    public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
-        super(driveTrainConstants, modules);
-        init();
+    public CommandSwerveDrivetrain() {
+        super(TunerConstants.swerveConstants, m_driveFrontLeft, m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
     }
 
     private void configurePathPlanner() {
@@ -108,12 +161,15 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     private void init() {
         configurePathPlanner();
-        // TODO: These need to be tuned to the real robot
-        fieldCentricFacingAngle.HeadingController.setPID(10, 0, 0);
+        fieldCentricFacingAngle.HeadingController.setPID(pHeadingBinding.getDouble(), iHeadingBinding.getDouble(),
+                dHeadingBinding.getDouble());
         fieldCentricFacingAngle.HeadingController.enableContinuousInput(-180, 180);
 
+        // Each Subsystem has a default command that runs when no other command is
+        setDefaultCommand(c_OpenLoopDrive());
         if (Utils.isSimulation()) {
             startSimThread();
+            seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
         }
     }
 
@@ -134,5 +190,44 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public ArrayList<SwerveModule> getSwerveModules() {
         return new ArrayList<>(Arrays.asList(this.Modules));
+    }
+
+    // Commands
+    public Command c_cardinalLock(double angle) {
+        return applyRequest( // could be better to change whileTrue to onTrue or toggleOnTrue
+                () -> fieldCentricFacingAngle
+                        .withVelocityX((-ControllerConstants.driveController.getLeftY()) * maxSpeedSupplier.get())
+                        .withVelocityY((-ControllerConstants.driveController.getLeftX()) * maxSpeedSupplier.get())
+                        .withTargetDirection(Rotation2d.fromDegrees(angle)));
+    }
+
+    public Command c_OpenLoopDrive() {
+        return applyRequest(
+                () -> m_drive
+                        .withVelocityX(
+                                ControllerConstants.yTranslationModifier
+                                        .apply(-ControllerConstants.driveController.getLeftY())
+                                        * maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
+                        .withVelocityY(
+                                ControllerConstants.xTranslationModifier
+                                        .apply(-ControllerConstants.driveController.getLeftX())
+                                        * maxSpeedSupplier.get()) // Drive left with negative X (left)
+                        .withRotationalRate(
+                                ControllerConstants.zRotationModifier
+                                        .apply(-ControllerConstants.driveController.getRightX())
+                                        * maxAngularRateSupplier.get()) // Drive counterclockwise with negative X (left)
+        );
+    }
+
+    public Command c_brake() {
+        return applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
+    }
+
+    public Command c_pointWheelsAt(double angle) {
+        return applyRequest(() -> new SwerveRequest.PointWheelsAt().withModuleDirection(Rotation2d.fromDegrees(angle)));
+    }
+
+    public Command c_seedFieldRelative() {
+        return runOnce(() -> seedFieldRelative());
     }
 }

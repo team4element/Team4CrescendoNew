@@ -8,16 +8,22 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ConveyorConstants;
 
 public class Conveyor extends SubsystemBase {
   public static TalonFX m_bottomLeader;
-  public static TalonFX m_bottomFollower; 
+  public static TalonFX m_bottomFollower;
   DutyCycleOut bottomControlRequest = new DutyCycleOut(0);
 
   public static TalonFX m_topLeader;
   DutyCycleOut topControlRequest = new DutyCycleOut(0);
+
+  public static enum Direction {
+    INTAKE,
+    OUTTAKE
+  }
 
   public Conveyor() {
     // Setting Motors
@@ -28,11 +34,29 @@ public class Conveyor extends SubsystemBase {
     m_topLeader = new TalonFX(ConveyorConstants.topLeaderId);
   }
 
-  public void setBottom(double speed) {
+  private void setBottom(double speed) {
     m_bottomLeader.setControl(bottomControlRequest.withOutput(speed));
   }
 
-  public void setTop(double speed) {
+  private void setTop(double speed) {
     m_topLeader.setControl(topControlRequest.withOutput(speed));
+  }
+
+  // Define all commands here
+  public Command c_runTop(Direction direction, double speed) {
+    speed = Math.abs(speed);
+    double modifiedSpeed = direction == Direction.INTAKE ? speed : -speed;
+    return startEnd(
+        () -> setTop(modifiedSpeed),
+        () -> setTop(0));
+  }
+
+  public Command c_runBottom(Direction direction, double speed) {
+    speed = Math.abs(speed);
+    double modifiedSpeed = direction == Direction.INTAKE ? speed : -speed;
+
+    return startEnd(
+        () -> setBottom(modifiedSpeed),
+        () -> setBottom(0));
   }
 }

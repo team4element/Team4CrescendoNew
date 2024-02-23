@@ -7,11 +7,11 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.PusherConstants;
+// import frc.robot.Constants.PusherConstants;
 
 public class Pusher extends SubsystemBase {
-
-  private Victor m_motorController = new Victor(PusherConstants.m_controllerID);
+  // TODO: Figure this constant out
+  private Victor m_motorController = new Victor(100);
 
   public Pusher() {
     controllerOff();
@@ -24,9 +24,4 @@ public class Pusher extends SubsystemBase {
   public void controllerOff(){
     m_motorController.set(0);
   };
-
-  @Override
-  public void periodic() {
-    
-  }
 }
