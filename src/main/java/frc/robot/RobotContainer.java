@@ -27,7 +27,11 @@ import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.TunerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
+import frc.robot.Subsystems.Pusher;
+import frc.robot.Subsystems.Shooter;
 import frc.robot.Commands.OpenLoopDrive;
+import frc.robot.Commands.Shoot;
+import frc.robot.Commands.ShootBack;
 
 public class RobotContainer {
   private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
@@ -73,6 +77,7 @@ public class RobotContainer {
       m_driveFrontLeft,
       m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
   public static final Conveyor m_conveyor = new Conveyor();
+  public static final Shooter m_shooter = new Shooter();
 
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
@@ -130,11 +135,25 @@ public class RobotContainer {
         () -> m_conveyor.setTop(0),
         m_conveyor);
 
+        //Trigger
     ControllerConstants.operatorController.y().whileTrue(intakeBottom);
     ControllerConstants.operatorController.x().whileTrue(intakeTop);
-    ControllerConstants.operatorController.a().whileTrue(Commands.parallel(intakeBottom, intakeTop));
+   /*  ControllerConstants.operatorController.a().whileTrue(Commands.parallel(intakeBottom, intakeTop));
     ControllerConstants.operatorController.b().whileTrue(Commands.parallel(outtakeBottom, outtakeTop));
 
+
+      //Shooter
+
+    ControllerConstants.operatorController.rightTrigger().whileTrue(
+      new Shoot(m_shooter)
+      
+    );
+
+    ControllerConstants.operatorController.rightBumper().whileTrue(
+      new ShootBack(m_shooter)
+      
+   );  
+*/
     if (Utils.isSimulation()) {
       m_driveTrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
