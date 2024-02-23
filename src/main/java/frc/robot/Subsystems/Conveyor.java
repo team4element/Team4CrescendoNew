@@ -21,7 +21,7 @@ public class Conveyor extends SubsystemBase {
   public static TalonFX m_topLeader;
   DutyCycleOut topControlRequest = new DutyCycleOut(0);
 
-  public static enum State {
+  public static enum Direction {
     INTAKE,
     OUTTAKE
   }
@@ -44,26 +44,26 @@ public class Conveyor extends SubsystemBase {
   }
 
   // Define all commands here
-  public Command c_runTop(State state, double speed) {
+  public Command c_runTop(Direction direction, double speed) {
     speed = Math.abs(speed);
-    double modifiedSpeed = state == State.INTAKE ? speed : -speed;
+    double modifiedSpeed = direction == Direction.INTAKE ? speed : -speed;
     return startEnd(
         () -> setTop(modifiedSpeed),
         () -> setTop(0));
   }
 
-  public Command c_runBottom(State state, double speed) {
+  public Command c_runBottom(Direction direction, double speed) {
     speed = Math.abs(speed);
-    double modifiedSpeed = state == State.INTAKE ? speed : -speed;
+    double modifiedSpeed = direction == Direction.INTAKE ? speed : -speed;
 
     return startEnd(
         () -> setBottom(modifiedSpeed),
         () -> setBottom(0));
   }
 
-  public Command c_runBoth(State state, double speed) {
+  public Command c_runBoth(Direction direction, double speed) {
     return Commands.parallel(
-        c_runTop(state, speed),
-        c_runBottom(state, speed));
+        c_runTop(direction, speed),
+        c_runBottom(direction, speed));
   }
 }
