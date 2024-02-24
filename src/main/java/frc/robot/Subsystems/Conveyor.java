@@ -9,7 +9,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+//import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ConveyorConstants;
 
@@ -61,9 +61,12 @@ public class Conveyor extends SubsystemBase {
         () -> setBottom(0));
   }
 
-  public Command c_runBoth(Direction direction, double speed) {
-    return Commands.parallel(
-        c_runTop(direction, speed),
-        c_runBottom(direction, speed));
+  public void c_runBoth(double speed) {
+      //turn on both motors
+
+      setBottom(speed);
+      setTop(speed);
+      // Make a command file, then call this function
+
   }
 }
