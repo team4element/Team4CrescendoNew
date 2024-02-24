@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Commands.Shoot;
+//import frc.robot.Commands.Shoot;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
-import frc.robot.Subsystems.Pusher;
+//import frc.robot.Subsystems.Pusher;
 //import frc.robot.Commands.OpenLoopDrive;
-import frc.robot.Commands.ShootBack;
-import frc.robot.Subsystems.Shooter;
+//import frc.robot.Commands.ShootBack;
+//import frc.robot.Subsystems.Shooter;
 
 public class RobotContainer {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -23,8 +23,8 @@ public class RobotContainer {
   // Subsystems
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain();
   public static final Conveyor m_conveyor = new Conveyor();
-  public static final Shooter m_shooter = new Shooter();
-  public static final Pusher m_pusher = new Pusher();
+ // public static final Shooter m_shooter = new Shooter();
+ // public static final Pusher m_pusher = new Pusher();
   // TODO: Should this go inside drivetrain class or should it be abstracted to RobotState class?
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
   
@@ -50,15 +50,15 @@ public class RobotContainer {
     ControllerConstants.operatorController.a().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.5));
     ControllerConstants.operatorController.b().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, 0.5));
 
-    ControllerConstants.operatorController.rightTrigger().whileTrue(
-      new Shoot(m_shooter)
+   //ControllerConstants.operatorController.rightTrigger().whileTrue(
+   //  new Shoot(m_shooter)
 
-    );
+   // );
 
-    ControllerConstants.operatorController.rightBumper().whileTrue(
-      new ShootBack(m_shooter)
+   // ControllerConstants.operatorController.rightBumper().whileTrue(
+   //   new ShootBack(m_shooter)
 
-    );
+  // );
 
   }
   public Command getAutonomousCommand() {
