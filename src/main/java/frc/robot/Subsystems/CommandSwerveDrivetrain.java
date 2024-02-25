@@ -113,6 +113,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     });
 
     LiveDoubleBinding dHeadingBinding = new LiveDoubleBinding("Swerve", "dHeading", 0.0, (event) -> {
+        System.out.println("dHeadingBinding: " + event.valueData.value.getDouble());
         fieldCentricFacingAngle.HeadingController.setD(event.valueData.value.getDouble());
     });
 
