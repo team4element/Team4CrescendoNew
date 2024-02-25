@@ -21,7 +21,7 @@ public class LiveDoubleBinding {
     NetworkTable shuffleboardTable = inst.getTable("Shuffleboard");
 
     public LiveDoubleBinding(String tabName, String key, Double defaultValue, Consumer<NetworkTableEvent> listener) {
-        Shuffleboard.getTab(tabName).add(key, defaultValue).withWidget(BuiltInWidgets.kNumberSlider);
+        Shuffleboard.getTab(tabName).add(key, defaultValue).withWidget(BuiltInWidgets.kTextView);
         valueSubscriber = shuffleboardTable.getDoubleTopic(tabName + "/" + key).subscribe(defaultValue);
 
         if (listener != null) {
@@ -34,7 +34,7 @@ public class LiveDoubleBinding {
 
     // Create another constructor without the listener
     public LiveDoubleBinding(String tabName, String key, Double defaultValue) {
-        Shuffleboard.getTab(tabName).add(key, defaultValue).withWidget(BuiltInWidgets.kNumberSlider);
+        Shuffleboard.getTab(tabName).add(key, defaultValue).withWidget(BuiltInWidgets.kTextView);
         valueSubscriber = shuffleboardTable.getDoubleTopic(key).subscribe(defaultValue);
     }
 
