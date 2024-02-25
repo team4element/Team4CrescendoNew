@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,20 +17,24 @@ import frc.robot.Subsystems.Conveyor;
 import frc.robot.Subsystems.Shooter;
 
 public class RobotContainer {
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Command> autoChooser;
 
   // Subsystems
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain();
   public static final Conveyor m_conveyor = new Conveyor();
-
   public static final Shooter m_shooter = new Shooter();
+
   // TODO: Should this go inside drivetrain class or should it be abstracted to
   // RobotState class?
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
   public RobotContainer() {
-    configureBindings();
-    SmartDashboard.putData(m_chooser);
+    autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
+    
+    NamedCommands.registerCommand("shoot", m_shooter.c_runShooter(100));
+    NamedCommands.registerCommand("intake", m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
     m_driveTrain.registerTelemetry(logger::telemeterize);
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
@@ -56,6 +63,6 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
+    return autoChooser.getSelected();
   }
 }

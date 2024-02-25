@@ -21,6 +21,14 @@ public class DriveTrainConstants{
     public static final int kBackRightSteerMotorId = 6;
     public static final int kBackRightEncoderId = 3;
 
+    public static final double kTranslationP = 10.0;
+    public static final double kTranslationI = 0.0;
+    public static final double kTranslationD = 0.0;
+
+    public static final double kRotationP = 10.0;
+    public static final double kRotationI = 0.0;
+    public static final double kRotationD = 0.0;
+
     public static final Map<Integer, String> IDtoEncoderName = new HashMap<Integer, String>(); 
 
     DriveTrainConstants() {

@@ -105,17 +105,15 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     // TODO: Need to tune
-    LiveDoubleBinding pHeadingBinding = new LiveDoubleBinding("Swerve", "pHeading", 10.0, (event) -> {
-        System.out.println("pHeadingBinding: " + event.valueData.value.getDouble());
+    LiveDoubleBinding rotationPBinding = new LiveDoubleBinding("Swerve", "rotation/pBinding", 10.0, (event) -> {
         fieldCentricFacingAngle.HeadingController.setP(event.valueData.value.getDouble());
     });
 
-    LiveDoubleBinding iHeadingBinding = new LiveDoubleBinding("Swerve", "iHeading", 0.0, (event) -> {
+    LiveDoubleBinding rotationIBinding = new LiveDoubleBinding("Swerve", "rotation/iBinding", 0.0, (event) -> {
         fieldCentricFacingAngle.HeadingController.setI(event.valueData.value.getDouble());
     });
 
-    LiveDoubleBinding dHeadingBinding = new LiveDoubleBinding("Swerve", "dHeading", 0.0, (event) -> {
-        System.out.println("dHeadingBinding: " + event.valueData.value.getDouble());
+    LiveDoubleBinding rotationDBinding = new LiveDoubleBinding("Swerve", "rotation/dBinding", 0.0, (event) -> {
         fieldCentricFacingAngle.HeadingController.setD(event.valueData.value.getDouble());
     });
 
@@ -139,24 +137,25 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 () -> this.getState().Pose, // Supplier of current robot pose
                 this::seedFieldRelative, // Consumer for seeding pose against auto
                 this::getCurrentRobotChassisSpeeds,
-                (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the
-                                                                             // robot
-                new HolonomicPathFollowerConfig(new PIDConstants(10, 0, 0),
-                        new PIDConstants(10, 0, 0),
+                (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
+                new HolonomicPathFollowerConfig(
+                        new PIDConstants(DriveTrainConstants.kTranslationP, DriveTrainConstants.kTranslationI, DriveTrainConstants.kTranslationD),
+                        new PIDConstants(DriveTrainConstants.kRotationP, DriveTrainConstants.kRotationI, DriveTrainConstants.kRotationD),
                         TunerConstants.kSpeedAt12VoltsMps,
                         driveBaseRadius,
                         new ReplanningConfig()),
-                        () -> {
-                            // Boolean supplier that controls when the path will be mirrored for the red alliance
-                            // This will flip the path being followed to the red side of the field.
-                            // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-              
-                            var alliance = DriverStation.getAlliance();
-                            if (alliance.isPresent()) {
-                              return alliance.get() == DriverStation.Alliance.Red;
-                            }
-                            return false;
-                          },
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red
+                    // alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
                 this); // Subsystem for requirements
     }
 
@@ -174,8 +173,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     private void init() {
         configurePathPlanner();
-        fieldCentricFacingAngle.HeadingController.setPID(pHeadingBinding.getDouble(), iHeadingBinding.getDouble(),
-                dHeadingBinding.getDouble());
+        fieldCentricFacingAngle.HeadingController.setPID(rotationPBinding.getDouble(),
+                rotationIBinding.getDouble(),
+                rotationDBinding.getDouble());
         fieldCentricFacingAngle.HeadingController.enableContinuousInput(-180, 180);
 
         // Each Subsystem has a default command that runs when no other command is
