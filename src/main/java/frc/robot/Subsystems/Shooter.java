@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LiveDoubleBinding;
 import frc.robot.Constants.ShooterConstants;
@@ -67,5 +68,9 @@ public class Shooter extends SubsystemBase {
     System.out.print(mLeader.getClosedLoopError());
     System.out.print("| Right Error:");
     System.out.println(m_follower.getClosedLoopError());
+  }
+
+  public Command c_runShooter(double setpoint) {
+    return startEnd(() -> motorsOn(setpoint), () -> motorsOn(0));
   }
 }

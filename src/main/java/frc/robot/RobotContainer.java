@@ -85,7 +85,7 @@ public class RobotContainer {
     ControllerConstants.operatorController.a().whileTrue(new RollBoth(m_conveyor));
     ControllerConstants.operatorController.leftBumper().whileTrue(new RollBack(m_conveyor));
 
-    ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
+    ControllerConstants.operatorController.b().whileTrue(m_shooter.c_runShooter(3000 / 60));
 
 
 
