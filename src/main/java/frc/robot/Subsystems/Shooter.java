@@ -70,7 +70,12 @@ public class Shooter extends SubsystemBase {
     System.out.println(m_follower.getClosedLoopError());
   }
 
+  public void motorsOff()
+  {
+    mLeader.set(0);
+  }
+
   public Command c_runShooter(double setpoint) {
-    return startEnd(() -> motorsOn(setpoint), () -> motorsOn(0));
+    return startEnd(() -> motorsOn(setpoint), () -> motorsOff());
   }
 }
