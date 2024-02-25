@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LiveDoubleBinding;
 import frc.robot.Constants.ShooterConstants;
 //import edu.wpi.first.math.ArmFeedForward;
 
@@ -25,6 +26,17 @@ public class Shooter extends SubsystemBase {
   public static final double m_kFAmp = 2.0;
   public static final double m_kFSpeaker = 25.0;
   
+  LiveDoubleBinding pBinding = new LiveDoubleBinding("Shooter", "P", 0.5, (event) -> {
+    configsAmp.withKP(event.valueData.value.getDouble());
+  });
+
+  LiveDoubleBinding iBinding = new LiveDoubleBinding("Shooter", "I", 0.0, (event) -> {
+    configsAmp.withKI(event.valueData.value.getDouble());
+  });
+
+  LiveDoubleBinding dBinding = new LiveDoubleBinding("Shooter", "D", 0.25, (event) -> {
+    configsAmp.withKD(event.valueData.value.getDouble());
+  });
 
   final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
