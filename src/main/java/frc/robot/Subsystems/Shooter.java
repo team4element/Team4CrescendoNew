@@ -61,7 +61,7 @@ public class Shooter extends SubsystemBase {
     m_follower.setControl(new Follower(mLeader.getDeviceID(), false));
   }
 
-  public void motorsOn(double setpoint) {
+  private void setMotorRPM(double setpoint) {
     mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(-m_kFSpeaker));
 
     System.out.print("Left Error:");
@@ -70,12 +70,13 @@ public class Shooter extends SubsystemBase {
     System.out.println(m_follower.getClosedLoopError());
   }
 
+
   public void motorsOff()
   {
     mLeader.set(0);
   }
 
   public Command c_runShooter(double setpoint) {
-    return startEnd(() -> motorsOn(setpoint), () -> motorsOff());
+    return startEnd(() -> setMotorRPM(setpoint), () -> motorsOff());
   }
 }

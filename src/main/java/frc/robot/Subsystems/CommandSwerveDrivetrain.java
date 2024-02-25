@@ -24,6 +24,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -105,6 +106,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     // TODO: Need to tune
     LiveDoubleBinding pHeadingBinding = new LiveDoubleBinding("Swerve", "pHeading", 10.0, (event) -> {
+        System.out.println("pHeadingBinding: " + event.valueData.value.getDouble());
         fieldCentricFacingAngle.HeadingController.setP(event.valueData.value.getDouble());
     });
 
@@ -144,7 +146,17 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                         TunerConstants.kSpeedAt12VoltsMps,
                         driveBaseRadius,
                         new ReplanningConfig()),
-                () -> false, // Change this if the path needs to be flipped on red vs blue
+                        () -> {
+                            // Boolean supplier that controls when the path will be mirrored for the red alliance
+                            // This will flip the path being followed to the red side of the field.
+                            // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+              
+                            var alliance = DriverStation.getAlliance();
+                            if (alliance.isPresent()) {
+                              return alliance.get() == DriverStation.Alliance.Red;
+                            }
+                            return false;
+                          },
                 this); // Subsystem for requirements
     }
 
