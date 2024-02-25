@@ -49,8 +49,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.y().whileTrue(m_conveyor.c_runBottom(Conveyor.Direction.INTAKE, 0.8));
     ControllerConstants.operatorController.x().whileTrue(m_conveyor.c_runTop(Conveyor.Direction.OUTTAKE, 0.8));
 
-    ControllerConstants.operatorController.a().whileTrue(new RollBoth(m_conveyor));
-    ControllerConstants.operatorController.leftBumper().whileTrue(new RollBack(m_conveyor));
+    ControllerConstants.operatorController.a().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
+    ControllerConstants.operatorController.rightBumper().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, 0.8));
 
     ControllerConstants.operatorController.b().whileTrue(m_shooter.c_runShooter(3000 / 60));
   }

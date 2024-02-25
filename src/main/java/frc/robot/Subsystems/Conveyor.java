@@ -61,12 +61,13 @@ public class Conveyor extends SubsystemBase {
         () -> setBottom(.5));
   }
 
-  public void c_runBoth(double speed) {
-      //turn on both motors
-
+  public Command c_runBoth(Direction direction, double speed) {
+    return startEnd(() -> {
       setBottom(speed);
       setTop(speed);
-      // Make a command file, then call this function
-
+    }, () -> {
+      setBottom(0);
+      setTop(0);
+    });
   }
 }
