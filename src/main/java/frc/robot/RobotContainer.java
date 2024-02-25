@@ -20,10 +20,10 @@ public class RobotContainer {
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain();
   public static final Conveyor m_conveyor = new Conveyor();
 
- public static final Shooter m_shooter = new Shooter();
-  // TODO: Should this go inside drivetrain class or should it be abstracted to RobotState class?
+  public static final Shooter m_shooter = new Shooter();
+  // TODO: Should this go inside drivetrain class or should it be abstracted to
+  // RobotState class?
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
-
 
   public RobotContainer() {
     configureBindings();
@@ -33,7 +33,7 @@ public class RobotContainer {
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
   }
 
-  public void onTeleopInit() {
+  public void onInit() {
     m_driveTrain.seedFieldRelative();
   }
 
@@ -48,7 +48,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.x().whileTrue(m_conveyor.c_runTop(Conveyor.Direction.OUTTAKE, 0.8));
 
     ControllerConstants.operatorController.a().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
-    ControllerConstants.operatorController.rightBumper().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, 0.8));
+    ControllerConstants.operatorController.rightBumper()
+        .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, 0.8));
 
     ControllerConstants.operatorController.b().whileTrue(m_shooter.c_runShooter(3000 / 60));
   }
