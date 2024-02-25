@@ -125,6 +125,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public CommandSwerveDrivetrain() {
         super(TunerConstants.swerveConstants, m_driveFrontLeft, m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
+        init();
     }
 
     private void configurePathPlanner() {
