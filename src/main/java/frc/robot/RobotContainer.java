@@ -16,12 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.RollBack;
 import frc.robot.Commands.RollBoth;
+import frc.robot.Commands.Shoot;
 //import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
-//import frc.robot.Subsystems.Pusher;
+import frc.robot.Subsystems.Shooter;
 //import frc.robot.Commands.OpenLoopDrive;
 
 
@@ -34,7 +35,7 @@ public class RobotContainer {
 
   private ArrayList<CANcoder> m_CANcoders;
 
- // public static final Pusher m_pusher = new Pusher();
+ public static final Shooter m_shooter = new Shooter();
   // TODO: Should this go inside drivetrain class or should it be abstracted to RobotState class?
   private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
@@ -78,11 +79,13 @@ public class RobotContainer {
     ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
 
-    ControllerConstants.operatorController.y().whileTrue(m_conveyor.c_runBottom(Conveyor.Direction.INTAKE, 0.5));
-    ControllerConstants.operatorController.x().whileTrue(m_conveyor.c_runTop(Conveyor.Direction.OUTTAKE, 0.5));
+    ControllerConstants.operatorController.y().whileTrue(m_conveyor.c_runBottom(Conveyor.Direction.INTAKE, 0.8));
+    ControllerConstants.operatorController.x().whileTrue(m_conveyor.c_runTop(Conveyor.Direction.OUTTAKE, 0.8));
 
     ControllerConstants.operatorController.a().whileTrue(new RollBoth(m_conveyor));
     ControllerConstants.operatorController.leftBumper().whileTrue(new RollBack(m_conveyor));
+
+    ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
 
 
 

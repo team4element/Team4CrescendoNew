@@ -16,10 +16,10 @@ import frc.robot.Constants.ConveyorConstants;
 public class Conveyor extends SubsystemBase {
   public static TalonFX m_bottomLeader;
   public static TalonFX m_bottomFollower;
-  DutyCycleOut bottomControlRequest = new DutyCycleOut(0);
+  DutyCycleOut bottomControlRequest = new DutyCycleOut(.8);
 
   public static TalonFX m_topLeader;
-  DutyCycleOut topControlRequest = new DutyCycleOut(0);
+  DutyCycleOut topControlRequest = new DutyCycleOut(.8);
 
   public static enum Direction {
     INTAKE,
@@ -49,7 +49,7 @@ public class Conveyor extends SubsystemBase {
     double modifiedSpeed = direction == Direction.INTAKE ? speed : -speed;
     return startEnd(
         () -> setTop(modifiedSpeed),
-        () -> setTop(0));
+        () -> setTop(0.5));
   }
 
   public Command c_runBottom(Direction direction, double speed) {
@@ -58,7 +58,7 @@ public class Conveyor extends SubsystemBase {
 
     return startEnd(
         () -> setBottom(modifiedSpeed),
-        () -> setBottom(0));
+        () -> setBottom(.5));
   }
 
   public void c_runBoth(double speed) {

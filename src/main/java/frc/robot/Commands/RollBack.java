@@ -24,7 +24,7 @@ public Conveyor m_conveyor;
 
   @Override
   public void execute() {
-    m_conveyor.c_runBoth(0.5);
+    m_conveyor.c_runBoth(0.8);
 
   }
 
