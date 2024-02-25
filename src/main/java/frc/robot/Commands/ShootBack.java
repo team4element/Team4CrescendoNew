@@ -25,7 +25,8 @@ shooter = m_shooter;
   @Override
   public void execute() {
 
-m_shooter.motorsOn(-0.15);
+  m_shooter.motorsOn(-60 / 60);
+  //32/34 gear ratio to motor
 
   }
 

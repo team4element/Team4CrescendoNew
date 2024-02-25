@@ -23,7 +23,9 @@ public class Shoot extends Command {
 
   @Override
   public void execute() {
-    m_shooter.motorsOn(.15);
+    m_shooter.motorsOn(3000 / 60);
+    //gives rps (rotations per seconds)
+    //78/60 for amp
 
   }
 

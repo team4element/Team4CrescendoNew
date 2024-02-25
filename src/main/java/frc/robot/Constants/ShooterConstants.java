@@ -9,4 +9,5 @@ public class ShooterConstants {
 
    public static final int m_leftMotorID = 18;
     public static final int m_rightMotorID = 1;
+
 }
