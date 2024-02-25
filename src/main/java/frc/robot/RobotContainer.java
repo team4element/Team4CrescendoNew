@@ -4,13 +4,6 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,12 +11,9 @@ import frc.robot.Commands.RollBack;
 import frc.robot.Commands.RollBoth;
 //import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
 import frc.robot.Subsystems.Shooter;
-//import frc.robot.Commands.OpenLoopDrive;
-
 
 public class RobotContainer {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -31,8 +21,6 @@ public class RobotContainer {
   // Subsystems
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain();
   public static final Conveyor m_conveyor = new Conveyor();
-
-  private ArrayList<CANcoder> m_CANcoders;
 
  public static final Shooter m_shooter = new Shooter();
   // TODO: Should this go inside drivetrain class or should it be abstracted to RobotState class?
@@ -43,32 +31,12 @@ public class RobotContainer {
     configureBindings();
     SmartDashboard.putData(m_chooser);
     m_driveTrain.registerTelemetry(logger::telemeterize);
-    m_CANcoders = getSwerveCANcoder();
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
   }
 
-  private ArrayList<CANcoder> getSwerveCANcoder() {
-    ArrayList<CANcoder> CANcoders = new ArrayList<CANcoder>();
-    for(SwerveModule swerveModule : m_driveTrain.getSwerveModules()) {
-      CANcoders.add(swerveModule.getCANcoder());
-    }
-
-    return CANcoders;
-
-  }
-
-  public Map<String, Double> getSwerveCANcoderPositions() {
-    if (m_CANcoders == null) {
-        getSwerveCANcoder();
-
-    }
-
-    Map<String, Double> CANcoderPositions = new HashMap<String, Double>();
-    for(CANcoder temp_CANcoder : m_CANcoders) {
-      CANcoderPositions.put(DriveTrainConstants.IDtoEncoderName.get(temp_CANcoder.getDeviceID()), temp_CANcoder.getPosition().getValue());
-    }
-    return CANcoderPositions;
+  public void onTeleopInit() {
+    m_driveTrain.seedFieldRelative();
   }
 
   private void configureBindings() {
@@ -85,10 +53,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.leftBumper().whileTrue(new RollBack(m_conveyor));
 
     ControllerConstants.operatorController.b().whileTrue(m_shooter.c_runShooter(3000 / 60));
-
-
-
   }
+
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
   }
