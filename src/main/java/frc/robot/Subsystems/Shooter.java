@@ -72,7 +72,7 @@ public class Shooter extends SubsystemBase {
   public void setMotorRPM(double setpoint, boolean PID) {
     if(PID)
     {
-       mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(m_kFAmp));
+       mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
 
        System.out.print("Left Error:");
        System.out.print(mLeader.getClosedLoopError());
