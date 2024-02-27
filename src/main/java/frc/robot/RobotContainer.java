@@ -62,6 +62,7 @@ public class RobotContainer {
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, 0.8));
     ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
+    ControllerConstants.operatorController.x().whileTrue(new Push(m_pusher));
    }
 
   public Command getAutonomousCommand() {
