@@ -9,7 +9,6 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LiveDoubleBinding;
 import frc.robot.Constants.ShooterConstants;
@@ -58,7 +57,7 @@ public class Shooter extends SubsystemBase {
     m_request = new VelocityVoltage(0).withSlot(0);
 
     mLeader.getConfigurator().apply(motorConfig);
-    mLeader.setInverted(true);
+    mLeader.setInverted(false);
 
     m_follower.getConfigurator().apply(motorConfig);
 

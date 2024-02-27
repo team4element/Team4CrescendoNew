@@ -27,6 +27,8 @@ public class Shoot extends Command {
     // 78 for amp
     // m_shooter.setMotorRPM(rpm_to_rps(480), True);
     m_shooter.setMotorRPM(.5, false);
+    
+    rpm_to_rps(0); //this is here to silence a warning
   }
 
   @Override
