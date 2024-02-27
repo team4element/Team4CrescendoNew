@@ -56,19 +56,13 @@ public class RobotContainer {
     ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
 
-    ControllerConstants.operatorController.y().whileTrue(new Bottom(m_conveyor));
-    ControllerConstants.operatorController.x().whileTrue(new Top(m_conveyor));
-
+    // ControllerConstants.operatorController.y().whileTrue(new Bottom(m_conveyor));
+    // ControllerConstants.operatorController.x().whileTrue(new Top(m_conveyor));
     ControllerConstants.operatorController.a().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, 0.8));
-
-   // ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
-
-   // ControllerConstants.operatorController.b().whileTrue(new Push(m_pusher));
- 
-  }
-
+    ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
+   }
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();

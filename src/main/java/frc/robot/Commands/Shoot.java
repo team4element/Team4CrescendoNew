@@ -1,7 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
- 
+
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,15 +21,12 @@ public class Shoot extends Command {
 
   }
 
-
   @Override
   public void execute() {
+    // gives rps (rotations per seconds)
+    // 78 for amp
     m_shooter.setMotorRPM(rpm_to_rps(480), false);
-    //gives rps (rotations per seconds)
-    //78/60 for amp
-
   }
-
 
   @Override
   public void end(boolean interrupted) {
@@ -42,12 +39,10 @@ public class Shoot extends Command {
     return false;
   }
 
-  private double rpm_to_rps(int rpm)
-  {
+  private double rpm_to_rps(int rpm) {
     final int mins_to_secs = 60;
 
-    return rpm /mins_to_secs ;
+    return rpm / mins_to_secs;
   }
 
 }
-
