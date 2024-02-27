@@ -18,8 +18,6 @@ public class Push extends Command {
   @Override
   public void initialize() {
 
-    System.out.println("I have been reached");
-
   }
 
 

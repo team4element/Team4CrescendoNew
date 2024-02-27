@@ -4,23 +4,23 @@
 
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Victor;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pusher extends SubsystemBase {
   // TODO: Figure this constant out
-  private Victor m_motorController = new Victor(16);
+  private VictorSPX m_motorController = new VictorSPX(16);
 
   public Pusher() {
 
   }
 
   public void controllerOn(double speed){
-    m_motorController.set(speed);
+    m_motorController.set(ControlMode.PercentOutput, speed);
   };
 
   public void controllerOff(){
-    m_motorController.set(0);
+    m_motorController.set(ControlMode.PercentOutput, 0);
   };
 }
