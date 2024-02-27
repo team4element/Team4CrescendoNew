@@ -70,6 +70,32 @@ public class Shooter extends SubsystemBase {
     System.out.println(m_follower.getClosedLoopError());
   }
 
+  @Override
+  public void periodic() {
+ }
+
+ public void motorsOn(double setpoint, boolean PID) {
+    
+
+    if(PID)
+    {
+       mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(-m_kFAmp));
+      
+
+       System.out.print("Left Error:");
+       System.out.print(mLeader.getClosedLoopError());
+       System.out.print("| Right Error:");
+       System.out.println(m_follower.getClosedLoopError());
+    }
+    else
+    {
+
+      mLeader.set(.5);
+    
+    }
+
+   // leftMotor.setVoltage(pid.calculate(encoder.getDistance(), setpoint) + feedforward);
+ }
 
   public void motorsOff()
   {

@@ -10,10 +10,13 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Commands.Push;
+import frc.robot.Commands.Shoot;
 //import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
+import frc.robot.Subsystems.Pusher;
 import frc.robot.Subsystems.Shooter;
 
 public class RobotContainer {
@@ -23,6 +26,7 @@ public class RobotContainer {
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain();
   public static final Conveyor m_conveyor = new Conveyor();
   public static final Shooter m_shooter = new Shooter();
+  public static final Pusher m_pusher = new Pusher();
 
   // TODO: Should this go inside drivetrain class or should it be abstracted to
   // RobotState class?
@@ -58,7 +62,11 @@ public class RobotContainer {
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, 0.8));
 
-    ControllerConstants.operatorController.b().whileTrue(m_shooter.c_runShooter(3000 / 60));
+    // ControllerConstants.operatorController.b().whileTrue(m_shooter.c_runShooter(3000 / 60));
+    ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
+
+    ControllerConstants.operatorController.leftBumper().whileTrue(new Push(m_pusher));
+ 
   }
 
 

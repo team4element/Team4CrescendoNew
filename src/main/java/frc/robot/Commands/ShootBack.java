@@ -1,43 +1,44 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
+ 
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.Pusher;
+import frc.robot.Subsystems.Shooter;
 
-public class Push extends Command {
+public class ShootBack extends Command {
 
-  Pusher m_pusher = new Pusher();
+public Shooter m_shooter;
 
-  public Push(Pusher pusher) {
-    m_pusher = pusher;
+  public ShootBack(Shooter shooter) {
+
+shooter = m_shooter;
+
   }
+
 
   @Override
-  public void initialize() {
-
-    System.out.println("I have been reached");
-
-  }
+  public void initialize() {}
 
 
   @Override
   public void execute() {
 
-    m_pusher.controllerOn(0.5);
+  m_shooter.motorsOn(.5, false);
+  //32/34 gear ratio to motor
+
   }
 
 
   @Override
   public void end(boolean interrupted) {
 
-    m_pusher.controllerOff();
+m_shooter.motorsOff();
 
   }
 
-  
+
   @Override
   public boolean isFinished() {
     return false;
