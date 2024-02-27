@@ -65,7 +65,7 @@ public class RobotContainer {
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
     ControllerConstants.operatorController.x().whileTrue(new Push(m_pusher));
-    ControllerConstants.operatorController.y().whileTrue(
+    ControllerConstants.operatorController.y().toggleOnTrue(
       new SequentialCommandGroup(new Shoot(m_shooter).withTimeout(3),
         new ParallelCommandGroup(
           new Shoot(m_shooter),
