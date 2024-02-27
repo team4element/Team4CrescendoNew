@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pusher extends SubsystemBase {
   // TODO: Figure this constant out
-  private Victor m_motorController = new Victor(0);
+  private Victor m_motorController = new Victor(16);
 
   public Pusher() {
-    controllerOff();
+
   }
 
   public void controllerOn(double speed){

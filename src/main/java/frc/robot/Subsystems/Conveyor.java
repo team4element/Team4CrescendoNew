@@ -35,13 +35,14 @@ public class Conveyor extends SubsystemBase {
     m_topLeader = new TalonFX(ConveyorConstants.topLeaderId);
   }
 
-  private void setBottom(double speed) {
+  public void setBottom(double speed) {
     m_bottomLeader.setControl(bottomControlRequest.withOutput(speed));
   }
 
-  private void setTop(double speed) {
+  public void setTop(double speed) {
     m_topLeader.setControl(topControlRequest.withOutput(speed));
   }
+
 
   // Define all commands here
   public Command c_runTop(Direction direction, double speed) {
@@ -50,6 +51,7 @@ public class Conveyor extends SubsystemBase {
     return startEnd(
         () -> setTop(modifiedSpeed),
         () -> setTop(0.5));
+      
   }
 
   public Command c_runBottom(Direction direction, double speed) {

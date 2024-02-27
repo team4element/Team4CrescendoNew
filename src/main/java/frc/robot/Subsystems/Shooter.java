@@ -58,11 +58,11 @@ public class Shooter extends SubsystemBase {
     mLeader.getConfigurator().apply(leftMotorConfig);
     m_follower.getConfigurator().apply(leftMotorConfig);
 
-    m_follower.setControl(new Follower(mLeader.getDeviceID(), false));
+    m_follower.setControl(new Follower(mLeader.getDeviceID(), true));
   }
 
   private void setMotorRPM(double setpoint) {
-    mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(-m_kFSpeaker));
+    mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(m_kFAmp));
 
     System.out.print("Left Error:");
     System.out.print(mLeader.getClosedLoopError());
@@ -79,7 +79,7 @@ public class Shooter extends SubsystemBase {
 
     if(PID)
     {
-       mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(-m_kFAmp));
+       mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(m_kFAmp));
       
 
        System.out.print("Left Error:");
@@ -90,7 +90,7 @@ public class Shooter extends SubsystemBase {
     else
     {
 
-      mLeader.set(.5);
+      mLeader.set(setpoint);
     
     }
 
