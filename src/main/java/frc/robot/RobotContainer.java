@@ -10,6 +10,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
 import frc.robot.Constants.ControllerConstants;
@@ -63,6 +65,14 @@ public class RobotContainer {
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
     ControllerConstants.operatorController.x().whileTrue(new Push(m_pusher));
+    ControllerConstants.operatorController.y().whileTrue(
+      new SequentialCommandGroup(new Shoot(m_shooter).withTimeout(3),
+        new ParallelCommandGroup(
+          new Shoot(m_shooter),
+          new Push(m_pusher)
+        ).withTimeout(2)
+      )
+    );
    }
 
   public Command getAutonomousCommand() {
