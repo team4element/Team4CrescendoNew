@@ -32,56 +32,46 @@ public class Shooter extends SubsystemBase {
   final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
   public Shooter() {
-    Slot0Configs leftMotorConfig = new Slot0Configs()
-        .withKS(0.0)
-        .withKV(0.1)
-        .withKP(0.5)
-        .withKI(0.0)
-        .withKD(0.25);
+    Slot0Configs motorConfig = new Slot0Configs();
+    
+    motorConfig.kS = 0.05; // Add 0.05 V output to overcome static friction
+    motorConfig.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    motorConfig.kP = 0.11; // An error of 1 rps results in 0.11 V output
+    motorConfig.kI = 0;    // no output for integrated error
+    motorConfig.kD = 0;    // no output for error derivative
 
-    pBinding = new LiveDoubleBinding("Shooter", "P", 0.5, (event) -> {
-      leftMotorConfig.withKP(event.valueData.value.getDouble());
-    });
+    // pBinding = new LiveDoubleBinding("Shooter", "P", 0.5, (event) -> {
+    //   leftMotorConfig.withKP(event.valueData.value.getDouble());
+    // });
 
-    iBinding = new LiveDoubleBinding("Shooter", "I", 0.0, (event) -> {
-      leftMotorConfig.withKI(event.valueData.value.getDouble());
-    });
+    // iBinding = new LiveDoubleBinding("Shooter", "I", 0.0, (event) -> {
+    //   leftMotorConfig.withKI(event.valueData.value.getDouble());
+    // });
 
-    dBinding = new LiveDoubleBinding("Shooter", "D", 0.25, (event) -> {
-      leftMotorConfig.withKD(event.valueData.value.getDouble());
-    });
+    // dBinding = new LiveDoubleBinding("Shooter", "D", 0.25, (event) -> {
+    //   leftMotorConfig.withKD(event.valueData.value.getDouble());
+    // });
 
-    fBinding = new LiveDoubleBinding("Shooter", "F", 0.1, (event) -> {
-      m_kFSpeaker = event.valueData.value.getDouble();
-    });
+    // fBinding = new LiveDoubleBinding("Shooter", "F", 0.1, (event) -> {
+    //   m_kFSpeaker = event.valueData.value.getDouble();
+    // });
 
-    mLeader.getConfigurator().apply(leftMotorConfig);
-    m_follower.getConfigurator().apply(leftMotorConfig);
+    mLeader.getConfigurator().apply(motorConfig);
+    m_follower.getConfigurator().apply(motorConfig);
 
     m_follower.setControl(new Follower(mLeader.getDeviceID(), false));
-  }
-
-  private void setMotorRPM(double setpoint) {
-    mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(-m_kFSpeaker));
-
-    System.out.print("Left Error:");
-    System.out.print(mLeader.getClosedLoopError());
-    System.out.print("| Right Error:");
-    System.out.println(m_follower.getClosedLoopError());
   }
 
   @Override
   public void periodic() {
  }
 
- public void motorsOn(double setpoint, boolean PID) {
-    
+  public void setMotorRPM(double setpoint, boolean PID) {
 
     if(PID)
     {
        mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(-m_kFAmp));
-      
-
+    
        System.out.print("Left Error:");
        System.out.print(mLeader.getClosedLoopError());
        System.out.print("| Right Error:");
@@ -89,20 +79,12 @@ public class Shooter extends SubsystemBase {
     }
     else
     {
-
-      mLeader.set(.5);
-    
+      mLeader.set(setpoint);
     }
-
-   // leftMotor.setVoltage(pid.calculate(encoder.getDistance(), setpoint) + feedforward);
  }
 
-  public void motorsOff()
+public void motorsOff()
   {
     mLeader.set(0);
-  }
-
-  public Command c_runShooter(double setpoint) {
-    return startEnd(() -> setMotorRPM(setpoint), () -> motorsOff());
   }
 }
