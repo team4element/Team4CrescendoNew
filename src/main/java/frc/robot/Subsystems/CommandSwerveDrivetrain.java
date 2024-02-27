@@ -105,17 +105,17 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     // TODO: Need to tune
-    LiveDoubleBinding rotationPBinding = new LiveDoubleBinding("Swerve", "rotation/pBinding", 10.0, (event) -> {
-        fieldCentricFacingAngle.HeadingController.setP(event.valueData.value.getDouble());
-    });
+    // LiveDoubleBinding rotationPBinding = new LiveDoubleBinding("Swerve", "rotation/pBinding", 10.0, (event) -> {
+    //     fieldCentricFacingAngle.HeadingController.setP(event.valueData.value.getDouble());
+    // });
 
-    LiveDoubleBinding rotationIBinding = new LiveDoubleBinding("Swerve", "rotation/iBinding", 0.0, (event) -> {
-        fieldCentricFacingAngle.HeadingController.setI(event.valueData.value.getDouble());
-    });
+    // LiveDoubleBinding rotationIBinding = new LiveDoubleBinding("Swerve", "rotation/iBinding", 0.0, (event) -> {
+    //     fieldCentricFacingAngle.HeadingController.setI(event.valueData.value.getDouble());
+    // });
 
-    LiveDoubleBinding rotationDBinding = new LiveDoubleBinding("Swerve", "rotation/dBinding", 0.0, (event) -> {
-        fieldCentricFacingAngle.HeadingController.setD(event.valueData.value.getDouble());
-    });
+    // LiveDoubleBinding rotationDBinding = new LiveDoubleBinding("Swerve", "rotation/dBinding", 0.0, (event) -> {
+    //     fieldCentricFacingAngle.HeadingController.setD(event.valueData.value.getDouble());
+    // });
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
             SwerveModuleConstants... modules) {
@@ -174,9 +174,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     private void init() {
         configurePathPlanner();
-        fieldCentricFacingAngle.HeadingController.setPID(rotationPBinding.getDouble(),
-                rotationIBinding.getDouble(),
-                rotationDBinding.getDouble());
+        fieldCentricFacingAngle.HeadingController.setPID(DriveTrainConstants.kRotationP,
+                DriveTrainConstants.kRotationI,
+                DriveTrainConstants.kRotationD);
         fieldCentricFacingAngle.HeadingController.enableContinuousInput(-180, 180);
 
         // Each Subsystem has a default command that runs when no other command is
