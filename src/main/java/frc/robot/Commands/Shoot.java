@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Shooter;
 
 public class Shoot extends Command {
-  public Shooter m_shooter;
+  private Shooter m_shooter;
+  private double m_rpm;
 
-  public Shoot(Shooter shooter) {
+  public Shoot(Shooter shooter, double rpm) {
 
     m_shooter = shooter;
+    m_rpm = rpm;
 
   }
 
@@ -23,9 +25,7 @@ public class Shoot extends Command {
 
   @Override
   public void execute() {
-    // gives rps (rotations per seconds)
-    // 78 for amp
-    m_shooter.setMotorRPM(rpm_to_rps(480), true);
+    m_shooter.setMotorRPM(rpm_to_rps(m_rpm), true);
     // m_shooter.setMotorRPM(.5, false);
 
     rpm_to_rps(0); //this is here to silence a warning
@@ -42,7 +42,7 @@ public class Shoot extends Command {
     return false;
   }
 
-  private double rpm_to_rps(int rpm) {
+  private double rpm_to_rps(double rpm) {
     final int mins_to_secs = 60;
 
     return rpm / mins_to_secs;
