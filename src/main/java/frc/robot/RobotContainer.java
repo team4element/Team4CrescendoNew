@@ -35,7 +35,7 @@ public class RobotContainer {
   public RobotContainer() {
     autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
     
-    NamedCommands.registerCommand("shoot", m_shooter.c_runShooter(100));
+    // NamedCommands.registerCommand("shoot", m_shooter.setMotorRPM(0, false););
     NamedCommands.registerCommand("intake", m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
