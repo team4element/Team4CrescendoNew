@@ -7,7 +7,16 @@ package frc.robot.Constants;
 
 public class ShooterConstants {
 
-   public static final int m_leftMotorID = 18;
+    public static final int m_leftMotorID = 18;
     public static final int m_rightMotorID = 1;
 
+    public static final int rmpLow    = 0;
+    public static final int rmpMedium = 0;
+    public static final int rmpHigh   = 6300; 
+
+    public static final double timeoutLow    = 0;
+    public static final double timeoutMedium = 0;
+    public static final double timeoutHigh   = .787;
+
+    public static final double rampUpTime = 1;
 }
