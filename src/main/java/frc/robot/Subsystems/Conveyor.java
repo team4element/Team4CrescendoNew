@@ -64,9 +64,10 @@ public class Conveyor extends SubsystemBase {
   }
 
   public Command c_runBoth(Direction direction, double speed) {
+    double modifiedSpeed = direction == Direction.INTAKE ? speed : -speed;
     return startEnd(() -> {
-      setBottom(speed);
-      setTop(speed);
+      setBottom(modifiedSpeed);
+      setTop(modifiedSpeed);
     }, () -> {
       setBottom(0);
       setTop(0);
