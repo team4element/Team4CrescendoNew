@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LiveDoubleBinding;
 import frc.robot.Constants.ShooterConstants;
-//import edu.wpi.first.math.ArmFeedForward;
 
 public class Shooter extends SubsystemBase {
   private static TalonFX mLeader = new TalonFX(ShooterConstants.m_leftMotorID);
@@ -59,7 +58,7 @@ public class Shooter extends SubsystemBase {
     mLeader.getConfigurator().apply(motorConfig);
     m_follower.getConfigurator().apply(motorConfig);
 
-    m_follower.setControl(new Follower(mLeader.getDeviceID(), false));
+    m_follower.setControl(new Follower(mLeader.getDeviceID(), true));
   }
 
   @Override
@@ -67,11 +66,11 @@ public class Shooter extends SubsystemBase {
  }
 
   public void setMotorRPM(double setpoint, boolean PID) {
-
     if(PID)
     {
-       mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(-m_kFAmp));
-    
+       mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(m_kFAmp));
+      
+
        System.out.print("Left Error:");
        System.out.print(mLeader.getClosedLoopError());
        System.out.print("| Right Error:");
