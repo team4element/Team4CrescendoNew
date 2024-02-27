@@ -16,6 +16,7 @@ import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ConveyorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
 import frc.robot.Subsystems.Pusher;
@@ -36,7 +37,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
-    
+
     // NamedCommands.registerCommand("shoot", m_shooter.setMotorRPM(0, false););
     NamedCommands.registerCommand("intake", m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
 
@@ -57,25 +58,28 @@ public class RobotContainer {
     ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
 
-    // ControllerConstants.operatorController.y().whileTrue(new Bottom(m_conveyor));
-    // ControllerConstants.operatorController.x().whileTrue(new Top(m_conveyor));
     ControllerConstants.operatorController.leftBumper()
       .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
-    ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
-    ControllerConstants.operatorController.x().whileTrue(new Push(m_pusher));
-    ControllerConstants.operatorController.y().toggleOnTrue(
-      new SequentialCommandGroup(new Shoot(m_shooter).withTimeout(3),
-        new ParallelCommandGroup(
-          new Shoot(m_shooter),
-          new Push(m_pusher)
-        ).withTimeout(2)
-      )
-    );
+    ControllerConstants.operatorController.a().toggleOnTrue(pushAndShoot(ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh));
+    ControllerConstants.operatorController.b().toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, ShooterConstants.timeoutMedium));
+    ControllerConstants.operatorController.y().toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow));
+
+      
    }
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
+  }
+
+  private SequentialCommandGroup pushAndShoot(double rpm, double timeout)
+  {
+      return new SequentialCommandGroup(new Shoot(m_shooter, rpm).withTimeout(ShooterConstants.rampUpTime),
+              new ParallelCommandGroup(
+                new Shoot(m_shooter, rpm),
+                new Push(m_pusher)
+              ).withTimeout(timeout)
+            );
   }
 }
