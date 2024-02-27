@@ -25,10 +25,6 @@ public class Shooter extends SubsystemBase {
   LiveDoubleBinding dBinding;
   LiveDoubleBinding fBinding;
 
-  // Power
-  public double m_kFAmp = 2.0;
-  public double m_kFSpeaker = 25.0;
-
   public Shooter() {
     Slot0Configs motorConfig = new Slot0Configs();
     
