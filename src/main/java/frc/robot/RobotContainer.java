@@ -57,7 +57,6 @@ public class RobotContainer {
 
     // ControllerConstants.operatorController.y().whileTrue(new Bottom(m_conveyor));
     // ControllerConstants.operatorController.x().whileTrue(new Top(m_conveyor));
-    ControllerConstants.operatorController.a().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
     ControllerConstants.operatorController.leftBumper()
       .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.rightBumper()
