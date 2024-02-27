@@ -18,6 +18,8 @@ public class Shooter extends SubsystemBase {
   private static TalonFX mLeader = new TalonFX(ShooterConstants.m_leftMotorID);
   private static TalonFX m_follower = new TalonFX(ShooterConstants.m_rightMotorID);
 
+  final VelocityVoltage m_request;
+
   Slot0Configs configsSpeaker = new Slot0Configs();
   LiveDoubleBinding pBinding;
   LiveDoubleBinding iBinding;
@@ -27,8 +29,6 @@ public class Shooter extends SubsystemBase {
   // Power
   public double m_kFAmp = 2.0;
   public double m_kFSpeaker = 25.0;
-
-  final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
   public Shooter() {
     Slot0Configs motorConfig = new Slot0Configs();
@@ -54,6 +54,8 @@ public class Shooter extends SubsystemBase {
     // fBinding = new LiveDoubleBinding("Shooter", "F", 0.1, (event) -> {
     //   m_kFSpeaker = event.valueData.value.getDouble();
     // });
+
+    m_request = new VelocityVoltage(0).withSlot(0);
 
     mLeader.getConfigurator().apply(motorConfig);
     m_follower.getConfigurator().apply(motorConfig);
