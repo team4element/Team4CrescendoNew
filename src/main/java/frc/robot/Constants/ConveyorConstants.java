@@ -9,4 +9,6 @@ public class ConveyorConstants {
   public static final int bottomFollowerId = 4;
 
   public static final int topLeaderId = 17;
+
+  public static final double conveyorSpeed = .8;
 }

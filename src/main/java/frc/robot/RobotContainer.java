@@ -10,11 +10,10 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Commands.Bottom;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
-import frc.robot.Commands.Top;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.ConveyorConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
 import frc.robot.Subsystems.Pusher;
@@ -59,8 +58,10 @@ public class RobotContainer {
     // ControllerConstants.operatorController.y().whileTrue(new Bottom(m_conveyor));
     // ControllerConstants.operatorController.x().whileTrue(new Top(m_conveyor));
     ControllerConstants.operatorController.a().whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
+    ControllerConstants.operatorController.leftBumper()
+      .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.rightBumper()
-        .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, 0.8));
+        .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
     ControllerConstants.operatorController.x().whileTrue(new Push(m_pusher));
    }
