@@ -58,9 +58,12 @@ public class Shooter extends SubsystemBase {
     m_request = new VelocityVoltage(0).withSlot(0);
 
     mLeader.getConfigurator().apply(motorConfig);
+    mLeader.setInverted(true);
+
     m_follower.getConfigurator().apply(motorConfig);
 
     m_follower.setControl(new Follower(mLeader.getDeviceID(), true));
+
   }
 
   @Override
@@ -71,7 +74,6 @@ public class Shooter extends SubsystemBase {
     if(PID)
     {
        mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(m_kFAmp));
-      
 
        System.out.print("Left Error:");
        System.out.print(mLeader.getClosedLoopError());
