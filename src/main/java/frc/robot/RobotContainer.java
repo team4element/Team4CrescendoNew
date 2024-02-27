@@ -58,9 +58,9 @@ public class RobotContainer {
     // ControllerConstants.operatorController.y().whileTrue(new Bottom(m_conveyor));
     // ControllerConstants.operatorController.x().whileTrue(new Top(m_conveyor));
     ControllerConstants.operatorController.leftBumper()
-      .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
+      .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.rightBumper()
-        .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
+        .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.b().whileTrue(new Shoot(m_shooter));
     ControllerConstants.operatorController.x().whileTrue(new Push(m_pusher));
    }

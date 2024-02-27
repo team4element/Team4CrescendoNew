@@ -33,6 +33,9 @@ public class Conveyor extends SubsystemBase {
     m_bottomFollower.setControl(new Follower(ConveyorConstants.bottomLeaderId, false));
 
     m_topLeader = new TalonFX(ConveyorConstants.topLeaderId);
+
+    m_bottomLeader.setInverted(true);
+    m_topLeader.setInverted(false);
   }
 
   public void setBottom(double speed) {
