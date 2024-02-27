@@ -26,7 +26,7 @@ public class Shoot extends Command {
 
   @Override
   public void execute() {
-    m_shooter.motorsOn(.5, false);
+    m_shooter.setMotorRPM(rpm_to_rps(480), false);
     //gives rps (rotations per seconds)
     //78/60 for amp
 
@@ -43,5 +43,13 @@ public class Shoot extends Command {
   public boolean isFinished() {
     return false;
   }
+
+  private double rpm_to_rps(int rpm)
+  {
+    final int mins_to_secs = 60;
+
+    return rpm /mins_to_secs ;
+  }
+
 }
 
