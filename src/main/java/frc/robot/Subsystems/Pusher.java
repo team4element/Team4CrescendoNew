@@ -15,11 +15,11 @@ import frc.robot.Constants.PusherContants;
 
 public class Pusher extends SubsystemBase {
     private VictorSPX m_motorController;
-    private AnalogPotentiometer pot;
+    // private AnalogPotentiometer pot;
 
   public Pusher() {
     m_motorController = new VictorSPX(PusherContants.motorId);
-    pot = new AnalogPotentiometer(PusherContants.potId);
+    // pot = new AnalogPotentiometer(PusherContants.potId);
 
     m_motorController.config_kP(0, .3);
     m_motorController.config_kI(0, 0);
@@ -40,13 +40,11 @@ public class Pusher extends SubsystemBase {
      return pot.get();
   }
 
-  public void movePusherToAngle(int angle)
+public void movePusherToAngle(int angle)
   {
 
     double currentPos = getPot();
 
-    m_motorController.set(VictorSPXControlMode.Position, angle);
-
-
+    // m_motorController.set(VictorSPXControlMode.Position, angle);
   }
 }
