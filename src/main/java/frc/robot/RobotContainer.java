@@ -66,6 +66,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.b().toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, ShooterConstants.timeoutMedium));
     ControllerConstants.operatorController.a().toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow));
     //ControllerConstants.operatorController.x().whileTrue( new Shoot(m_shooter, ShooterConstants.rmpReverse)));
+    ControllerConstants.operatorController.x().whileTrue( new Push(m_pusher));
+
 
       
    }

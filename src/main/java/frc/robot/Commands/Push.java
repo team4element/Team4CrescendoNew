@@ -24,7 +24,8 @@ public class Push extends Command {
   @Override
   public void execute() {
 
-    m_pusher.controllerOn(0.5);
+    // m_pusher.controllerOn(0.5);
+    m_pusher.movePusherToAngle(300);
   }
 
 
