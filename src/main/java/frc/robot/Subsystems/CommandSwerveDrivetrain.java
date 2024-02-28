@@ -94,14 +94,14 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
     public final SwerveRequest.FieldCentricFacingAngle fieldCentricFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
-            .withDeadband(maxSpeedSupplier.get() * 0.1)
-            .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
+            .withDeadband(DriveTrainConstants.kDeadZone)
+            .withRotationalDeadband(DriveTrainConstants.kDeadZone)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     // Defines the type of driving when in open-loop (teleop)
     public final SwerveRequest.FieldCentric m_drive = new SwerveRequest.FieldCentric()
-            .withDeadband(maxSpeedSupplier.get() * 0.1)
-            .withRotationalDeadband(maxAngularRateSupplier.get() * 0.1)
+            .withDeadband(DriveTrainConstants.kDeadZone)
+            .withRotationalDeadband(DriveTrainConstants.kDeadZone)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     // TODO: Need to tune
@@ -221,15 +221,15 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                         .withVelocityX(
                                 ControllerConstants.yTranslationModifier
                                         .apply(-ControllerConstants.driveController.getLeftY())
-                                        * maxSpeedSupplier.get()) // Drive forward with negative Y (forward)
+                                        * DriveTrainConstants.kSpeedMultiplyer) // Drive forward with negative Y (forward)
                         .withVelocityY(
                                 ControllerConstants.xTranslationModifier
                                         .apply(-ControllerConstants.driveController.getLeftX())
-                                        * maxSpeedSupplier.get()) // Drive left with negative X (left)
+                                        * DriveTrainConstants.kSpeedMultiplyer) // Drive left with negative X (left)
                         .withRotationalRate(
                                 ControllerConstants.zRotationModifier
                                         .apply(-ControllerConstants.driveController.getRightX())
-                                        * maxAngularRateSupplier.get()) // Drive counterclockwise with negative X (left)
+                                        * DriveTrainConstants.kSpeedMultiplyer) // Drive counterclockwise with negative X (left)
         );
     }
 
