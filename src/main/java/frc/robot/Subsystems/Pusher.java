@@ -45,7 +45,7 @@ public class Pusher extends SubsystemBase {
 
     double currentPos = getPot();
 
-    m_motorController.set(VictorSPXControlMode.MotionMagic, angle);
+    m_motorController.set(VictorSPXControlMode.Position, angle);
 
 
   }
