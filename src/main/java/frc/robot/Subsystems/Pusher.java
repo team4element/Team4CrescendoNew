@@ -43,15 +43,9 @@ public class Pusher extends SubsystemBase {
   public void movePusherToAngle(int angle)
   {
 
-    double maxGravityFF = 0.07;
-    int kMeasuredPosHorizontal = 840; //Position measured when arm is horizontal
-    double kTicksPerDegree = 4096 / 360; //Sensor is 1:1 with arm rotation
     double currentPos = getPot();
-    double degrees = (currentPos - kMeasuredPosHorizontal) / kTicksPerDegree;
-    double radians = java.lang.Math.toRadians(degrees);
-    double cosineScalar = java.lang.Math.cos(radians);
 
-    m_motorController.set(VictorSPXControlMode.MotionMagic, angle, DemandType.ArbitraryFeedForward, maxGravityFF * cosineScalar);
+    m_motorController.set(VictorSPXControlMode.MotionMagic, angle);
 
 
   }
