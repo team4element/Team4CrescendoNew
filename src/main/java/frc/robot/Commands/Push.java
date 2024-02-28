@@ -10,9 +10,11 @@ import frc.robot.Subsystems.Pusher;
 public class Push extends Command {
 
   Pusher m_pusher = new Pusher();
+  private double m_speed;
 
-  public Push(Pusher pusher) {
+  public Push(Pusher pusher, double speed) {
     m_pusher = pusher;
+    m_speed = speed;
   }
 
   @Override
@@ -24,8 +26,8 @@ public class Push extends Command {
   @Override
   public void execute() {
 
-    // m_pusher.controllerOn(0.5);
-    m_pusher.movePusherToAngle(300);
+    m_pusher.controllerOn(m_speed);
+    // m_pusher.movePusherToAngle(300);
   }
 
 

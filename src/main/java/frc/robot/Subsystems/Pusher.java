@@ -35,15 +35,15 @@ public class Pusher extends SubsystemBase {
     m_motorController.set(ControlMode.PercentOutput, 0);
   };
 
-  public double getPot()
-  {
-     return pot.get();
-  }
+  // public double getPot()
+  // {
+  //    //return pot.get();
+  // }
 
 public void movePusherToAngle(int angle)
   {
 
-    double currentPos = getPot();
+  //   double currentPos = getPot();
 
     // m_motorController.set(VictorSPXControlMode.Position, angle);
   }

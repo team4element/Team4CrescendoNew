@@ -10,4 +10,9 @@ public class PusherContants {
 
     public static final int potMax = oneRotation * 5;
 
+    public static final double lowSpeed = .1;
+    public static final double medSpeed = .5;
+    public static final double highSpeed = .5;
+
+
 }
