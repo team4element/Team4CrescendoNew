@@ -5,21 +5,25 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+//import com.ctre.phoenix.motorcontrol.DemandType;
+//import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
+//import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.PusherContants;
+import frc.robot.ElementUnits;
+import frc.robot.Constants.PusherConstants;
 
 public class Pusher extends SubsystemBase {
     private VictorSPX m_motorController;
     // private AnalogPotentiometer pot;
+    public DutyCycleEncoder m_encoder;
 
   public Pusher() {
-    m_motorController = new VictorSPX(PusherContants.motorId);
+    m_motorController = new VictorSPX(PusherConstants.motorId);
     // pot = new AnalogPotentiometer(PusherContants.potId);
+    m_encoder = new DutyCycleEncoder(PusherConstants.encoderChannel);
 
     m_motorController.config_kP(0, .3);
     m_motorController.config_kI(0, 0);
@@ -29,10 +33,21 @@ public class Pusher extends SubsystemBase {
 
   public void controllerOn(double speed){
     m_motorController.set(ControlMode.PercentOutput, speed);
+    m_encoder.setDistancePerRotation(20);
   };
 
   public void controllerOff(){
     m_motorController.set(ControlMode.PercentOutput, 0);
+  };
+
+  public double setAngleToTicks(double angle){
+    return ElementUnits.rotationsToTicks((angle/360) / PusherConstants.kGearRatio, PusherConstants.kPPR);
+
+  };
+
+  public double getEncoderDistance(){
+    return m_encoder.getDistance();
+
   };
 
   // public double getPot()

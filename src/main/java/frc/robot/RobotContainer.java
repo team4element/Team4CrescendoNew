@@ -16,7 +16,7 @@ import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ConveyorConstants;
-import frc.robot.Constants.PusherContants;
+import frc.robot.Constants.PusherConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
@@ -63,9 +63,9 @@ public class RobotContainer {
       .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
-    ControllerConstants.operatorController.y().toggleOnTrue(pushAndShoot(ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh, PusherContants.highSpeed));
-    ControllerConstants.operatorController.b().toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, ShooterConstants.timeoutMedium, PusherContants.medSpeed));
-    ControllerConstants.operatorController.a().toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherContants.lowSpeed));
+    ControllerConstants.operatorController.y().toggleOnTrue(pushAndShoot(ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh, PusherConstants.highSpeed));
+    ControllerConstants.operatorController.b().toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, ShooterConstants.timeoutMedium, PusherConstants.medSpeed));
+    ControllerConstants.operatorController.a().toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherConstants.lowSpeed));
     //ControllerConstants.operatorController.x().whileTrue( new Shoot(m_shooter, ShooterConstants.rmpReverse)));
     // ControllerConstants.operatorController.x().whileTrue( new Push(m_pusher));
       
@@ -80,7 +80,7 @@ public class RobotContainer {
       return new SequentialCommandGroup(new Shoot(m_shooter, rpm).withTimeout(ShooterConstants.rampUpTime),
               new ParallelCommandGroup(
                 new Shoot(m_shooter, rpm),
-                new Push(m_pusher, pusherSpeed)
+                new Push(m_pusher, pusherSpeed, 180)
               ).withTimeout(timeout)
             );
   }
