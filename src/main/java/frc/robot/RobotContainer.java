@@ -54,7 +54,7 @@ public class RobotContainer {
   public void onInit() {
     m_driveTrain.seedFieldRelative();
   }
-  
+
   private void configureBindings() {
     ControllerConstants.driveController.y().whileTrue(m_driveTrain.c_cardinalLock(0));
     ControllerConstants.driveController.x().whileTrue(m_driveTrain.c_cardinalLock(90));
@@ -69,9 +69,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.y().toggleOnTrue(pushAndShoot(ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh, PusherConstants.highSpeed));
     ControllerConstants.operatorController.b().toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, ShooterConstants.timeoutMedium, PusherConstants.medSpeed));
     ControllerConstants.operatorController.a().toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherConstants.lowSpeed));
-    //ControllerConstants.operatorController.x().whileTrue( new Shoot(m_shooter, ShooterConstants.rmpReverse)));
-    // ControllerConstants.operatorController.x().whileTrue( new Push(m_pusher));
-      
+    ControllerConstants.operatorController.x().whileTrue( new Shoot(m_shooter, ShooterConstants.rmpReverse));
+
    }
 
   public Command getAutonomousCommand() {
