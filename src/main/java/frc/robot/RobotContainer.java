@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -38,8 +39,10 @@ public class RobotContainer {
   public RobotContainer() {
     autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
 
-    // NamedCommands.registerCommand("shoot", m_shooter.setMotorRPM(0, false););
-    NamedCommands.registerCommand("intake", m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
+    // NamedCommands.registerCommand("shoot", m_shooter.setMotorRPM(0, false));
+    NamedCommands.registerCommand("Push And Shoot High", pushAndShoot(ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh));
+    NamedCommands.registerCommand("Push And Shoot High", pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow));
+    NamedCommands.registerCommand("intake",  m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
     m_driveTrain.registerTelemetry(logger::telemeterize);
@@ -51,6 +54,18 @@ public class RobotContainer {
     m_driveTrain.seedFieldRelative();
   }
 
+  
+  private SequentialCommandGroup pushAndShoot(double rpm, double timeout)
+  {
+      return new SequentialCommandGroup(new Shoot(m_shooter, rpm).withTimeout(ShooterConstants.rampUpTime),
+              new ParallelCommandGroup(
+                new Shoot(m_shooter, rpm),
+                new Push(m_pusher)
+              ).withTimeout(timeout)
+            );
+  }
+  
+  
   private void configureBindings() {
     ControllerConstants.driveController.y().whileTrue(m_driveTrain.c_cardinalLock(0));
     ControllerConstants.driveController.x().whileTrue(m_driveTrain.c_cardinalLock(90));
@@ -69,20 +84,11 @@ public class RobotContainer {
     ControllerConstants.operatorController.x().whileTrue( new Push(m_pusher));
 
 
-      
+
    }
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
 
-  private SequentialCommandGroup pushAndShoot(double rpm, double timeout)
-  {
-      return new SequentialCommandGroup(new Shoot(m_shooter, rpm).withTimeout(ShooterConstants.rampUpTime),
-              new ParallelCommandGroup(
-                new Shoot(m_shooter, rpm),
-                new Push(m_pusher)
-              ).withTimeout(timeout)
-            );
-  }
 }
