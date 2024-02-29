@@ -30,7 +30,7 @@ public class Shooter extends SubsystemBase {
     
     motorConfig.kS = 0.05; // Add 0.05 V output to overcome static friction
     motorConfig.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    motorConfig.kP = 0.11; // An error of 1 rps results in 0.11 V output
+    motorConfig.kP = 0.15; // An error of 1 rps results in 0.11 V output
     motorConfig.kI = 0;    // no output for integrated error
     motorConfig.kD = 0;    // no output for error derivative
 

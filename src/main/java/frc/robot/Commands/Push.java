@@ -4,28 +4,46 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.PusherConstants;
 import frc.robot.Subsystems.Pusher;
 
 public class Push extends Command {
 
-  Pusher m_pusher = new Pusher();
+  Pusher m_pusher;
+  private double m_speed;
+  private PIDController pusherPID;
+  double m_angle;
 
-  public Push(Pusher pusher) {
+  private static final double tolerance = .5;
+
+  public Push(Pusher pusher, double speed, double position) {
     m_pusher = pusher;
+    m_speed = speed;
+    m_angle = position;
+
+    pusherPID = new PIDController(
+      PusherConstants.kP, PusherConstants.kI, PusherConstants.kD);
+
+    pusherPID.setTolerance(
+      this.m_pusher.setAngleToTicks(tolerance));
+
+    addRequirements(this.m_pusher);
   }
 
   @Override
   public void initialize() {
-
+    this.m_pusher.controllerOn(0);
   }
 
 
   @Override
   public void execute() {
 
-    // m_pusher.controllerOn(0.5);
-    m_pusher.movePusherToAngle(300);
+    double m_speed = pusherPID.calculate(this.m_pusher.getEncoderDistance(), this.m_angle);
+    this.m_pusher.controllerOn(m_speed);
+    // m_pusher.movePusherToAngle(300);
   }
 
 
@@ -36,7 +54,7 @@ public class Push extends Command {
 
   }
 
-  
+
   @Override
   public boolean isFinished() {
     return false;
