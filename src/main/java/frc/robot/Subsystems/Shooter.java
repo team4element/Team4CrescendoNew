@@ -69,11 +69,10 @@ public class Shooter extends SubsystemBase {
     if(PID)
     {
        mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
-
-       System.out.print("Left Error:");
-       System.out.print(mLeader.getClosedLoopError());
-       System.out.print("| Right Error:");
-       System.out.println(m_follower.getClosedLoopError());
+      //  System.out.print("Left Error:");
+      //  System.out.print(mLeader.getClosedLoopError());
+      //  System.out.print("| Right Error:");
+      //  System.out.println(m_follower.getClosedLoopError());
     }
     else
     {

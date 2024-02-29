@@ -40,9 +40,6 @@ import frc.robot.Constants.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
-    // private double kP = 20;
-    // private double kI = 0;
-    // private double kD = 0;
 
     private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
             DriveTrainConstants.kFrontLeftSteerMotorId,
