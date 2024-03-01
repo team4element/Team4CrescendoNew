@@ -5,16 +5,12 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.util.Color;
-//import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-//import frc.robot.Constants.PusherConstants;
 import frc.robot.Subsystems.Pusher;
 
 public class Push extends Command {
-
   Pusher m_pusher;
   private double m_speed;
-  // private PIDController pusherPID;
   double m_angle;
 
   public Color kRed;
@@ -33,6 +29,15 @@ public class Push extends Command {
 
     // pusherPID.setTolerance(
     // this.m_pusher.setAngleToTicks(tolerance));
+    // private static final double tolerance = .5;
+  }
+
+  public Push(Pusher pusher, double speed /* , ColorSensor sensor, ColorMatch match */) {
+    m_pusher = pusher;
+    m_speed = speed;
+    // m_angle = position;
+    // m_colorSensor = sensor;
+    // m_matcher = match;
 
     addRequirements(this.m_pusher);
   }
@@ -52,6 +57,9 @@ public class Push extends Command {
     this.m_pusher.controllerOn(m_speed);
     // m_pusher.movePusherToAngle(300);
     // Color detected = m_colorSensor.getColor();
+
+    String color;
+    // ColorMatchResult match = new m_colorSensor.matchClosestColor(detected);
 
   }
 

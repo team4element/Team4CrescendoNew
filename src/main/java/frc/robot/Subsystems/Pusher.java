@@ -22,7 +22,6 @@ public class Pusher extends SubsystemBase {
     m_motorController = new VictorSPX(PusherConstants.motorId);
     m_motorController.configFactoryDefault();
     // Does this internally set the encoder ticks to 4096?
-    VictorSPXConfiguration motorConfig = new VictorSPXConfiguration();
     m_motorController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     m_motorController.config_kP(0, .3);
     m_motorController.config_kI(0, 0);
