@@ -58,7 +58,7 @@ public class Push extends Command {
     // m_pusher.movePusherToAngle(300);
     // Color detected = m_colorSensor.getColor();
 
-    String color;
+    //String color;
     // ColorMatchResult match = new m_colorSensor.matchClosestColor(detected);
 
   }
@@ -67,7 +67,7 @@ public class Push extends Command {
   public void end(boolean interrupted) {
 
     m_pusher.controllerOff();
-
+    
   }
 
   @Override

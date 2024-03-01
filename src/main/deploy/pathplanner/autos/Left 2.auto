@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.913752716394322,
+      "y": 6.926593853187707
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Go to speaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Push And Shoot High"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drive From High"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center to speaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Push And Shoot High"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

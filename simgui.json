@@ -6,6 +6,7 @@
       "/Shuffleboard/Joystick/xTranslationModifier/JoystickOptions": "String Chooser",
       "/Shuffleboard/Joystick/yTranslationModifier/JoystickOptions": "String Chooser",
       "/Shuffleboard/Joystick/zRotationModifier/JoystickOptions": "String Chooser",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/JoystickOptions": "String Chooser",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
