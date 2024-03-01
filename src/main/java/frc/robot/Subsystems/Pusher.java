@@ -5,34 +5,30 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.ElementUnits;
 import frc.robot.Constants.PusherConstants;
 
 public class Pusher extends SubsystemBase {
   private VictorSPX m_motorController;
   public final I2C.Port i2c = I2C.Port.kOnboard; 
-  // public final ColorSensorV3 m_sensor;
 
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
-   // sensor = new ColorSensorV3(I2C);
-   // m_encoder = new DutyCycleEncoder(PusherConstants.encoderID);
-
+    m_motorController.configFactoryDefault();
+    // Does this internally set the encoder ticks to 4096?
+    m_motorController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     m_motorController.config_kP(0, .3);
     m_motorController.config_kI(0, 0);
     m_motorController.config_kD(0, 0);
-
-    //  m_sensor = new ColorSensorV3(i2c);
-
-    var kRed = new Color(PusherConstants.kRed1,PusherConstants.kRed2,PusherConstants.kRed3);
+    // Will this work as expected to move 100 ticks forward?
+    // How can I set a conversion factor to set position in inches?
+    m_motorController.set(ControlMode.Position, 100);
 
   }
 
@@ -45,13 +41,42 @@ public class Pusher extends SubsystemBase {
     m_motorController.set(ControlMode.PercentOutput, 0);
   };
 
-  //public double setAngleToTicks(double angle){
-   // return ElementUnits.rotationsToTicks((angle/360) / PusherConstants.kGearRatio, PusherConstants.kPulsePerRev);
+  public void setToPosition(double position){
+    m_motorController.set(ControlMode.Position, position);
+  };
 
- // };
+  public void zeroEncoder(){
+    m_motorController.setSelectedSensorPosition(0);
+  };
 
- // public double getEncoderDistance(){
-   // return m_encoder.getDistance();
+  public Command c_pushContinuously(double speed){
+    return new Command() {
+      @Override
+      public void execute() {
+        controllerOn(speed);
+      }
+      @Override
+      public void end(boolean interrupted) {
+        controllerOff();
+      }
+    };
+  }
 
-  //};
+  public enum Direction {
+    SHOOT, RESET
+  }
+
+  // public Command c_pushToPosition(double position){
+  //   // m_motorController.();
+  //   return new Command() {
+  //     @Override
+  //     public void execute() {
+  //       setToPosition(position);
+  //     }
+  //     @Override
+  //     public void end(boolean interrupted) {
+  //       controllerOff();
+  //     }
+  //   };
+  // }
 }
