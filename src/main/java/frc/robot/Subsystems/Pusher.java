@@ -19,7 +19,7 @@ import frc.robot.Constants.PusherConstants;
 public class Pusher extends SubsystemBase {
   private VictorSPX m_motorController;
   public final I2C.Port i2c = I2C.Port.kOnboard; 
-  public final ColorSensorV3 m_sensor;
+  // public final ColorSensorV3 m_sensor;
 
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
@@ -30,7 +30,7 @@ public class Pusher extends SubsystemBase {
     m_motorController.config_kI(0, 0);
     m_motorController.config_kD(0, 0);
 
-     m_sensor = new ColorSensorV3(i2c);
+    //  m_sensor = new ColorSensorV3(i2c);
 
     var kRed = new Color(PusherConstants.kRed1,PusherConstants.kRed2,PusherConstants.kRed3);
 

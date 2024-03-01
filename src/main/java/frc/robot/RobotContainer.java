@@ -90,7 +90,7 @@ public class RobotContainer {
       return new SequentialCommandGroup(new Shoot(m_shooter, rpm).withTimeout(ShooterConstants.rampUpTime),
               new ParallelCommandGroup(
                 new Shoot(m_shooter, rpm),
-                new Push(m_pusher, pusherSpeed, 0)
+                new Push(m_pusher, pusherSpeed)
               ).withTimeout(timeout)
             );
   }
