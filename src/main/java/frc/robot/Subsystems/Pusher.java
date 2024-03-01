@@ -11,23 +11,28 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ElementUnits;
 import frc.robot.Constants.PusherConstants;
 
 public class Pusher extends SubsystemBase {
-    private VictorSPX m_motorController;
-   // private DutyCycleEncoder m_encoder;
-  
-   
+  private VictorSPX m_motorController;
+  public final I2C.Port i2c = I2C.Port.kOnboard; 
+  public final ColorSensorV3 m_sensor;
+
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
+   // sensor = new ColorSensorV3(I2C);
    // m_encoder = new DutyCycleEncoder(PusherConstants.encoderID);
 
     m_motorController.config_kP(0, .3);
     m_motorController.config_kI(0, 0);
     m_motorController.config_kD(0, 0);
 
+     m_sensor = new ColorSensorV3(i2c);
+
+    var kRed = new Color(PusherConstants.kRed1,PusherConstants.kRed2,PusherConstants.kRed3);
 
   }
 
