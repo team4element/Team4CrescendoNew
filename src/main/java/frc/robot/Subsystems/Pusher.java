@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ElementUnits;
 import frc.robot.Constants.PusherConstants;
@@ -17,7 +18,8 @@ import frc.robot.Constants.PusherConstants;
 public class Pusher extends SubsystemBase {
     private VictorSPX m_motorController;
    // private DutyCycleEncoder m_encoder;
-
+  
+   
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
    // m_encoder = new DutyCycleEncoder(PusherConstants.encoderID);
@@ -25,6 +27,7 @@ public class Pusher extends SubsystemBase {
     m_motorController.config_kP(0, .3);
     m_motorController.config_kI(0, 0);
     m_motorController.config_kD(0, 0);
+
 
   }
 

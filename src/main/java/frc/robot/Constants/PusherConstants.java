@@ -24,4 +24,8 @@ public class PusherConstants {
 
     public static final double kPulsePerRev = 4090;
 
+    public static final double kRed1 = 0.561;
+    public static final double kRed2 = 0.232;
+    public static final double kRed3 = 0.114;
+
 }
