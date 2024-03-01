@@ -34,20 +34,26 @@ public class RobotContainer {
 
   // TODO: Should this go inside drivetrain class or should it be abstracted to
   // RobotState class?
-  private final Telemetry logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
+  private final Telemetry logger;
 
   public RobotContainer() {
-    autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
 
     // NamedCommands.registerCommand("shoot", m_shooter.setMotorRPM(0, false));
     NamedCommands.registerCommand("Push And Shoot High", pushAndShoot(ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh, PusherConstants.highSpeed));
     NamedCommands.registerCommand("Push And Shoot Low", pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherConstants.lowSpeed));
-    NamedCommands.registerCommand("intake",  m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8));
+    NamedCommands.registerCommand("intake",  m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, 0.8).withTimeout(.5));
+
+
+
+    autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
+
+    logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
     m_driveTrain.registerTelemetry(logger::telemeterize);
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
+
   }
 
   public void onInit() {

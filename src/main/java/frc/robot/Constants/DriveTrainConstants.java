@@ -29,7 +29,7 @@ public class DriveTrainConstants{
     public static final double kRotationI = 0.0;
     public static final double kRotationD = 0.0;
 
-    public static final double kDeadZone = 1;
+    public static final double kDeadZone = .8;
     public static final double kSpeedMultiplyer = 4;
 
     public static final Map<Integer, String> IDtoEncoderName = new HashMap<Integer, String>(); 

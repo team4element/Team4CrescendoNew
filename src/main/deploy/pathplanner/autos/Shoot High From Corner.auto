@@ -1,0 +1,38 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7206357269857403,
+      "y": 6.699372255887369
+    },
+    "rotation": -118.44292862436333
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Push And Shoot High"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "From Corner"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
