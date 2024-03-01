@@ -7,38 +7,32 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj.util.Color;
 //import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.ColorSensor;
 //import frc.robot.Constants.PusherConstants;
 import frc.robot.Subsystems.Pusher;
-import com.revrobotics.ColorMatch;
 
 public class Push extends Command {
 
   Pusher m_pusher;
   private double m_speed;
-  //private PIDController pusherPID;
+  // private PIDController pusherPID;
   double m_angle;
-  ColorSensor m_colorSensor;
-  public ColorMatch m_matcher;
 
-   public Color kRed;
+  public Color kRed;
 
+  // private static final double tolerance = .5;
 
-  //private static final double tolerance = .5;
-
-  public Push(Pusher pusher, double speed, double position,ColorSensor colorSensor, CplorMatcher colorMatcher) {
+  public Push(Pusher pusher, double speed, double position) {
     m_pusher = pusher;
     m_speed = speed;
     m_angle = position;
-    m_colorSensor = colorSensor;
-    m_matcher = colorMatcher;
-    
+    // m_colorSensor = colorSensor;
+    // m_matcher = colorMatcher;
 
-   // pusherPID = new PIDController(
-    //  PusherConstants.kP, PusherConstants.kI, PusherConstants.kD);
+    // pusherPID = new PIDController(
+    // PusherConstants.kP, PusherConstants.kI, PusherConstants.kD);
 
-   // pusherPID.setTolerance(
-      //this.m_pusher.setAngleToTicks(tolerance));
+    // pusherPID.setTolerance(
+    // this.m_pusher.setAngleToTicks(tolerance));
 
     addRequirements(this.m_pusher);
   }
@@ -47,24 +41,19 @@ public class Push extends Command {
   public void initialize() {
     this.m_pusher.controllerOn(0);
 
-    m_matcher.addColorMatch(kRed);
+    // m_matcher.addColorMatch(kRed);
   }
-
 
   @Override
   public void execute() {
 
-    //double m_speed = pusherPID.calculate(this.m_pusher.getEncoderDistance(), this.m_angle);
+    // double m_speed = pusherPID.calculate(this.m_pusher.getEncoderDistance(),
+    // this.m_angle);
     this.m_pusher.controllerOn(m_speed);
     // m_pusher.movePusherToAngle(300);
-    Color detected = m_colorSensor.getColor();
-
-    String color;
-    ColorMatchResult match = new m_colorSensor.matchClosestColor(detected);
-
+    // Color detected = m_colorSensor.getColor();
 
   }
-
 
   @Override
   public void end(boolean interrupted) {
@@ -73,14 +62,14 @@ public class Push extends Command {
 
   }
 
-
   @Override
   public boolean isFinished() {
-    
-    if(match.color == kRed){
-      return true;
-    } else {
-      return false;
-    }
+
+    // if(match.color == kRed){
+    // return true;
+    // } else {
+    // return false;
+    // }
+    return false;
   }
 }
