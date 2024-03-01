@@ -27,6 +27,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.LiveDoubleBinding;
@@ -40,9 +41,6 @@ import frc.robot.Constants.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
-    // private double kP = 20;
-    // private double kI = 0;
-    // private double kD = 0;
 
     private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
             DriveTrainConstants.kFrontLeftSteerMotorId,
@@ -128,6 +126,16 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         init();
     }
 
+
+    @Override
+    public void periodic()
+    {
+        System.out.print("Gyro Data: ");
+        System.out.println(m_pigeon2.getYaw()); // WE WANT 0 to be front
+        System.out.println("Was Zero the front?");
+    }
+
+
     private void configurePathPlanner() {
         double driveBaseRadius = 0;
         for (var moduleLocation : m_moduleLocations) {
@@ -136,7 +144,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
         AutoBuilder.configureHolonomic(
                 () -> this.getState().Pose, // Supplier of current robot pose
-                this::seedFieldRelative, // Consumer for seeding pose against auto
+                this::seedFieldRelative,  // Consumer for seeding pose against auto
                 this::getCurrentRobotChassisSpeeds,
                 (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
                 new HolonomicPathFollowerConfig(
