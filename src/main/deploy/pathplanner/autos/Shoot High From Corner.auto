@@ -16,12 +16,6 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "Push And Shoot High"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "From Corner"

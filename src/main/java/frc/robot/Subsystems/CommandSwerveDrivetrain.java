@@ -126,16 +126,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         init();
     }
 
-
-    @Override
-    public void periodic()
-    {
-        System.out.print("Gyro Data: ");
-        System.out.println(m_pigeon2.getYaw()); // WE WANT 0 to be front
-        System.out.println("Was Zero the front?");
-    }
-
-
     private void configurePathPlanner() {
         double driveBaseRadius = 0;
         for (var moduleLocation : m_moduleLocations) {
