@@ -19,18 +19,21 @@ public class ExtendClimb extends Command {
 
   
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_climber.flexMotor(1);
+  }
 
  
   @Override
   public void execute() {
-    m_climber.flexMotor(-5);
+    
   }
 
 
   @Override
   public void end(boolean interrupted) {
     m_climber.motorsOff();
+    m_climber.brake();
   }
 
 
