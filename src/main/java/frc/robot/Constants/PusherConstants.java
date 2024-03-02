@@ -4,7 +4,7 @@ public class PusherConstants {
   
     public static final int motorId = 16;
 
-    public static final double lowSpeed = .1;
+    public static final double lowSpeed = .08;
     public static final double medSpeed = .5;
     public static final double highSpeed = .5;
 

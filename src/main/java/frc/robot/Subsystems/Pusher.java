@@ -17,12 +17,12 @@ import frc.robot.Constants.PusherConstants;
 
 public class Pusher extends SubsystemBase {
   private VictorSPX m_motorController;
-  //private CANcoder m_encoder;
+  private CANcoder m_encoder;
   private double rotations;
   
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
-   // m_encoder = new CANcoder(PusherConstants.encoderID);
+    m_encoder = new CANcoder(PusherConstants.encoderID);
     m_motorController.configFactoryDefault();
    // rotations = m_encoder.getPositionSinceBoot();
     // Does this internally set the encoder ticks to 4096?
@@ -48,6 +48,7 @@ public class Pusher extends SubsystemBase {
 
   };
 
+
   public void setToPosition(double position){
     m_motorController.set(ControlMode.Position, position);
   };
@@ -56,15 +57,9 @@ public class Pusher extends SubsystemBase {
     m_motorController.setSelectedSensorPosition(0);
   };
 
-  public void Encoder(){
+  public CANcoder Encoder(){
 
-   if (rotations == 1)
-   {
-      m_motorController.setSelectedSensorPosition(0);
-   };
-    
-    
-    //the value is in rotations
+    return m_encoder;
 
   };
 
@@ -85,6 +80,11 @@ public class Pusher extends SubsystemBase {
     SHOOT, RESET
   }
 
+  public void checkPosition(){
+
+    m_encoder.setPosition(1);
+  };
+
   // public Command c_pushToPosition(double position){
   //   // m_motorController.();
   //   return new Command() {
@@ -98,5 +98,7 @@ public class Pusher extends SubsystemBase {
   //     }
   //   };
   // }
+
+
 
 }

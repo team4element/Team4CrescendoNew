@@ -51,7 +51,7 @@ public class RobotContainer {
         ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherConstants.lowSpeed));
     NamedCommands.registerCommand("Intake", 
        m_conveyor.c_runBoth(
-      Conveyor.Direction.INTAKE, 0.8));
+      Conveyor.Direction.INTAKE, 0.8).withTimeout(2.5));
     
     //.withTimeout(.5));
 

@@ -42,20 +42,15 @@ public class Push extends Command {
   @Override
   public void initialize() {
     this.m_pusher.controllerOn(0);
+   // m_pusher.Encoder().setPosition(0);
 
   }
 
   @Override
   public void execute() {
 
-    // double m_speed = pusherPID.calculate(this.m_pusher.getEncoderDistance(),
-    // this.m_angle);
     this.m_pusher.controllerOn(m_speed);
-    // System.out.println(m_angle);
-    // m_pusher.movePusherToAngle(300);
-
-    //String color;
-    // ColorMatchResult match = new m_colorSensor.matchClosestColor(detected);
+    
 
   }
 
@@ -69,11 +64,12 @@ public class Push extends Command {
   @Override
   public boolean isFinished() {
 
-    // if(match.color == kRed){
+    // if(m_pusher.Encoder().getPosition() == 0){
     // return true;
     // } else {
     // return false;
     // }
     return false;
+  
   }
 }

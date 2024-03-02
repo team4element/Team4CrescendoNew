@@ -20,7 +20,7 @@ public class ExtendClimb extends Command {
   
   @Override
   public void initialize() {
-    m_climber.flexMotor(1);
+    m_climber.flexMotor(.5);
   }
 
  
