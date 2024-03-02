@@ -29,7 +29,9 @@ public class ExtendClimb extends Command {
 
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_climber.motorsOff();
+  }
 
 
   @Override

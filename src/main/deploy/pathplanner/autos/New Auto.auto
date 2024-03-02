@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8305816611633227,
-      "y": 4.2899274687438265
+      "x": 1.3579149380520985,
+      "y": 5.529873281968787
     },
-    "rotation": 119.98163936884934
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "go far"
+            "pathName": "Drive From High"
           }
         }
       ]

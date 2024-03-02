@@ -10,7 +10,7 @@ import frc.robot.Subsystems.Pusher;
 
 public class Push extends Command {
   Pusher m_pusher;
-  private double m_speed;
+ private double m_speed;
   double m_angle;
 
   public Color kRed;
@@ -19,10 +19,8 @@ public class Push extends Command {
 
   public Push(Pusher pusher, double speed, double position) {
     m_pusher = pusher;
-    m_speed = speed;
+  //  m_speed = speed;
     m_angle = position;
-    // m_colorSensor = colorSensor;
-    // m_matcher = colorMatcher;
 
     // pusherPID = new PIDController(
     // PusherConstants.kP, PusherConstants.kI, PusherConstants.kD);
@@ -30,23 +28,21 @@ public class Push extends Command {
     // pusherPID.setTolerance(
     // this.m_pusher.setAngleToTicks(tolerance));
     // private static final double tolerance = .5;
+      addRequirements(this.m_pusher);
   }
 
-  public Push(Pusher pusher, double speed /* , ColorSensor sensor, ColorMatch match */) {
-    m_pusher = pusher;
-    m_speed = speed;
-    // m_angle = position;
-    // m_colorSensor = sensor;
-    // m_matcher = match;
+ public Push(Pusher pusher, double speed) {
+   m_pusher = pusher;
+   m_speed = speed;
 
-    addRequirements(this.m_pusher);
-  }
+
+   addRequirements(this.m_pusher);
+ }
 
   @Override
   public void initialize() {
     this.m_pusher.controllerOn(0);
 
-    // m_matcher.addColorMatch(kRed);
   }
 
   @Override
@@ -55,8 +51,8 @@ public class Push extends Command {
     // double m_speed = pusherPID.calculate(this.m_pusher.getEncoderDistance(),
     // this.m_angle);
     this.m_pusher.controllerOn(m_speed);
+    // System.out.println(m_angle);
     // m_pusher.movePusherToAngle(300);
-    // Color detected = m_colorSensor.getColor();
 
     //String color;
     // ColorMatchResult match = new m_colorSensor.matchClosestColor(detected);
@@ -67,7 +63,7 @@ public class Push extends Command {
   public void end(boolean interrupted) {
 
     m_pusher.controllerOff();
-    
+
   }
 
   @Override

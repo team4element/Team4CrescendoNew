@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,29 +17,35 @@ import frc.robot.Constants.PusherConstants;
 
 public class Pusher extends SubsystemBase {
   private VictorSPX m_motorController;
-  public final I2C.Port i2c = I2C.Port.kOnboard; 
-
+  //private CANcoder m_encoder;
+  private double rotations;
+  
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
+   // m_encoder = new CANcoder(PusherConstants.encoderID);
     m_motorController.configFactoryDefault();
+   // rotations = m_encoder.getPositionSinceBoot();
     // Does this internally set the encoder ticks to 4096?
-    m_motorController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    m_motorController.config_kP(0, .3);
-    m_motorController.config_kI(0, 0);
-    m_motorController.config_kD(0, 0);
+    // m_motorController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+   // m_motorController.config_kP(0, .3);
+   // m_motorController.config_kI(0, 0.);
+   // m_motorController.config_kD(0, 0);
+
     // Will this work as expected to move 100 ticks forward?
     // How can I set a conversion factor to set position in inches?
-    m_motorController.set(ControlMode.Position, 100);
 
   }
 
   public void controllerOn(double speed){
     m_motorController.set(ControlMode.PercentOutput, speed);
-   // m_encoder.setDistancePerRotation(20);
+    System.out.println(rotations);
+    //m_encoder.setPosition(1);
+    //m_encoder.setDistancePerRotation(20);
   };
 
   public void controllerOff(){
     m_motorController.set(ControlMode.PercentOutput, 0);
+
   };
 
   public void setToPosition(double position){
@@ -47,6 +54,18 @@ public class Pusher extends SubsystemBase {
 
   public void zeroEncoder(){
     m_motorController.setSelectedSensorPosition(0);
+  };
+
+  public void Encoder(){
+
+   if (rotations == 1)
+   {
+      m_motorController.setSelectedSensorPosition(0);
+   };
+    
+    
+    //the value is in rotations
+
   };
 
   public Command c_pushContinuously(double speed){
@@ -79,4 +98,5 @@ public class Pusher extends SubsystemBase {
   //     }
   //   };
   // }
+
 }

@@ -29,7 +29,7 @@ public class PullUp extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    m_climber.motorsOff();
+    m_climber.brake();
   }
 
 

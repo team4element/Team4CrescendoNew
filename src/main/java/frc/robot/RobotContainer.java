@@ -81,7 +81,9 @@ public class RobotContainer {
     ControllerConstants.driveController.a().whileTrue(m_driveTrain.c_cardinalLock(180));
     ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
-    ControllerConstants.driveController.povUp().toggleOnTrue(climb());
+    
+    ControllerConstants.driveController.povDown().whileTrue(new PullUp(m_climber));
+    ControllerConstants.driveController.povUp().whileTrue(new ExtendClimb(m_climber));
 
     ControllerConstants.operatorController.leftBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
@@ -104,11 +106,11 @@ public class RobotContainer {
     return new SequentialCommandGroup(new Shoot(m_shooter, rpm).withTimeout(ShooterConstants.rampUpTime),
         new ParallelCommandGroup(
             new Shoot(m_shooter, rpm),
-            new Push(m_pusher, pusherSpeed, 0)).withTimeout(timeout));
+            new Push(m_pusher, pusherSpeed)).withTimeout(timeout));
   }
 
-  private SequentialCommandGroup climb() {
-    return new SequentialCommandGroup(new ExtendClimb(m_climber), new PullUp(m_climber));
-  }
+  //private SequentialCommandGroup climb() {
+ //   return new SequentialCommandGroup( new ExtendClimb(m_climber).withTimeout(5), new PullUp(m_climber));
+ // }
 
 }
