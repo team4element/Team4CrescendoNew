@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Commands.ExtendClimb;
+import frc.robot.Commands.MoveUntil;
 import frc.robot.Commands.PullUp;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
@@ -54,7 +55,6 @@ public class RobotContainer {
       Conveyor.Direction.INTAKE, 0.8).withTimeout(2.5));
     
     //.withTimeout(.5));
-
     autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
 
     logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
@@ -68,11 +68,12 @@ public class RobotContainer {
 
   public void onAutonInit() {
     m_driveTrain.seedFieldRelative();
-    m_pusher.zeroEncoder();
+    // m_pusher.zeroEncoder();
   }
 
   public void onTeleopInit() {
-    // m_driveTrain.seedFieldRelative();
+    m_driveTrain.seedFieldRelative();
+    m_pusher.Encoder().setPosition(0);
   }
 
   private void configureBindings() {
@@ -95,7 +96,9 @@ public class RobotContainer {
         pushAndShoot(ShooterConstants.rmpMedium, ShooterConstants.timeoutMedium, PusherConstants.medSpeed));
     ControllerConstants.operatorController.a()
         .toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherConstants.lowSpeed));
-    ControllerConstants.operatorController.x().whileTrue(new Shoot(m_shooter, ShooterConstants.rmpReverse));
+    ControllerConstants.operatorController.x().whileTrue(new Shoot(m_shooter, ShooterConstants.rmpHigh));
+    ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.highSpeed));
+    ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher, -PusherConstants.lowSpeed));
   }
 
   public Command getAutonomousCommand() {
@@ -107,7 +110,10 @@ public class RobotContainer {
         new ParallelCommandGroup(
             new Shoot(m_shooter, rpm),
             new Push(m_pusher, pusherSpeed)).withTimeout(timeout));
+            /*new MoveUntil(m_pusher));*/
   }
+
+ 
 
   //private SequentialCommandGroup climb() {
  //   return new SequentialCommandGroup( new ExtendClimb(m_climber).withTimeout(5), new PullUp(m_climber));

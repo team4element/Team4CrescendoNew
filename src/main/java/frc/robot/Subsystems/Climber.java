@@ -37,6 +37,9 @@ public class Climber extends SubsystemBase {
     m_leftLeader.set(0);
   }
 
+  /**
+   * This function turns the motors into break mode
+   */
   public void brake(){
 
     m_rightFollower.setNeutralMode(NeutralModeValue.Brake);

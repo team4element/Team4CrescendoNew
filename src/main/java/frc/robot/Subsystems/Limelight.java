@@ -11,7 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase {
 
   NetworkTable limelightNT = NetworkTableInstance.getDefault().getTable("Limelight");
+//limelight helper ctre examples - swerve with pathplanner
 
+//drivve apply request supplier robot centric, withRotationaRate(vision,getaprilTagTX())
+//vision has commands returns limelight values
+//auto-aline to button
   double getAngle;
   double getDistance;
  
