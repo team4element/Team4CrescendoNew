@@ -8,24 +8,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Pusher;
 
 public class Push extends Command {
-  Pusher m_pusher;
- private double m_speed;
-  double m_angle;
+  private Pusher m_pusher;
+  private double m_speed;
+  private double m_angle;
 
   // private static final double tolerance = .5;
 
   public Push(Pusher pusher, double speed, double position) {
     m_pusher = pusher;
-  //  m_speed = speed;
+    m_speed = speed;
     m_angle = position;
-
-    // pusherPID = new PIDController(
-    // PusherConstants.kP, PusherConstants.kI, PusherConstants.kD);
-
-    // pusherPID.setTolerance(
-    // this.m_pusher.setAngleToTicks(tolerance));
-    // private static final double tolerance = .5;
-      addRequirements(this.m_pusher);
+    
+    addRequirements(this.m_pusher);
   }
 
  public Push(Pusher pusher, double speed) {
@@ -38,27 +32,20 @@ public class Push extends Command {
 
   @Override
   public void initialize() {
-    this.m_pusher.controllerOn(0);
-    m_pusher.Encoder().setPosition(0);
-    // m_pusher.Encoder().wait(10,0);
-   
-
+    this.m_pusher.setMotor(0);
+    m_pusher.zeroEncoder(); 
   }
 
   @Override
   public void execute() {
-
-    this.m_pusher.controllerOn(m_speed);
+    this.m_pusher.setMotor(m_speed);
   
   }
 
   @Override
   public void end(boolean interrupted) {
-
     m_pusher.controllerOff();
-    //m_pusher.moveUntilBreak(m_speed);
     
-
   }
 
   @Override

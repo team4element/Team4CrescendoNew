@@ -63,21 +63,24 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
- }
+    // printEncoderError();
+  }
 
   public void setMotorRPM(double setpoint, boolean PID) {
     if(PID)
     {
        mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
-      //  System.out.print("Left Error:");
-      //  System.out.print(mLeader.getClosedLoopError());
-      //  System.out.print("| Right Error:");
-      //  System.out.println(m_follower.getClosedLoopError());
     }
     else
     {
       mLeader.set(setpoint);
     }
+ }
+
+ public void printEncoderError()
+ {
+    System.out.print("Error:");
+    System.out.print(mLeader.getClosedLoopError());
  }
 
 public void motorsOff()

@@ -27,7 +27,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.LiveDoubleBinding;
@@ -101,19 +100,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             .withDeadband(DriveTrainConstants.kDeadZone)
             .withRotationalDeadband(DriveTrainConstants.kDeadZone)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
-    // TODO: Need to tune
-    // LiveDoubleBinding rotationPBinding = new LiveDoubleBinding("Swerve", "rotation/pBinding", 10.0, (event) -> {
-    //     fieldCentricFacingAngle.HeadingController.setP(event.valueData.value.getDouble());
-    // });
-
-    // LiveDoubleBinding rotationIBinding = new LiveDoubleBinding("Swerve", "rotation/iBinding", 0.0, (event) -> {
-    //     fieldCentricFacingAngle.HeadingController.setI(event.valueData.value.getDouble());
-    // });
-
-    // LiveDoubleBinding rotationDBinding = new LiveDoubleBinding("Swerve", "rotation/dBinding", 0.0, (event) -> {
-    //     fieldCentricFacingAngle.HeadingController.setD(event.valueData.value.getDouble());
-    // });
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
             SwerveModuleConstants... modules) {

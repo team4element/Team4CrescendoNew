@@ -12,9 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Commands.ExtendClimb;
-import frc.robot.Commands.MoveUntil;
-import frc.robot.Commands.PullUp;
+import frc.robot.Commands.Climb;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
 import frc.robot.Constants.ControllerConstants;
@@ -39,7 +37,7 @@ public class RobotContainer {
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
 
-  private final Telemetry logger;
+  // private final Telemetry logger;
 
   public RobotContainer() {
 
@@ -57,10 +55,10 @@ public class RobotContainer {
     //.withTimeout(.5));
     autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
 
-    logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
+    // logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
-    m_driveTrain.registerTelemetry(logger::telemeterize);
+    // m_driveTrain.registerTelemetry(logger::telemeterize);
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
 
@@ -68,12 +66,12 @@ public class RobotContainer {
 
   public void onAutonInit() {
     m_driveTrain.seedFieldRelative();
-    // m_pusher.zeroEncoder();
+    m_pusher.zeroEncoder();
   }
 
   public void onTeleopInit() {
     m_driveTrain.seedFieldRelative();
-    m_pusher.Encoder().setPosition(0);
+    m_pusher.zeroEncoder();
   }
 
   private void configureBindings() {
@@ -83,8 +81,8 @@ public class RobotContainer {
     ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
     
-    ControllerConstants.driveController.povDown().whileTrue(new PullUp(m_climber));
-    ControllerConstants.driveController.povUp().whileTrue(new ExtendClimb(m_climber));
+    ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, -1));
+    ControllerConstants.driveController.povUp().whileTrue(new Climb(m_climber, 1));
 
     ControllerConstants.operatorController.leftBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
@@ -112,11 +110,4 @@ public class RobotContainer {
             new Push(m_pusher, pusherSpeed)).withTimeout(timeout));
             /*new MoveUntil(m_pusher));*/
   }
-
- 
-
-  //private SequentialCommandGroup climb() {
- //   return new SequentialCommandGroup( new ExtendClimb(m_climber).withTimeout(5), new PullUp(m_climber));
- // }
-
 }

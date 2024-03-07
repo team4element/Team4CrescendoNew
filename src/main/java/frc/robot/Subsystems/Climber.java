@@ -4,13 +4,10 @@
 
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
@@ -26,7 +23,7 @@ public class Climber extends SubsystemBase {
     m_rightFollower.setControl(new Follower(m_leftLeader.getDeviceID(), true));
   }
 
-  public void flexMotor(double speed) {
+  public void setMotors(double speed) {
 
       m_leftLeader.set(speed);
   
@@ -46,24 +43,4 @@ public class Climber extends SubsystemBase {
     m_leftLeader.setNeutralMode(NeutralModeValue.Brake);
 
   };
-
- // public Command c_PullUp(double power){
- //   return new Command() {
-  // //    @Override
-  //     public void initialize() {
-  //       flexMotor(power);
-  //     }
-  //   };
-  //     @Override
-  //     public void end(boolean interrupted) {
-  //       motorsOff();
-  //       brake();
-  //     };
-    
-  //     @Override
-  //     public boolean isFinished() {
-  //       return false;
-  //     }
-
-  // }
 }
