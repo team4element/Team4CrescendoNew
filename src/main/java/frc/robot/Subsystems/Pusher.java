@@ -34,12 +34,10 @@ public class Pusher extends SubsystemBase {
 
   public void setMotor(double speed){
     m_motorController.set(ControlMode.PercentOutput, speed);
-
   };
 
   public void controllerOff(){
     m_motorController.set(ControlMode.PercentOutput, 0);
-
   };
   
   public void setToPosition(double position){
@@ -52,7 +50,7 @@ public class Pusher extends SubsystemBase {
 
   public double getEncoderPostion()
   {
-    return m_encoder.getPosition().getValue();
+    return m_encoder.getAbsolutePosition().getValue() - PusherConstants.encoderOffset;
   }
 
   public Command c_pushContinuously(double speed){
@@ -70,6 +68,6 @@ public class Pusher extends SubsystemBase {
 
   @Override
   public void periodic(){
-    System.out.println(m_encoder.getPosition().getValueAsDouble() * 100);
+    System.out.println("Encoder:" + getEncoderPostion());
   }
 }

@@ -34,22 +34,6 @@ public class Shooter extends SubsystemBase {
     motorConfig.kI = 0;    // no output for integrated error
     motorConfig.kD = 0;    // no output for error derivative
 
-    // pBinding = new LiveDoubleBinding("Shooter", "P", 0.5, (event) -> {
-    //   leftMotorConfig.withKP(event.valueData.value.getDouble());
-    // });
-
-    // iBinding = new LiveDoubleBinding("Shooter", "I", 0.0, (event) -> {
-    //   leftMotorConfig.withKI(event.valueData.value.getDouble());
-    // });
-
-    // dBinding = new LiveDoubleBinding("Shooter", "D", 0.25, (event) -> {
-    //   leftMotorConfig.withKD(event.valueData.value.getDouble());
-    // });
-
-    // fBinding = new LiveDoubleBinding("Shooter", "F", 0.1, (event) -> {
-    //   m_kFSpeaker = event.valueData.value.getDouble();
-    // });
-
     m_request = new VelocityVoltage(0).withSlot(0);
 
     mLeader.getConfigurator().apply(motorConfig);

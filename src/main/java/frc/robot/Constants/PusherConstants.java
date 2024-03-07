@@ -22,4 +22,6 @@ public class PusherConstants {
     public static final double kRed2 = 0.232;
     public static final double kRed3 = 0.114;
 
+    public static final double encoderOffset = 0.402099609375;
+
 }
