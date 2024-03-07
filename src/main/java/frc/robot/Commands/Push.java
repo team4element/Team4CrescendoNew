@@ -24,27 +24,23 @@ public class Push extends Command {
    m_pusher = pusher;
    m_speed = speed;
 
-
-   addRequirements(this.m_pusher);
+   addRequirements(m_pusher);
  }
 
   @Override
   public void initialize() {
-    this.m_pusher.setMotor(0);
+    m_pusher.setMotor(0);
     m_pusher.zeroEncoder();
-
-
   }
 
   @Override
   public void execute() {
-    this.m_pusher.setMotor(m_speed);
+    m_pusher.setMotor(m_speed);
   }
 
   @Override
   public void end(boolean interrupted) {
     m_pusher.controllerOff();
-
   }
 
   @Override

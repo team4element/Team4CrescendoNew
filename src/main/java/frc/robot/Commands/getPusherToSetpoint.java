@@ -13,13 +13,13 @@ public class getPusherToSetpoint extends Command {
   private Pusher m_pusher;
   private double m_position;
   private double m_tolerance;
-  private int    m_resets;
+  private int    m_roatations;
 
 
   public getPusherToSetpoint(Pusher pusher) {
     
     m_pusher = pusher;
-    m_resets = 0;
+    m_roatations = 0;
     m_tolerance = .2;
     
     
@@ -40,7 +40,7 @@ public class getPusherToSetpoint extends Command {
 
     if(m_position < m_tolerance  && m_position > -m_tolerance)
     {
-      m_resets++;
+      m_roatations++;
     }
   }
 
@@ -53,6 +53,6 @@ public class getPusherToSetpoint extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_resets == 4;
+    return m_roatations == 4;
     }
 }
