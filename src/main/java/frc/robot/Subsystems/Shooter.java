@@ -70,6 +70,10 @@ public class Shooter extends SubsystemBase {
     if(PID)
     {
        mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     }
     else
     {

@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PusherConstants;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Pusher extends SubsystemBase {
   
@@ -43,11 +44,21 @@ public class Pusher extends SubsystemBase {
   };
   
   public void setToPosition(double position){
+
     m_motorController.set(ControlMode.Position, position);
+
   };
 
+<<<<<<< Updated upstream
   public void zeroEncoder(){
     m_encoder.setPosition(0);
+=======
+  
+
+
+  public CANcoder Encoder(){
+    return m_encoder;
+>>>>>>> Stashed changes
   }
 
   public double getEncoderPostion()
@@ -68,8 +79,78 @@ public class Pusher extends SubsystemBase {
     };
   }
 
+<<<<<<< Updated upstream
   @Override
   public void periodic(){
     System.out.println(m_encoder.getPosition().getValueAsDouble() * 100);
   }
 }
+=======
+  public enum Direction {
+    SHOOT, RESET
+  }
+
+  // public void moveUntilBreak(double speed)
+  // {
+  //   if(m_beamBreakInput.get())
+  //   {
+  //     controllerOff();
+  //   }
+  //   else
+  //   {
+  //     controllerOn(speed);
+  //   }
+  // }
+
+  // public DigitalOutput getBeamOutput()
+  // {
+  //   return m_beamDigitalOutput;
+  // }
+
+  // public Command c_pushToPosition(double position){
+  //   // m_motorController.();
+  //   return new Command() {
+  //     @Override
+  //     public void execute() {
+  //       setToPosition(position);
+  //     }
+  //     @Override
+  //     public void end(boolean interrupted) {
+  //       controllerOff();
+  //     }
+  //   };
+  // }
+
+
+
+//   public Command beamBreakOn(double dutyCycle)
+//   {
+//     return new Command() {
+//       @Override
+//       public void initialize(){
+//         m_beamDigitalOutput.enablePPS(dutyCycle);
+//       }
+//     };
+//   }
+
+//   public Command beamBreakOff()
+//   {
+//     return new Command(){
+//       @Override
+//       public void initialize(){
+//         m_beamDigitalOutput.disablePWM();
+//       }
+//   };
+
+
+// }
+
+//  public SequentialCommandGroup toggleBeamBreak(){
+//     return new SequentialCommandGroup(
+//       beamBreakOff().withTimeout(.5), beamBreakOn(.5));
+
+
+//   }
+
+  }
+>>>>>>> Stashed changes
