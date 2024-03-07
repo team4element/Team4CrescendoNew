@@ -10,14 +10,14 @@ import frc.robot.Subsystems.Pusher;
 public class Push extends Command {
   private Pusher m_pusher;
   private double m_speed;
-  private double m_angle;
+  // private double m_position;
 
   // private static final double tolerance = .5;
 
   public Push(Pusher pusher, double speed, double position) {
     m_pusher = pusher;
     m_speed = speed;
-    m_angle = position;
+    // m_position = position;
     
     addRequirements(this.m_pusher);
   }
