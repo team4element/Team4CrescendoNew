@@ -4,18 +4,21 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Pusher;
 
 public class Push extends Command {
   private Pusher m_pusher;
   private double m_speed;
-  // private double m_position;
+  private double m_goal;
+  private double error;
 
   public Push(Pusher pusher, double speed, double position) {
     m_pusher = pusher;
     m_speed = speed;
-    // m_position = position;
+    m_goal = position;
+    //error = m_goal - m_pusher.zeroEncoder();
 
     addRequirements(this.m_pusher);
   }
@@ -39,6 +42,12 @@ public class Push extends Command {
   @Override
   public void execute() {
     this.m_pusher.setMotor(m_speed);
+    m_pusher.getEncoderPostion();
+    /*loop to check if the position reads as the desired
+    if not, then apply power by the error multiplied with
+    the pid value*/
+
+  
   }
 
   @Override
