@@ -35,7 +35,7 @@ public class getPusherToSetpoint extends Command {
   @Override
   public void execute() {
     
-    m_position = m_pusher.getEncoderPostion();
+    m_position = m_pusher.getEncoderPosition();
     m_pusher.setMotor(.2);
 
     if(m_position < m_tolerance  && m_position > -m_tolerance)

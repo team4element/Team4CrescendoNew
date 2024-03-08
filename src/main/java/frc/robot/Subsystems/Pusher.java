@@ -8,10 +8,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.hardware.CANcoder;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PusherConstants;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Pusher extends SubsystemBase {
   
@@ -22,6 +22,7 @@ public class Pusher extends SubsystemBase {
   private VictorSPX m_motorController;
   private CANcoder m_encoder;
 
+
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
     m_encoder = new CANcoder(PusherConstants.encoderID);
@@ -31,34 +32,31 @@ public class Pusher extends SubsystemBase {
     m_motorController.config_kI(0, 0.);
     m_motorController.config_kD(0, 0);
   }
-  
+
   public void setMotor(double speed){
     m_motorController.set(ControlMode.PercentOutput, speed);
+
   };
+  
 
   public void controllerOff(){
     m_motorController.set(ControlMode.PercentOutput, 0);
+
   };
   
   public void setToPosition(double position){
+
     m_motorController.set(ControlMode.Position, position);
+
   };
 
   public void zeroEncoder(){
     m_encoder.setPosition(0);
   }
 
-  public double getEncoderPostion()
-  {
-    return (m_encoder.getAbsolutePosition().getValue()
-     - PusherConstants.encoderOffset); 
-    
-
-     /*maybe in robotContainer, when we call the function, we can
-      pass through a desire position that will later be used to 
-      calculate the error and have different values for each goal zone 
-      ex. amp will need to reach 360 degrees while speaker needs 3 times
-      that ammount. */ 
+  public double getEncoderPosition(){
+    return ((m_encoder.getAbsolutePosition().getValueAsDouble()
+    -PusherConstants.encoderOffset)*100);
   }
 
   public Command c_pushContinuously(double speed){
@@ -76,6 +74,6 @@ public class Pusher extends SubsystemBase {
 
   @Override
   public void periodic(){
-    System.out.println("Encoder:" + getEncoderPostion());
+    System.out.println("Original encoder value: " + (m_encoder.getAbsolutePosition().getValueAsDouble() -PusherConstants.encoderOffset)* 100);
   }
 }

@@ -95,8 +95,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.a()
         .toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherConstants.lowSpeed));
     ControllerConstants.operatorController.x().whileTrue(new Shoot(m_shooter, ShooterConstants.rmpHigh));
-    ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.highSpeed));
-    ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher, -PusherConstants.lowSpeed));
+    ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, -PusherConstants.highSpeed));
+    ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
   }
 
   public Command getAutonomousCommand() {
