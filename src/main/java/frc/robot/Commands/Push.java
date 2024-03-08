@@ -53,7 +53,8 @@ public class Push extends Command {
   @Override
   public void execute() {
     this.m_pusher.setMotor(m_speed);
-    System.out.print("Encoder placement:" + m_pusher.getEncoderPosition());
+    m_pusher.getEncoderPosition();
+    m_pusher.Encoder().setPosition(5);
   
   }
 
@@ -65,9 +66,11 @@ public class Push extends Command {
 
   @Override
   public boolean isFinished() {
+   //if (m_pusher.getEncoderPosition() > -40.33||m_pusher.getEncoderPosition() < -42.7){
+    //  return false;
 
-   
-    return false;
+   // };
+   return false;
 
   }
 }
