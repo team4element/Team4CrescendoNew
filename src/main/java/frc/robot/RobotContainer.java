@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
+import frc.robot.Commands.pushToPosition;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ConveyorConstants;
 import frc.robot.Constants.PusherConstants;
@@ -72,6 +73,7 @@ public class RobotContainer {
   public void onTeleopInit() {
     m_driveTrain.seedFieldRelative();
     m_pusher.zeroEncoder();
+    new pushToPosition(m_pusher);
   }
 
   private void configureBindings() {

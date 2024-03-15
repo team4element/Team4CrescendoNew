@@ -38,6 +38,7 @@ public class Push extends Command {
   public void initialize() {
    m_pusher.setMotor(0);
    m_pusher.zeroEncoder(); 
+<<<<<<< Updated upstream
     
 
    // try {
@@ -48,13 +49,20 @@ public class Push extends Command {
    // }
    
 
+=======
+   
+>>>>>>> Stashed changes
   }
 
   @Override
   public void execute() {
     this.m_pusher.setMotor(m_speed);
+<<<<<<< Updated upstream
     m_pusher.getEncoderPosition();
     m_pusher.Encoder().setPosition(5);
+=======
+    
+>>>>>>> Stashed changes
   
   }
 
@@ -66,11 +74,16 @@ public class Push extends Command {
 
   @Override
   public boolean isFinished() {
+<<<<<<< Updated upstream
    //if (m_pusher.getEncoderPosition() > -40.33||m_pusher.getEncoderPosition() < -42.7){
     //  return false;
 
    // };
    return false;
+=======
+
+  return m_pusher.getEncoderPostion() > -0.37||m_pusher.getEncoderPostion() < -0.39;
+>>>>>>> Stashed changes
 
   }
 }
