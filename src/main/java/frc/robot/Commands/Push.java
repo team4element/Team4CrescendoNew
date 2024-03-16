@@ -11,10 +11,15 @@ import frc.robot.Subsystems.Pusher;
 public class Push extends Command {
  private Pusher m_pusher;
  private double m_speed;
+ private double m_goal;
+ private double error;
+ 
 
   public Push(Pusher pusher, double speed) {
     m_pusher = pusher;
     m_speed = speed;
+    m_goal = position;
+    //error = m_goal - m_pusher.zeroEncoder();
     
     addRequirements(m_pusher);
   }
@@ -23,6 +28,7 @@ public class Push extends Command {
   public void initialize() {
    m_pusher.setMotor(0);
    m_pusher.zeroEncoder(); 
+   
   }
 
   @Override
@@ -37,6 +43,8 @@ public class Push extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+
+  return m_pusher.getEncoderPosition() > -0.37||m_pusher.getEncoderPosition() < -0.39;
+
   }
 }
