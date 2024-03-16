@@ -11,17 +11,12 @@ import frc.robot.Subsystems.Pusher;
 public class Push extends Command {
  private Pusher m_pusher;
  private double m_speed;
- private double m_goal;
- private double error;
- 
 
   // private static final double tolerance = .5;
 
   public Push(Pusher pusher, double speed, double position) {
     m_pusher = pusher;
     m_speed = speed;
-    m_goal = position;
-    //error = m_goal - m_pusher.zeroEncoder();
     
     addRequirements(this.m_pusher);
   }
@@ -38,31 +33,11 @@ public class Push extends Command {
   public void initialize() {
    m_pusher.setMotor(0);
    m_pusher.zeroEncoder(); 
-<<<<<<< Updated upstream
-    
-
-   // try {
-   //   m_pusher.Encoder().wait(1);
-    //} catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-   //   e.printStackTrace();
-   // }
-   
-
-=======
-   
->>>>>>> Stashed changes
   }
 
   @Override
   public void execute() {
     this.m_pusher.setMotor(m_speed);
-<<<<<<< Updated upstream
-    m_pusher.getEncoderPosition();
-    m_pusher.Encoder().setPosition(5);
-=======
-    
->>>>>>> Stashed changes
   
   }
 
@@ -74,16 +49,6 @@ public class Push extends Command {
 
   @Override
   public boolean isFinished() {
-<<<<<<< Updated upstream
-   //if (m_pusher.getEncoderPosition() > -40.33||m_pusher.getEncoderPosition() < -42.7){
-    //  return false;
-
-   // };
-   return false;
-=======
-
-  return m_pusher.getEncoderPostion() > -0.37||m_pusher.getEncoderPostion() < -0.39;
->>>>>>> Stashed changes
-
+    return false;
   }
 }

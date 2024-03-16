@@ -89,15 +89,13 @@ public class Pusher extends SubsystemBase {
 
   @Override
   public void periodic(){
-<<<<<<< Updated upstream
     System.out.println("Original encoder value: " + (m_encoder.getAbsolutePosition().getValueAsDouble() -PusherConstants.encoderOffset)* 100);
-=======
+    
     if(m_encoder.getPosition().getValueAsDouble() == 0)
       ++m_resets;
     SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Encoder Absolute Position", m_encoder.getAbsolutePosition().getValueAsDouble());
     SmartDashboard.putNumber("resets", m_resets);
 
->>>>>>> Stashed changes
   }
 }
