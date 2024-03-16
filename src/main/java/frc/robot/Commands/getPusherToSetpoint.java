@@ -36,12 +36,7 @@ public class getPusherToSetpoint extends Command {
   public void execute() {
     
     m_position = m_pusher.getEncoderPosition();
-    m_pusher.setMotor(.2);
-
-    if(m_position < m_tolerance  && m_position > -m_tolerance)
-    {
-      m_resets++;
-    }
+    m_pusher.setToPosition(m_position);
   }
 
   // Called once the command ends or is interrupted.
@@ -53,6 +48,6 @@ public class getPusherToSetpoint extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_resets == 4;
+    return false;
     }
 }

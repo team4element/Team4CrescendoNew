@@ -5,6 +5,9 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -23,20 +26,21 @@ public class Pusher extends SubsystemBase {
     SHOOT, RESET
   }
 
-  private VictorSPX m_motorController;
+  private TalonSRX m_motorController;
   private CANcoder m_encoder;
   private int m_resets;
 
 
   public Pusher() {
-    m_motorController = new VictorSPX(PusherConstants.motorId);
+    m_motorController = new TalonSRX(PusherConstants.motorId);
     m_encoder = new CANcoder(PusherConstants.encoderID);
 
     m_motorController.configFactoryDefault();
+    m_motorController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     m_motorController.config_kP(0, .3);
     m_motorController.config_kI(0, 0);
     m_motorController.config_kD(0, 0);
-
+    
     CANcoderConfiguration configs = new CANcoderConfiguration();
 
     configs.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
@@ -52,7 +56,7 @@ public class Pusher extends SubsystemBase {
     m_motorController.set(ControlMode.PercentOutput, speed);
 
   };
-  
+
 
   public void controllerOff(){
     m_motorController.set(ControlMode.PercentOutput, 0);
@@ -90,7 +94,7 @@ public class Pusher extends SubsystemBase {
   @Override
   public void periodic(){
     System.out.println("Original encoder value: " + (m_encoder.getAbsolutePosition().getValueAsDouble() -PusherConstants.encoderOffset)* 100);
-    
+
     if(m_encoder.getPosition().getValueAsDouble() == 0)
       ++m_resets;
     SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition().getValueAsDouble());
