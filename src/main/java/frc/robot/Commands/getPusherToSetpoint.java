@@ -12,16 +12,11 @@ public class getPusherToSetpoint extends Command {
 
   private Pusher m_pusher;
   private double m_position;
-  private double m_tolerance;
-  private int    m_resets;
 
 
   public getPusherToSetpoint(Pusher pusher) {
     
     m_pusher = pusher;
-    m_resets = 0;
-    m_tolerance = .2;
-    
     
     addRequirements(m_pusher);
   }

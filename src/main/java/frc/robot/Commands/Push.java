@@ -12,22 +12,12 @@ public class Push extends Command {
  private Pusher m_pusher;
  private double m_speed;
 
-  // private static final double tolerance = .5;
-
-  public Push(Pusher pusher, double speed, double position) {
+  public Push(Pusher pusher, double speed) {
     m_pusher = pusher;
     m_speed = speed;
     
-    addRequirements(this.m_pusher);
+    addRequirements(m_pusher);
   }
-
- public Push(Pusher pusher, double speed) {
-   m_pusher = pusher;
-   m_speed = speed;
-
-
-   addRequirements(this.m_pusher);
- }
 
   @Override
   public void initialize() {
@@ -37,14 +27,12 @@ public class Push extends Command {
 
   @Override
   public void execute() {
-    this.m_pusher.setMotor(m_speed);
-  
+    m_pusher.setMotor(m_speed);
   }
 
   @Override
   public void end(boolean interrupted) {
     m_pusher.controllerOff();
-    
   }
 
   @Override
