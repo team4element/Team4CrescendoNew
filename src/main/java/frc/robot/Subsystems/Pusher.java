@@ -6,7 +6,6 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -26,13 +25,13 @@ public class Pusher extends SubsystemBase {
     SHOOT, RESET
   }
 
-  private TalonSRX m_motorController;
+  private VictorSPX m_motorController;
   private CANcoder m_encoder;
   private int m_resets;
 
 
   public Pusher() {
-    m_motorController = new TalonSRX(PusherConstants.motorId);
+    m_motorController = new VictorSPX(PusherConstants.motorId);
     m_encoder = new CANcoder(PusherConstants.encoderID);
 
     m_motorController.configFactoryDefault();
