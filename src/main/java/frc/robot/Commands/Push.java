@@ -11,15 +11,10 @@ import frc.robot.Subsystems.Pusher;
 public class Push extends Command {
  private Pusher m_pusher;
  private double m_speed;
- private double m_goal;
- private double error;
- 
 
   public Push(Pusher pusher, double speed) {
     m_pusher = pusher;
     m_speed = speed;
-    m_goal = position;
-    //error = m_goal - m_pusher.zeroEncoder();
     
     addRequirements(m_pusher);
   }
