@@ -93,7 +93,9 @@ public class Pusher extends SubsystemBase {
 
   @Override
   public void periodic(){
-    System.out.println("Original encoder value: " + (m_encoder.getAbsolutePosition().getValueAsDouble() -PusherConstants.encoderOffset)* 100);
+    // System.out.println("Original encoder value: " + (m_encoder.getAbsolutePosition().getValueAsDouble() -PusherConstants.encoderOffset)* 100);
+    System.out.println("Absolute pos: " + (m_encoder.getAbsolutePosition().getValue()));
+
 
     if(m_encoder.getPosition().getValueAsDouble() == 0)
       ++m_resets;
