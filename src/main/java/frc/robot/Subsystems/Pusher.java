@@ -55,6 +55,6 @@ public class Pusher extends SubsystemBase {
   @Override
   public void periodic(){
     System.out.println("Encoder:" + getEncoderPostion());
-    System.out.println("Sensor:" + m_motorController.getSelectedSensorPosition());
+    System.out.println("Victor: " + m_motorController.getSelectedSensorPosition());
   }
 }

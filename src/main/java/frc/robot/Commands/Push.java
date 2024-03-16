@@ -11,10 +11,12 @@ import frc.robot.Subsystems.Pusher;
 public class Push extends Command {
  private Pusher m_pusher;
  private double m_speed;
+ 
 
   public Push(Pusher pusher, double speed) {
     m_pusher = pusher;
     m_speed = speed;
+   
     
     addRequirements(m_pusher);
   }
