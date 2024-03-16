@@ -27,7 +27,6 @@ public class Pusher extends SubsystemBase {
 
   private VictorSPX m_motorController;
   private CANcoder m_encoder;
-  private int m_resets;
 
 
   public Pusher() {
@@ -40,15 +39,9 @@ public class Pusher extends SubsystemBase {
     m_motorController.config_kI(0, 0);
     m_motorController.config_kD(0, 0);
     
-    CANcoderConfiguration configs = new CANcoderConfiguration();
 
-    configs.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    configs.MagnetSensor.MagnetOffset = 0.402099609375;
-    configs.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
 
-    m_encoder.getConfigurator().apply(configs);
 
-    m_resets = 0;
   }
 
   public void setMotor(double speed){
@@ -73,8 +66,7 @@ public class Pusher extends SubsystemBase {
   }
 
   public double getEncoderPosition(){
-    return ((m_encoder.getAbsolutePosition().getValueAsDouble()
-    -PusherConstants.encoderOffset)*100);
+    return m_encoder.getAbsolutePosition().getValue();
   }
 
   public Command c_pushContinuously(double speed){
@@ -96,11 +88,11 @@ public class Pusher extends SubsystemBase {
     System.out.println("Absolute pos: " + (m_encoder.getAbsolutePosition().getValue()));
 
 
-    if(m_encoder.getPosition().getValueAsDouble() == 0)
-      ++m_resets;
-    SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("Encoder Absolute Position", m_encoder.getAbsolutePosition().getValueAsDouble());
-    SmartDashboard.putNumber("resets", m_resets);
+    // if(m_encoder.getPosition().getValueAsDouble() == 0)
+    //   ++m_resets;
+    // SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition().getValueAsDouble());
+    // SmartDashboard.putNumber("Encoder Absolute Position", m_encoder.getAbsolutePosition().getValueAsDouble());
+    // SmartDashboard.putNumber("resets", m_resets);
 
   }
 }
