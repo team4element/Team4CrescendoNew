@@ -28,9 +28,7 @@ public class getPusherToSetpoint extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-    m_position = m_pusher.getEncoderPosition();
+  public void execute() {    
     m_pusher.setToPosition(m_position);
   }
 

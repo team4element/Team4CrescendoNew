@@ -38,8 +38,6 @@ public class Push extends Command {
 
   @Override
   public boolean isFinished() {
-
-  return m_pusher.getEncoderPosition() > -0.37||m_pusher.getEncoderPosition() < -0.39;
-
+    return false;
   }
 }
