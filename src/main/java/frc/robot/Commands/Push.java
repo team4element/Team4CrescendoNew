@@ -30,7 +30,7 @@ public class Push extends Command {
 
   @Override
   public void execute() {
-    m_pusher.setToPosition(m_setpoint, 0); //TODO: tune tolerance
+    m_pusher.setToPosition(m_setpoint, 0.5); //TODO: tune tolerance
   }
 
   @Override

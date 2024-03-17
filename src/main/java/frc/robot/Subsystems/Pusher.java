@@ -24,7 +24,7 @@ public class Pusher extends SubsystemBase {
 
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
-    m_pot = new AnalogPotentiometer(PusherConstants.potID, 360, 0);
+    m_pot = new AnalogPotentiometer(PusherConstants.potID, 360, 180);
 
     m_motorController.configFactoryDefault();
     m_motorController.config_kP(0, .3);

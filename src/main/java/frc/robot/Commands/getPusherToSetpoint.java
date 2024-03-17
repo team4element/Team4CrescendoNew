@@ -29,7 +29,7 @@ public class getPusherToSetpoint extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {    
-    m_pusher.setToPosition(m_position);
+    m_pusher.setToPosition(m_position, 0);
   }
 
   // Called once the command ends or is interrupted.
