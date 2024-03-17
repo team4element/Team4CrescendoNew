@@ -7,7 +7,11 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+
 import frc.robot.Constants.PusherConstants;
 
 public class Pusher extends SubsystemBase {
@@ -23,9 +27,11 @@ public class Pusher extends SubsystemBase {
   public Pusher() {
     m_motorController = new VictorSPX(PusherConstants.motorId);
     m_encoder = new CANCoder(PusherConstants.encoderID);
+    
+    m_encoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+    m_encoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
 
     m_motorController.configFactoryDefault();
-
     m_motorController.configRemoteFeedbackFilter(m_encoder, 0);
     m_motorController.config_kP(0, .3);
     m_motorController.config_kI(0, 0.);
@@ -51,7 +57,7 @@ public class Pusher extends SubsystemBase {
 
   public double getEncoderPostion()
   {
-    return m_encoder.getAbsolutePosition();
+    return m_encoder.getPosition();
   }
 
   @Override
