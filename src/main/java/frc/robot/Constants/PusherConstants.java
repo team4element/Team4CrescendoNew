@@ -12,7 +12,7 @@ public class PusherConstants {
     public static final double kI = 0;
     public static final double kD = 0;
 
-    public static final int encoderID = 0;
+    public static final int potID = 0;
 
     public static final double kGearRatio = 10/1;
 

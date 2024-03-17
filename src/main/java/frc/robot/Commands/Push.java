@@ -11,12 +11,13 @@ import frc.robot.Subsystems.Pusher;
 public class Push extends Command {
  private Pusher m_pusher;
  private double m_speed;
+ private double m_setpoint;
  
 
-  public Push(Pusher pusher, double speed) {
+  public Push(Pusher pusher, double setpoint, double speed) {
     m_pusher = pusher;
     m_speed = speed;
-   
+    m_setpoint = setpoint;
     
     addRequirements(m_pusher);
   }
@@ -24,13 +25,12 @@ public class Push extends Command {
   @Override
   public void initialize() {
    m_pusher.setMotor(0);
-   m_pusher.zeroEncoder(); 
    
   }
 
   @Override
   public void execute() {
-    m_pusher.setMotor(m_speed);
+    m_pusher.setToPosition(m_setpoint, 0); //TODO: tune tolerance
   }
 
   @Override
@@ -40,6 +40,6 @@ public class Push extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return m_pusher.getDegree() == m_setpoint;
   }
 }
