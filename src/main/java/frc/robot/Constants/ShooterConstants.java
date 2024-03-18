@@ -7,8 +7,8 @@ package frc.robot.Constants;
 
 public class ShooterConstants {
 
-    public static final int m_leftMotorID = 18;
-    public static final int m_rightMotorID = 1;
+    public static final int m_topMotorID = 18;
+    public static final int m_bottomMotorID = 1;
 
     public static final int rmpLow    = 900;
     public static final int rmpMedium = 0;

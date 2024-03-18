@@ -5,49 +5,41 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LiveDoubleBinding;
 import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
-  private static TalonFX mLeader = new TalonFX(ShooterConstants.m_leftMotorID);
-  private static TalonFX m_follower = new TalonFX(ShooterConstants.m_rightMotorID);
+  private static TalonFX m_top = new TalonFX(ShooterConstants.m_topMotorID);
+  private static TalonFX m_bottom = new TalonFX(ShooterConstants.m_bottomMotorID);
 
-  final VelocityVoltage m_request;
-
-  Slot0Configs configsSpeaker = new Slot0Configs();
-  LiveDoubleBinding pBinding;
-  LiveDoubleBinding iBinding;
-  LiveDoubleBinding dBinding;
-  LiveDoubleBinding fBinding;
+  final VelocityVoltage m_requestTop;
+  final VelocityVoltage m_requestBot;
 
   public Shooter() {
-    Slot0Configs motorConfig = new Slot0Configs();
+    Slot0Configs config = new Slot0Configs();
     
-    motorConfig.kS = 0.05; // Add 0.05 V output to overcome static friction
-    motorConfig.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    motorConfig.kP = 0.15; // An error of 1 rps results in 0.11 V output
-    motorConfig.kI = 0;    // no output for integrated error
-    motorConfig.kD = 0;    // no output for error derivative
+    config.kS = 0.05; // Add 0.05 V output to overcome static friction
+    config.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    config.kP = 0.15; // An error of 1 rps results in 0.11 V output
+    config.kI = 0;    // no output for integrated error
+    config.kD = 0;    // no output for error derivative
 
-    m_request = new VelocityVoltage(0).withSlot(0);
+    m_requestTop = new VelocityVoltage(0).withSlot(0);
+    m_requestBot = new VelocityVoltage(0).withSlot(0);
 
-    mLeader.getConfigurator().apply(motorConfig);
-    mLeader.setInverted(true);
-
-    m_follower.getConfigurator().apply(motorConfig);
-
-    m_follower.setControl(new Follower(mLeader.getDeviceID(), false));
+    m_top.getConfigurator().apply(config);
+    m_bottom.getConfigurator().apply(config);
+    
+    m_top.setInverted(true);
 
   }
 
   @Override
   public void periodic() {
-    // printEncoderError();
+    printEncoderError();
   }
 
   /**
@@ -55,7 +47,8 @@ public class Shooter extends SubsystemBase {
    * @param setpoint The desired speed in rpm
    */
   public void setMotorRPM(double setpoint) {
-       mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
+      m_top.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
+      m_bottom.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
  }
 
  /**
@@ -63,8 +56,11 @@ public class Shooter extends SubsystemBase {
   */
  public void printEncoderError()
  {
-    System.out.print("Error:");
-    System.out.print(mLeader.getClosedLoopError());
+    System.out.print("Top Error:");
+    System.out.print(m_top.getClosedLoopError());
+
+    System.out.print("Bot Error:");
+    System.out.print(m_bottom.getClosedLoopError());
  }
 
 
@@ -73,6 +69,7 @@ public class Shooter extends SubsystemBase {
   */
 public void motorsOff()
   {
-    mLeader.set(0);
+    m_top.set(0);
+    m_bottom.set(0);
   }
 }
