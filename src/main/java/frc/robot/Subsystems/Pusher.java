@@ -5,8 +5,6 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.MathUtil;
@@ -65,7 +63,6 @@ public class Pusher extends SubsystemBase {
 
   @Override
   public void periodic(){
-    System.out.println("Potentiometer:" + getDegree());
-    // System.out.println("Victor: " + m_motorController.);
+    // System.out.println("Potentiometer:" + getDegree());
   }
 }
