@@ -9,11 +9,13 @@ import frc.robot.Subsystems.Shooter;
 
 public class Shoot extends Command {
   private Shooter m_shooter;
-  private double m_rpm;
+  private double m_rpmTop;
+  private double m_rpmBot;
 
-  public Shoot(Shooter shooter, double rpm) {
+  public Shoot(Shooter shooter, double rpmTop, double rpmBottom) {
     m_shooter = shooter;
-    m_rpm = rpm;
+    m_rpmTop = rpmTop;
+    m_rpmBot = rpmBottom;
   }
 
   @Override
@@ -22,7 +24,7 @@ public class Shoot extends Command {
 
   @Override
   public void execute() {
-    m_shooter.setMotorRPM(rpm_to_rps(m_rpm));
+    m_shooter.setMotorRPM(rpm_to_rps(m_rpmTop), rpm_to_rps(m_rpmBot));
   }
 
   @Override

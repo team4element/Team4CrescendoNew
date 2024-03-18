@@ -10,10 +10,13 @@ public class ShooterConstants {
     public static final int m_topMotorID = 18;
     public static final int m_bottomMotorID = 1;
 
-    public static final int rmpLow    = 900;
-    public static final int rmpMedium = 0;
-    public static final int rmpHigh   = 6300; 
-    public static final int rmpReverse = -300; 
+    public static final int rpmTopLow    = 450;
+    public static final int rpmBotLow    = 700;
+    
+    public static final int rpmTopHigh   = 2000;
+    public static final int rpmBotHigh   = 6300; 
+    
+    public static final int rpmReverse = -300; 
 
     public static final double timeoutLow    = .7;
     public static final double timeoutMedium = 0;

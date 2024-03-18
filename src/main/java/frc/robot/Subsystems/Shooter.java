@@ -46,9 +46,9 @@ public class Shooter extends SubsystemBase {
    * Sets the motor to a desired speed
    * @param setpoint The desired speed in rpm
    */
-  public void setMotorRPM(double setpoint) {
-      m_top.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
-      m_bottom.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
+  public void setMotorRPM(double setpointTop, double setpointBot) {
+      m_top.setControl(m_requestTop.withVelocity(setpointTop).withFeedForward(.5));
+      m_bottom.setControl(m_requestBot.withVelocity(setpointBot).withFeedForward(.5));
  }
 
  /**
