@@ -38,6 +38,10 @@ public class LiveDoubleBinding {
         valueSubscriber = shuffleboardTable.getDoubleTopic(key).subscribe(defaultValue);
     }
 
+    
+    /** 
+     * @return DoubleSubscriber
+     */
     public DoubleSubscriber getSubscriber() {
         return valueSubscriber;
     }

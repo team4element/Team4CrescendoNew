@@ -4,15 +4,21 @@ public class PusherConstants {
   
     public static final int motorId = 16;
 
-    public static final double lowSpeed = .08;
+    public static final double lowSpeed = .1;
     public static final double medSpeed = .5;
-    public static final double highSpeed = .5;
+    public static final double highSpeed = .08;
 
     public static final double kP = 0;
     public static final double kI = 0;
     public static final double kD = 0;
 
-    public static final int encoderID = 0;
+    public static final int potID = 0;
+    public static final int potLimitHigh = 900;
+    public static final int potLimitLow  = 100;
+    public static final int potMax = 1024;
+    public static final int resetPosition = 500;
+    public static final int shootPosition = 870;
+
 
     public static final double kGearRatio = 10/1;
 

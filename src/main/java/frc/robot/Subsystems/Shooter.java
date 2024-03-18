@@ -37,11 +37,11 @@ public class Shooter extends SubsystemBase {
     m_request = new VelocityVoltage(0).withSlot(0);
 
     mLeader.getConfigurator().apply(motorConfig);
-    mLeader.setInverted(false);
+    mLeader.setInverted(true);
 
     m_follower.getConfigurator().apply(motorConfig);
 
-    m_follower.setControl(new Follower(mLeader.getDeviceID(), true));
+    m_follower.setControl(new Follower(mLeader.getDeviceID(), false));
 
   }
 
@@ -50,23 +50,27 @@ public class Shooter extends SubsystemBase {
     // printEncoderError();
   }
 
-  public void setMotorRPM(double setpoint, boolean PID) {
-    if(PID)
-    {
+  /**
+   * Sets the motor to a desired speed
+   * @param setpoint The desired speed in rpm
+   */
+  public void setMotorRPM(double setpoint) {
        mLeader.setControl(m_request.withVelocity(setpoint).withFeedForward(.5));
-    }
-    else
-    {
-      mLeader.set(setpoint);
-    }
  }
 
+ /**
+  * Prints the velocity error with the motors
+  */
  public void printEncoderError()
  {
     System.out.print("Error:");
     System.out.print(mLeader.getClosedLoopError());
  }
 
+
+ /**
+  * Turns off the motors
+  */
 public void motorsOff()
   {
     mLeader.set(0);

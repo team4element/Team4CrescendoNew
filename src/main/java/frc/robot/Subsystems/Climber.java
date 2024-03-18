@@ -14,13 +14,13 @@ import frc.robot.Constants.ClimberConstants;
 public class Climber extends SubsystemBase {
 
   TalonFX m_leftLeader = new TalonFX(ClimberConstants.leftID);
-// TalonFX m_rightFollower = new TalonFX(ClimberConstants.rightID);
+  TalonFX m_rightFollower = new TalonFX(ClimberConstants.rightID);
 
 
   public Climber() {
  
-   // m_leftLeader.setInverted(false);
-   // m_rightFollower.setControl(new Follower(m_leftLeader.getDeviceID(), true));
+   m_leftLeader.setInverted(false);
+   m_rightFollower.setControl(new Follower(m_leftLeader.getDeviceID(), true));
   }
 
   public void setMotors(double speed) {
@@ -39,7 +39,7 @@ public class Climber extends SubsystemBase {
    */
   public void brake(){
 
-   // m_rightFollower.setNeutralMode(NeutralModeValue.Brake);
+    m_rightFollower.setNeutralMode(NeutralModeValue.Brake);
     m_leftLeader.setNeutralMode(NeutralModeValue.Brake);
 
   };

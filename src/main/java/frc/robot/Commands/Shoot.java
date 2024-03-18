@@ -12,29 +12,22 @@ public class Shoot extends Command {
   private double m_rpm;
 
   public Shoot(Shooter shooter, double rpm) {
-
     m_shooter = shooter;
     m_rpm = rpm;
-
   }
 
   @Override
   public void initialize() {
-
   }
 
   @Override
   public void execute() {
-    m_shooter.setMotorRPM(rpm_to_rps(m_rpm), true);
-    // m_shooter.setMotorRPM(.5, false);
-
-    rpm_to_rps(0); //this is here to silence a warning
+    m_shooter.setMotorRPM(rpm_to_rps(m_rpm));
   }
 
   @Override
   public void end(boolean interrupted) {
     m_shooter.motorsOff();
-
   }
 
   @Override

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
-import frc.robot.Commands.pushToPosition;
+import frc.robot.Commands.getPusherToSetpoint;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ConveyorConstants;
 import frc.robot.Constants.PusherConstants;
@@ -45,14 +45,14 @@ public class RobotContainer {
     // NamedCommands.registerCommand("shoot", m_shooter.setMotorRPM(0, false));
     NamedCommands.registerCommand("Push And Shoot High",
         pushAndShoot(
-        ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh, PusherConstants.highSpeed));
+        ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh));
     NamedCommands.registerCommand("Push And Shoot Low",
         pushAndShoot(
-        ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherConstants.lowSpeed));
-    NamedCommands.registerCommand("Intake", 
+        ShooterConstants.rmpLow, ShooterConstants.timeoutLow));
+    NamedCommands.registerCommand("Intake",
        m_conveyor.c_runBoth(
       Conveyor.Direction.INTAKE, 0.8).withTimeout(2.5));
-    
+
     //.withTimeout(.5));
     autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
 
@@ -67,13 +67,12 @@ public class RobotContainer {
 
   public void onAutonInit() {
     m_driveTrain.seedFieldRelative();
-    m_pusher.zeroEncoder();
+     m_pusher.getDegree();
   }
 
   public void onTeleopInit() {
     m_driveTrain.seedFieldRelative();
-    m_pusher.zeroEncoder();
-    new pushToPosition(m_pusher);
+    m_pusher.getDegree();
   }
 
   private void configureBindings() {
@@ -82,7 +81,7 @@ public class RobotContainer {
     ControllerConstants.driveController.a().whileTrue(m_driveTrain.c_cardinalLock(180));
     ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
-    
+
     ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, -1));
     ControllerConstants.driveController.povUp().whileTrue(new Climb(m_climber, 1));
 
@@ -91,25 +90,25 @@ public class RobotContainer {
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.y()
-        .toggleOnTrue(pushAndShoot(ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh, PusherConstants.highSpeed));
-    ControllerConstants.operatorController.b().toggleOnTrue(
-        pushAndShoot(ShooterConstants.rmpMedium, ShooterConstants.timeoutMedium, PusherConstants.medSpeed));
+        .toggleOnTrue(pushAndShoot(ShooterConstants.rmpHigh, ShooterConstants.timeoutHigh));
+    ControllerConstants.operatorController.b()
+        .toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, ShooterConstants.timeoutMedium));
     ControllerConstants.operatorController.a()
-        .toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow, PusherConstants.lowSpeed));
-    ControllerConstants.operatorController.x().whileTrue(new Shoot(m_shooter, ShooterConstants.rmpHigh));
-    ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, -PusherConstants.highSpeed));
-    ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
+        .toggleOnTrue(pushAndShoot(ShooterConstants.rmpLow, ShooterConstants.timeoutLow));
+    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.resetPosition));
+    ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
+    ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
   }
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
 
-  private SequentialCommandGroup pushAndShoot(double rpm, double timeout, double pusherSpeed) {
+  private SequentialCommandGroup pushAndShoot(double rpm, double timeout) {
     return new SequentialCommandGroup(new Shoot(m_shooter, rpm).withTimeout(ShooterConstants.rampUpTime),
         new ParallelCommandGroup(
             new Shoot(m_shooter, rpm),
-            new Push(m_pusher, pusherSpeed)).withTimeout(timeout));
-            /*new MoveUntil(m_pusher));*/
+            new getPusherToSetpoint(m_pusher, PusherConstants.shootPosition)).withTimeout(timeout),
+            new getPusherToSetpoint(m_pusher, PusherConstants.resetPosition).withTimeout(timeout));
   }
 }

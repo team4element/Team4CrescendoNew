@@ -11,17 +11,14 @@ public class getPusherToSetpoint extends Command {
   /** Creates a new MoveUntil. */
 
   private Pusher m_pusher;
-  private double m_position;
-  private double m_tolerance;
-  private int    m_resets;
+  private double m_setpoint;
 
 
-  public getPusherToSetpoint(Pusher pusher) {
+
+  public getPusherToSetpoint(Pusher pusher, double setpoint) {
     
     m_pusher = pusher;
-    m_resets = 0;
-    m_tolerance = .2;
-    
+    m_setpoint = setpoint;
     
     addRequirements(m_pusher);
   }
@@ -33,15 +30,8 @@ public class getPusherToSetpoint extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-    m_position = m_pusher.getEncoderPosition();
-    m_pusher.setMotor(.2);
-
-    if(m_position < m_tolerance  && m_position > -m_tolerance)
-    {
-      m_resets++;
-    }
+  public void execute() {    
+    m_pusher.controlPID(m_setpoint);
   }
 
   // Called once the command ends or is interrupted.
@@ -53,6 +43,6 @@ public class getPusherToSetpoint extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_resets == 4;
+    return false;
     }
 }

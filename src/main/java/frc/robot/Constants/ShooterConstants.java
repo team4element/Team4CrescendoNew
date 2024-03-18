@@ -15,7 +15,7 @@ public class ShooterConstants {
     public static final int rmpHigh   = 6300; 
     public static final int rmpReverse = -300; 
 
-    public static final double timeoutLow    = 6;
+    public static final double timeoutLow    = .7;
     public static final double timeoutMedium = 0;
     public static final double timeoutHigh   = .787;
 
