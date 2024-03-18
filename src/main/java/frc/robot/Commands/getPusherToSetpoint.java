@@ -11,12 +11,14 @@ public class getPusherToSetpoint extends Command {
   /** Creates a new MoveUntil. */
 
   private Pusher m_pusher;
-  private double m_position;
+  private double m_setpoint;
 
 
-  public getPusherToSetpoint(Pusher pusher) {
+
+  public getPusherToSetpoint(Pusher pusher, double setpoint) {
     
     m_pusher = pusher;
+    m_setpoint = setpoint;
     
     addRequirements(m_pusher);
   }
@@ -29,7 +31,7 @@ public class getPusherToSetpoint extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {    
-    m_pusher.setToPosition(m_position, 0);
+    m_pusher.controlPID(m_setpoint);
   }
 
   // Called once the command ends or is interrupted.

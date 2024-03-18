@@ -5,8 +5,12 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,18 +22,16 @@ public class Pusher extends SubsystemBase {
     SHOOT, RESET
   }
 
-  private VictorSPX m_motorController;
+  private WPI_VictorSPX m_motorController;
   private AnalogPotentiometer m_pot;
+  private PIDController m_pid;
 
 
   public Pusher() {
-    m_motorController = new VictorSPX(PusherConstants.motorId);
-    m_pot = new AnalogPotentiometer(PusherConstants.potID, 360, 180);
-
-    m_motorController.configFactoryDefault();
-    m_motorController.config_kP(0, .3);
-    m_motorController.config_kI(0, 0.);
-    m_motorController.config_kD(0, 0);
+    m_motorController = new WPI_VictorSPX(PusherConstants.motorId);
+    m_pot = new AnalogPotentiometer(PusherConstants.potID, PusherConstants.potMax, 0);
+    m_pid = new PIDController(.0025, 0 , 0.000000);
+    m_pid.setTolerance(10);
 
   }
 
@@ -41,23 +43,29 @@ public class Pusher extends SubsystemBase {
     m_motorController.set(ControlMode.PercentOutput, 0);
   };
 
-  public void setToPosition(double position, double tolerance){
-    double error = position - m_pot.get();
-    while (Math.abs(error) > tolerance) {
-      double power = PusherConstants.kP * error;
-      m_motorController.set(ControlMode.PercentOutput, power);
+  public void controlPower(double power){
+    double pot_value = getDegree();
+    if ((pot_value >= PusherConstants.potLimitHigh && power > 0) 
+    || (pot_value <= PusherConstants.potLimitLow && power < 0)) {
+      setMotor(0);
+
+    }else{
+      setMotor(power);
     }
-  
+  };
+
+  public void controlPID(double setpoint){
+    m_motorController.set(MathUtil.clamp(m_pid.calculate(getDegree(), setpoint), -.5, .5));
   };
 
   public double getDegree()
   {
-    return m_pot.get();
+    return PusherConstants.potMax - m_pot.get();
   }
 
   @Override
   public void periodic(){
     System.out.println("Potentiometer:" + getDegree());
-    System.out.println("Victor: " + m_motorController.getSelectedSensorPosition());
+    // System.out.println("Victor: " + m_motorController.);
   }
 }
