@@ -26,6 +26,7 @@ public class getPusherToSetpoint extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_pusher.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
