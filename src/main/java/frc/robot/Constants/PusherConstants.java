@@ -16,8 +16,8 @@ public class PusherConstants {
     public static final int potLimitHigh = 900;
     public static final int potLimitLow  = 100;
     public static final int potMax = 1024;
-    public static final int resetPosition = 500;
-    public static final int shootPosition = 870;
+
+    public static final int shootPosition = 1290;
 
 
     public static final double kGearRatio = 10/1;

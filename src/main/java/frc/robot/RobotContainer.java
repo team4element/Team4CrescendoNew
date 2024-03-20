@@ -67,14 +67,12 @@ public class RobotContainer {
 
   public void onAutonInit() {
     m_driveTrain.seedFieldRelative();
-    m_pusher.getDegree();
-    m_pusher.reset();
+    m_pusher.resetEncoder();
   }
 
   public void onTeleopInit() {
     m_driveTrain.seedFieldRelative();
-    m_pusher.getDegree();
-    m_pusher.reset();
+    m_pusher.resetEncoder();
   }
 
   private void configureBindings() {
@@ -97,7 +95,7 @@ public class RobotContainer {
     //     .toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, 0, ShooterConstants.timeoutMedium));
     ControllerConstants.operatorController.a()
         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
-    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.resetPosition));
+    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.shootPosition));
     ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
     ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
   }
@@ -110,7 +108,6 @@ public class RobotContainer {
     return new SequentialCommandGroup(new Shoot(m_shooter, rpmTop, rpmBot).withTimeout(ShooterConstants.rampUpTime),
         new ParallelCommandGroup(
             new Shoot(m_shooter, rpmTop, rpmBot),
-            new getPusherToSetpoint(m_pusher, PusherConstants.shootPosition)).withTimeout(timeout),
-            new getPusherToSetpoint(m_pusher, PusherConstants.resetPosition).withTimeout(timeout));
+            new getPusherToSetpoint(m_pusher, PusherConstants.shootPosition)).withTimeout(timeout));
   }
 }
