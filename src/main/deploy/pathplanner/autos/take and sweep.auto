@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.5455366466288492,
+      "y": 2.36
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "sweep"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "to speaker from sweep"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Push And Shoot High"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

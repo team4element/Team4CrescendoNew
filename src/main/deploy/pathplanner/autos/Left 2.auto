@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Drive From High"
+                  "pathName": "Drive to note"
                 }
               },
               {
@@ -58,12 +58,6 @@
           "type": "named",
           "data": {
             "name": "Push And Shoot High"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Drive From High"
           }
         }
       ]
