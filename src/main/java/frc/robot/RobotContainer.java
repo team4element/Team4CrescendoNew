@@ -67,12 +67,14 @@ public class RobotContainer {
 
   public void onAutonInit() {
     m_driveTrain.seedFieldRelative();
-     m_pusher.getDegree();
+    m_pusher.getDegree();
+    m_pusher.reset();
   }
 
   public void onTeleopInit() {
     m_driveTrain.seedFieldRelative();
     m_pusher.getDegree();
+    m_pusher.reset();
   }
 
   private void configureBindings() {

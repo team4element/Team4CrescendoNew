@@ -56,11 +56,11 @@ public class Shooter extends SubsystemBase {
   */
  public void printEncoderError()
  {
-    System.out.print("Top Error:");
-    System.out.print(m_top.getClosedLoopError());
+ //   System.out.print("Top Error:");
+   // System.out.print(m_top.getClosedLoopError());
 
-    System.out.print("Bot Error:");
-    System.out.print(m_bottom.getClosedLoopError());
+   // System.out.print("Bot Error:");
+   // System.out.print(m_bottom.getClosedLoopError());
  }
 
 
