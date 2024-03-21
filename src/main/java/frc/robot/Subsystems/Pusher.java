@@ -9,8 +9,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
 // import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.PusherConstants;
@@ -29,10 +31,13 @@ public class Pusher extends SubsystemBase {
   public Pusher() {
     m_motorController = new WPI_VictorSPX(PusherConstants.motorId);
     // m_pot = new AnalogPotentiometer(PusherConstants.potID, PusherConstants.potMax, 0);
-    m_pid = new PIDController(.0025, 0 , 0.000000);
+    m_pid = new PIDController(PusherConstants.kP, PusherConstants.kI , PusherConstants.kD);
     m_pid.setTolerance(10);
     m_encoder = new Encoder(1, 2);
 
+    SmartDashboard.putNumber(PusherConstants.tableP, PusherConstants.kP);
+    SmartDashboard.putNumber(PusherConstants.tableI, PusherConstants.kI);
+    SmartDashboard.putNumber(PusherConstants.tableD, PusherConstants.kD);
   }
 
   public void setMotor(double speed){
@@ -73,9 +78,18 @@ public class Pusher extends SubsystemBase {
     m_encoder.reset();
   }
 
+  public void setPID(){
+
+    double p = SmartDashboard.getNumber(PusherConstants.tableP, 0);
+    double i = SmartDashboard.getNumber(PusherConstants.tableI, 0);
+    double d = SmartDashboard.getNumber(PusherConstants.tableD, 0);
+    
+    m_pid.setPID(p, i, d);
+  }
+
   @Override
   public void periodic(){
-   // System.out.println("Potentiometer:" + getDegree());
     System.out.println("Encoder:" + getEncoder());
+    setPID();
   }
 }
