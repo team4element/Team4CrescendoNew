@@ -90,12 +90,12 @@ public class RobotContainer {
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.y()
-        .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
+        .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
     // ControllerConstants.operatorController.b()
     //     .toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, 0, ShooterConstants.timeoutMedium));
     ControllerConstants.operatorController.a()
         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
-    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.shootPosition));
+    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition));
     ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
     ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
   }
@@ -108,6 +108,6 @@ public class RobotContainer {
     return new SequentialCommandGroup(new Shoot(m_shooter, rpmTop, rpmBot).withTimeout(ShooterConstants.rampUpTime),
         new ParallelCommandGroup(
             new Shoot(m_shooter, rpmTop, rpmBot),
-            new getPusherToSetpoint(m_pusher, PusherConstants.shootPosition)).withTimeout(timeout));
+            new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition)).withTimeout(timeout));
   }
 }
