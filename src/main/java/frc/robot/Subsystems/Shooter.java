@@ -8,6 +8,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -19,6 +20,9 @@ public class Shooter extends SubsystemBase {
   final VelocityVoltage m_requestBot;
 
   public Shooter() {
+    SmartDashboard.putNumber(ShooterConstants.tableTopRPM, ShooterConstants.rpmTopHigh);
+    SmartDashboard.putNumber(ShooterConstants.tableBotRPM, ShooterConstants.rpmBotHigh);
+
     Slot0Configs config = new Slot0Configs();
     
     config.kS = 0.05; // Add 0.05 V output to overcome static friction
@@ -34,12 +38,18 @@ public class Shooter extends SubsystemBase {
     m_bottom.getConfigurator().apply(config);
     
     m_top.setInverted(true);
+  }
 
+  public void updateRpmFromTable()
+  {
+    ShooterConstants.rpmTopHigh = SmartDashboard.getNumber(ShooterConstants.tableTopRPM, 0);
+    ShooterConstants.rpmBotHigh = SmartDashboard.getNumber(ShooterConstants.tableBotRPM, 0);
   }
 
   @Override
   public void periodic() {
     printEncoderError();
+    updateRpmFromTable();
   }
 
   /**
@@ -62,7 +72,6 @@ public class Shooter extends SubsystemBase {
    // System.out.print("Bot Error:");
    // System.out.print(m_bottom.getClosedLoopError());
  }
-
 
  /**
   * Turns off the motors
