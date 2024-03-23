@@ -19,7 +19,6 @@ public class PusherConstants {
 
     public static final int shootPosition = 1290;
 
-
     public static final double kGearRatio = 10/1;
 
     public static final double kPulsePerRev = 4090;
@@ -33,5 +32,4 @@ public class PusherConstants {
     public static final String tableP = "Pusher P";
     public static final String tableI = "Pusher I";
     public static final String tableD = "Pusher I";
-
 }

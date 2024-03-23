@@ -9,8 +9,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.NetworkTable;
-// import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,13 +22,11 @@ public class Pusher extends SubsystemBase {
   }
 
   private WPI_VictorSPX m_motorController;
-  // private AnalogPotentiometer m_pot;
   private PIDController m_pid;
   private Encoder m_encoder;
 
   public Pusher() {
     m_motorController = new WPI_VictorSPX(PusherConstants.motorId);
-    // m_pot = new AnalogPotentiometer(PusherConstants.potID, PusherConstants.potMax, 0);
     m_pid = new PIDController(PusherConstants.kP, PusherConstants.kI , PusherConstants.kD);
     m_pid.setTolerance(10);
     m_encoder = new Encoder(1, 2);
@@ -38,6 +34,7 @@ public class Pusher extends SubsystemBase {
     SmartDashboard.putNumber(PusherConstants.tableP, PusherConstants.kP);
     SmartDashboard.putNumber(PusherConstants.tableI, PusherConstants.kI);
     SmartDashboard.putNumber(PusherConstants.tableD, PusherConstants.kD);
+    
   }
 
   public void setMotor(double speed){
@@ -62,11 +59,6 @@ public class Pusher extends SubsystemBase {
   public void controlPID(double setpoint){
     m_motorController.set(MathUtil.clamp(m_pid.calculate(getEncoder(), setpoint), -.5, .5));
   };
-
-  // public double getPot()
-  // {
-  //   return PusherConstants.potMax - m_pot.get();
-  // }
 
   public double getEncoder() 
   {
