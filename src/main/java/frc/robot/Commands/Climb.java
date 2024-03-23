@@ -10,19 +10,18 @@ import frc.robot.Subsystems.Climber;
 public class Climb extends Command {
 
   Climber m_climber = new Climber();
-  double m_speed;
+  boolean m_high = false;
 
-  public Climb(Climber climber, double speed) {
+  public Climb(Climber climber) {
 
     m_climber = climber;
-    m_speed = speed;
   
   }
 
   
   @Override
   public void initialize() {
-    m_climber.setMotors(m_speed);
+    m_climber.goToSetPoint();
   }
 
  

@@ -8,7 +8,7 @@ public class PusherConstants {
     public static final double medSpeed = .5;
     public static final double highSpeed = .08;
 
-    public static final double kP = 0;
+    public static final double kP = .025;
     public static final double kI = 0;
     public static final double kD = 0;
 
@@ -29,4 +29,7 @@ public class PusherConstants {
 
     public static final double encoderOffset = 0.402099609375;
 
+    public static final String tableP = "Pusher P";
+    public static final String tableI = "Pusher I";
+    public static final String tableD = "Pusher I";
 }
