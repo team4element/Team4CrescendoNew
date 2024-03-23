@@ -28,7 +28,7 @@ public class Pusher extends SubsystemBase {
   public Pusher() {
     m_motorController = new WPI_VictorSPX(PusherConstants.motorId);
     // m_pot = new AnalogPotentiometer(PusherConstants.potID, PusherConstants.potMax, 0);
-    m_pid = new PIDController(1.46994, 0, 0);
+    m_pid = new PIDController(PusherConstants.kP, PusherConstants.kI, PusherConstants.kD);
     m_pid.setTolerance(5);
     m_encoder = new Encoder(1, 2);
 
