@@ -15,7 +15,7 @@ public class ClimberConstants {
     public static final double kD = 0;
     public static final double kF = 0;
 
-    public static final int setpointUp = 0;
+    public static final int setpointUp = 49;
     public static final int setpointDown = 0;
 
     public static final String tableP = "Climber P";

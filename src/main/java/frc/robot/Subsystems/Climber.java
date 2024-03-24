@@ -29,25 +29,21 @@ public class Climber extends SubsystemBase {
     m_leftLeader.setInverted(false);
     m_rightFollower.setControl(new Follower(m_leftLeader.getDeviceID(), true));
 
-    m_config.kS = 0.05; // Add 0.05 V output to overcome static friction
-    m_config.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    m_config.kP = 0.15; // An error of 1 rps results in 0.11 V output
-    m_config.kI = 0;    // no output for integrated error
-    m_config.kD = 0;    // no output for error derivative
-
-    m_leftLeader.getConfigurator().apply(m_config);
-
     SmartDashboard.putNumber(ClimberConstants.tableP, ClimberConstants.kP);
     SmartDashboard.putNumber(ClimberConstants.tableI, ClimberConstants.kI);
     SmartDashboard.putNumber(ClimberConstants.tableD, ClimberConstants.kD);
-
-    
 
   }
 
   public void setMotors(double speed) {
 
     m_leftLeader.set(speed);
+    
+ }
+
+ public void resetMotor ()
+ {
+  m_leftLeader.setPosition(0);
  }
 
   public void motorsOff()

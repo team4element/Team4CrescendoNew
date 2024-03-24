@@ -11,23 +11,25 @@ public class Climb extends Command {
 
   Climber m_climber = new Climber();
   boolean m_high = false;
+  double m_speed;
 
-  public Climb(Climber climber) {
+  public Climb(Climber climber, double speed) {
 
     m_climber = climber;
+    m_speed = speed;
   
   }
 
   
   @Override
   public void initialize() {
-    m_climber.goToSetPoint();
+    
   }
 
  
   @Override
   public void execute() {
-    
+    m_climber.setMotors(m_speed);
   }
 
 
