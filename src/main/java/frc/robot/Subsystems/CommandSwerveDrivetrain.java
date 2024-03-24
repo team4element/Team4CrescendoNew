@@ -27,6 +27,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.LiveDoubleBinding;
@@ -40,6 +41,8 @@ import frc.robot.Constants.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
+
+    public int m_isInverted = 1; //false
 
     private static final SwerveModuleConstants m_driveFrontLeft = TunerConstants.ConstantCreator.createModuleConstants(
             DriveTrainConstants.kFrontLeftSteerMotorId,
@@ -101,6 +104,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             .withRotationalDeadband(DriveTrainConstants.kDeadZone)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
+
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
             SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
@@ -110,6 +114,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     public CommandSwerveDrivetrain() {
         super(TunerConstants.swerveConstants, m_driveFrontLeft, m_driveFrontRight, m_driveBackLeft, m_driveBackRight);
         init();
+
     }
 
     private void configurePathPlanner() {
@@ -204,17 +209,26 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 () -> m_drive
                         .withVelocityX(
                                 ControllerConstants.yTranslationModifier
-                                        .apply(-ControllerConstants.driveController.getLeftY())
+                                        .apply(-ControllerConstants.driveController.getLeftY() * m_isInverted)
                                         * DriveTrainConstants.kSpeedMultiplyer) // Drive forward with negative Y (forward)
                         .withVelocityY(
                                 ControllerConstants.xTranslationModifier
-                                        .apply(-ControllerConstants.driveController.getLeftX())
+                                        .apply(-ControllerConstants.driveController.getLeftX() * m_isInverted)
                                         * DriveTrainConstants.kSpeedMultiplyer) // Drive left with negative X (left)
                         .withRotationalRate(
                                 ControllerConstants.zRotationModifier
                                         .apply(-ControllerConstants.driveController.getRightX())
                                         * DriveTrainConstants.kSpeedMultiplyer) // Drive counterclockwise with negative X (left)
         );
+    }
+
+    public void invertControls(){
+        m_isInverted *= -1;
+    }
+
+    public Command c_invertControls()
+    {
+        return runOnce(() -> invertControls());
     }
 
     public Command c_brake() {
@@ -227,5 +241,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public Command c_seedFieldRelative() {
         return runOnce(() -> seedFieldRelative());
+    }
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putString("Drive Mode", m_isInverted == 1 ? "Normal" : "Inverted");
     }
 }
