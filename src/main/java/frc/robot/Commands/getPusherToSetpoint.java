@@ -12,6 +12,7 @@ public class getPusherToSetpoint extends Command {
 
   private Pusher m_pusher;
   private double m_setpoint;
+  private boolean m_shootingHigh;
 
 
 
@@ -31,7 +32,7 @@ public class getPusherToSetpoint extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {    
+  public void execute() {  
     m_pusher.controlPID(m_setpoint);
   }
 
@@ -44,6 +45,6 @@ public class getPusherToSetpoint extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_pusher.isOnSetpoint();
     }
 }

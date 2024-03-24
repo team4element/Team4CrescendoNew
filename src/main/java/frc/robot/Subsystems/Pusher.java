@@ -27,7 +27,7 @@ public class Pusher extends SubsystemBase {
 
   public Pusher() {
     m_motorController = new WPI_VictorSPX(PusherConstants.motorId);
-    // m_pot = new AnalogPotentiometer(PusherConstants.potID, PusherConstants.potMax, 0);
+    m_motorController.setInverted(true);
     m_pid = new PIDController(PusherConstants.kP, PusherConstants.kI, PusherConstants.kD);
     m_pid.setTolerance(5);
     m_encoder = new Encoder(1, 2);
@@ -35,7 +35,7 @@ public class Pusher extends SubsystemBase {
     SmartDashboard.putNumber(PusherConstants.tableP, PusherConstants.kP);
     SmartDashboard.putNumber(PusherConstants.tableI, PusherConstants.kI);
     SmartDashboard.putNumber(PusherConstants.tableD, PusherConstants.kD);
-    
+
   }
 
   public void setMotor(double speed){
@@ -48,7 +48,7 @@ public class Pusher extends SubsystemBase {
 
   public void controlPower(double power){
    // double encoder_value = getEncoder();
-    //if ((encoder_value >= PusherConstants.potLimitHigh && power > 0) 
+    //if ((encoder_value >= PusherConstants.potLimitHigh && power > 0)
     //|| (encoder_value <= PusherConstants.potLimitLow && power < 0)) {
      // setMotor(0);
 
@@ -61,7 +61,7 @@ public class Pusher extends SubsystemBase {
     m_motorController.set(MathUtil.clamp(m_pid.calculate(getEncoder(), setpoint), -.5, .5));
   };
 
-  public double getEncoder() 
+  public double getEncoder()
   {
     return m_encoder.getRaw();
   }
@@ -76,13 +76,19 @@ public class Pusher extends SubsystemBase {
     double p = SmartDashboard.getNumber(PusherConstants.tableP, 0);
     double i = SmartDashboard.getNumber(PusherConstants.tableI, 0);
     double d = SmartDashboard.getNumber(PusherConstants.tableD, 0);
-    
+
     m_pid.setPID(p, i, d);
+  }
+
+  public boolean isOnSetpoint()
+  {
+    return m_pid.atSetpoint();
   }
 
   @Override
   public void periodic(){
     System.out.println("Encoder:" + getEncoder());
+    System.out.println("ERROR: " + m_pid.getPositionError());
     setPID();
   }
 }
