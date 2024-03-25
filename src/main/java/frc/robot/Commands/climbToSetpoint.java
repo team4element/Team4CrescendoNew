@@ -19,7 +19,9 @@ public class climbToSetpoint extends Command {
 
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_climber.resetMotor();
+  }
 
 
   @Override

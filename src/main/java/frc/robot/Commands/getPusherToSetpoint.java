@@ -12,9 +12,6 @@ public class getPusherToSetpoint extends Command {
 
   private Pusher m_pusher;
   private double m_setpoint;
-  private boolean m_shootingHigh;
-
-
 
   public getPusherToSetpoint(Pusher pusher, double setpoint) {
     

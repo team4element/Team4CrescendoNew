@@ -86,6 +86,8 @@ public class RobotContainer {
     ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
 
     ControllerConstants.driveController.povUp().whileTrue(new Climb(m_climber, .5));
+      // new climbToSetpoint(m_climber));
+      //
     ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, -.5));
 
     ControllerConstants.operatorController.leftBumper()

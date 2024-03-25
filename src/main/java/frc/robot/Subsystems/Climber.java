@@ -21,11 +21,12 @@ public class Climber extends SubsystemBase {
   Slot0Configs m_config = new Slot0Configs();
 
   boolean climberUp = false;
- 
+
   PositionVoltage m_request;
+
   public Climber() {
 
-    
+    m_request = new PositionVoltage(ClimberConstants.setpointUp).withSlot(0);
     m_leftLeader.setInverted(false);
     m_rightFollower.setControl(new Follower(m_leftLeader.getDeviceID(), true));
 
@@ -43,6 +44,7 @@ public class Climber extends SubsystemBase {
 
  public void resetMotor ()
  {
+  m_leftLeader.setPosition(0);
   m_leftLeader.setPosition(0);
  }
 
@@ -84,5 +86,7 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     setPID();
+    System.out.println("left motor: " + m_leftLeader.getPosition());
+    System.out.println("right motor: " + m_rightFollower.getPosition());
   }
 }
