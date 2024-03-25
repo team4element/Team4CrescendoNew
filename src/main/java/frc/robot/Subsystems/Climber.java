@@ -20,8 +20,6 @@ public class Climber extends SubsystemBase {
   TalonFX m_rightFollower = new TalonFX(ClimberConstants.rightID);
   Slot0Configs m_config = new Slot0Configs();
 
-  boolean climberUp = false;
-
   PositionVoltage m_request;
 
   public Climber() {
@@ -29,6 +27,9 @@ public class Climber extends SubsystemBase {
     m_request = new PositionVoltage(ClimberConstants.setpointUp).withSlot(0);
     m_leftLeader.setInverted(false);
     m_rightFollower.setControl(new Follower(m_leftLeader.getDeviceID(), true));
+
+    m_rightFollower.setNeutralMode(NeutralModeValue.Brake);
+    m_leftLeader.setNeutralMode(NeutralModeValue.Brake);
 
     SmartDashboard.putNumber(ClimberConstants.tableP, ClimberConstants.kP);
     SmartDashboard.putNumber(ClimberConstants.tableI, ClimberConstants.kI);
@@ -53,14 +54,6 @@ public class Climber extends SubsystemBase {
     m_leftLeader.set(0);
   }
 
-  /**
-   * This function turns the motors into break mode
-   */
-  public void brake(){
-    m_rightFollower.setNeutralMode(NeutralModeValue.Brake);
-    m_leftLeader.setNeutralMode(NeutralModeValue.Brake);
-  };
-
   public void setPID()
   {
     double p = SmartDashboard.getNumber(ClimberConstants.tableP, ClimberConstants.kP);
@@ -74,13 +67,13 @@ public class Climber extends SubsystemBase {
     m_leftLeader.getConfigurator().apply(m_config);
   }
 
-  public void goToSetPoint(){
-    if(climberUp){
-      m_leftLeader.setControl(m_request.withPosition(ClimberConstants.setpointUp));
-    }else{
-      m_leftLeader.setControl(m_request.withPosition(ClimberConstants.setpointDown));
-    }
-    climberUp = !climberUp;
+  public void goToSetPoint(double targetSetpoint){
+    m_leftLeader.setControl(m_request.withPosition(targetSetpoint));
+  }
+
+  public double getCurrentPosition() {
+    // TODO: Fix this?
+    return m_leftLeader.getPosition().getAsDouble();
   }
 
   @Override

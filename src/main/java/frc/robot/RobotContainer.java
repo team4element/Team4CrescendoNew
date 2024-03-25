@@ -85,10 +85,8 @@ public class RobotContainer {
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
     ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
 
-    ControllerConstants.driveController.povUp().whileTrue(new Climb(m_climber, .5));
-      // new climbToSetpoint(m_climber));
-      //
-    ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, -.5));
+    ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(m_climber, 10));
+    ControllerConstants.driveController.povDown().whileTrue(new climbToSetpoint(m_climber, 0));
 
     ControllerConstants.operatorController.leftBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
