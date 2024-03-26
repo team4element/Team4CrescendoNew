@@ -56,7 +56,6 @@ public class JoystickModifier {
         });
 
         ShuffleboardTab tab = Shuffleboard.getTab("Joystick");
-        // "Joystick"
 
         tab.add(name + "/JoystickOptions", chooser);
 

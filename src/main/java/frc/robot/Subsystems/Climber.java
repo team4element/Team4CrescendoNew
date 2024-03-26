@@ -10,7 +10,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
@@ -31,9 +31,11 @@ public class Climber extends SubsystemBase {
     m_rightFollower.setNeutralMode(NeutralModeValue.Brake);
     m_leftLeader.setNeutralMode(NeutralModeValue.Brake);
 
-    SmartDashboard.putNumber(ClimberConstants.tableP, ClimberConstants.kP);
-    SmartDashboard.putNumber(ClimberConstants.tableI, ClimberConstants.kI);
-    SmartDashboard.putNumber(ClimberConstants.tableD, ClimberConstants.kD);
+    //debugging
+
+    // SmartDashboard.putNumber(ClimberConstants.tableP, ClimberConstants.kP);
+    // SmartDashboard.putNumber(ClimberConstants.tableI, ClimberConstants.kI);
+    // SmartDashboard.putNumber(ClimberConstants.tableD, ClimberConstants.kD);
 
   }
 
@@ -54,18 +56,20 @@ public class Climber extends SubsystemBase {
     m_leftLeader.set(0);
   }
 
-  public void setPID()
-  {
-    double p = SmartDashboard.getNumber(ClimberConstants.tableP, ClimberConstants.kP);
-    double i = SmartDashboard.getNumber(ClimberConstants.tableI, ClimberConstants.kI);
-    double d = SmartDashboard.getNumber(ClimberConstants.tableD, ClimberConstants.kD);
+//debugging 
 
-    m_config.kP = p;
-    m_config.kI = i;
-    m_config.kD = d;
+  // public void setPID()
+  // {
+  //   double p = SmartDashboard.getNumber(ClimberConstants.tableP, ClimberConstants.kP);
+  //   double i = SmartDashboard.getNumber(ClimberConstants.tableI, ClimberConstants.kI);
+  //   double d = SmartDashboard.getNumber(ClimberConstants.tableD, ClimberConstants.kD);
 
-    m_leftLeader.getConfigurator().apply(m_config);
-  }
+  //   m_config.kP = p;
+  //   m_config.kI = i;
+  //   m_config.kD = d;
+
+  //   m_leftLeader.getConfigurator().apply(m_config);
+  // }
 
   public void goToSetPoint(double targetSetpoint){
     m_leftLeader.setControl(m_request.withPosition(targetSetpoint));
@@ -77,8 +81,8 @@ public class Climber extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setPID();
-    System.out.println("left motor: " + m_leftLeader.getPosition());
-    System.out.println("right motor: " + m_rightFollower.getPosition());
+    // setPID();
+    // System.out.println("left motor: " + m_leftLeader.getPosition());
+    // System.out.println("right motor: " + m_rightFollower.getPosition());
   }
 }

@@ -31,8 +31,6 @@ import frc.robot.Subsystems.Shooter;
 public class RobotContainer {
   SendableChooser<Command> autoChooser;
 
-  // final ColorMatch m_colorMatcher = new ColorMatch();
-
   // Subsystems
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain();
   public static final Conveyor m_conveyor = new Conveyor();
@@ -40,11 +38,8 @@ public class RobotContainer {
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
 
-  // private final Telemetry logger;
-
   public RobotContainer() {
 
-    // NamedCommands.registerCommand("shoot", m_shooter.setMotorRPM(0, false));
     NamedCommands.registerCommand("Push And Shoot High",
         pushAndShoot(
         ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
@@ -55,13 +50,10 @@ public class RobotContainer {
        m_conveyor.c_runBoth(
       Conveyor.Direction.INTAKE, 0.8).withTimeout(2.5));
 
-    //.withTimeout(.5));
     autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
 
-    // logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
-
     SmartDashboard.putData("Auto Chooser", autoChooser);
-    // m_driveTrain.registerTelemetry(logger::telemeterize);
+
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
 
@@ -80,13 +72,11 @@ public class RobotContainer {
 
   private void configureBindings() {
      ControllerConstants.driveController.y().whileTrue(new Climb(m_climber, -.5));
-    // ControllerConstants.driveController.x().whileTrue(m_driveTrain.c_cardinalLock(90));
-    // ControllerConstants.driveController.a().whileTrue(m_driveTrain.c_cardinalLock(180));
-    // ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
     ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
 
-    ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(m_climber, ClimberConstants.setpointUp));
+    ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(
+      m_climber, ClimberConstants.setpointUp));
     ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, .5));
 
     ControllerConstants.operatorController.leftBumper()

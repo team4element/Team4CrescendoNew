@@ -10,7 +10,6 @@ import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-//import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 
 // TODO: How to set min/max values for the slider?
 public class LiveDoubleBinding {

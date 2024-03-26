@@ -32,9 +32,11 @@ public class Pusher extends SubsystemBase {
     m_pid.setTolerance(5);
     m_encoder = new Encoder(1, 2);
 
-    SmartDashboard.putNumber(PusherConstants.tableP, PusherConstants.kP);
-    SmartDashboard.putNumber(PusherConstants.tableI, PusherConstants.kI);
-    SmartDashboard.putNumber(PusherConstants.tableD, PusherConstants.kD);
+   // debugging 
+   
+    // SmartDashboard.putNumber(PusherConstants.tableP, PusherConstants.kP);
+    // SmartDashboard.putNumber(PusherConstants.tableI, PusherConstants.kI);
+    // SmartDashboard.putNumber(PusherConstants.tableD, PusherConstants.kD);
 
   }
 
@@ -47,14 +49,7 @@ public class Pusher extends SubsystemBase {
   };
 
   public void controlPower(double power){
-   // double encoder_value = getEncoder();
-    //if ((encoder_value >= PusherConstants.potLimitHigh && power > 0)
-    //|| (encoder_value <= PusherConstants.potLimitLow && power < 0)) {
-     // setMotor(0);
-
-   // }else{
       setMotor(power);
-   // }
   };
 
   public void controlPID(double setpoint){

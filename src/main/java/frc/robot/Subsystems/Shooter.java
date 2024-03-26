@@ -8,7 +8,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -20,8 +20,8 @@ public class Shooter extends SubsystemBase {
   final VelocityVoltage m_requestBot;
 
   public Shooter() {
-    SmartDashboard.putNumber(ShooterConstants.tableTopRPM, ShooterConstants.rpmTopHigh);
-    SmartDashboard.putNumber(ShooterConstants.tableBotRPM, ShooterConstants.rpmBotHigh);
+    // SmartDashboard.putNumber(ShooterConstants.tableTopRPM, ShooterConstants.rpmTopHigh);
+    // SmartDashboard.putNumber(ShooterConstants.tableBotRPM, ShooterConstants.rpmBotHigh);
 
     Slot0Configs config = new Slot0Configs();
     
@@ -40,16 +40,24 @@ public class Shooter extends SubsystemBase {
     m_top.setInverted(true);
   }
 
-  public void updateRpmFromTable()
-  {
-    ShooterConstants.rpmTopHigh = SmartDashboard.getNumber(ShooterConstants.tableTopRPM, 0);
-    ShooterConstants.rpmBotHigh = SmartDashboard.getNumber(ShooterConstants.tableBotRPM, 0);
-  }
+  //debugging 
+
+  // public void updateHighRpmFromTable()
+  // {
+  //   ShooterConstants.rpmTopHigh = SmartDashboard.getNumber(ShooterConstants.tableTopRPM, 0);
+  //   ShooterConstants.rpmBotHigh = SmartDashboard.getNumber(ShooterConstants.tableBotRPM, 0);
+  // }
+
+  //  public void updateLowRpmFromTable()
+  // {
+  //   ShooterConstants.rpmTop = SmartDashboard.getNumber(ShooterConstants.tableTopRPM, 0);
+  //   ShooterConstants.rpmBotHigh = SmartDashboard.getNumber(ShooterConstants.tableBotRPM, 0);
+  // }
 
   @Override
   public void periodic() {
-    printEncoderError();
-    updateRpmFromTable();
+   // printEncoderError();
+   // updateHighRpmFromTable();
   }
 
   /**
@@ -61,21 +69,17 @@ public class Shooter extends SubsystemBase {
       m_bottom.setControl(m_requestBot.withVelocity(setpointBot).withFeedForward(.5));
  }
 
- /**
-  * Prints the velocity error with the motors
-  */
- public void printEncoderError()
- {
- //   System.out.print("Top Error:");
-   // System.out.print(m_top.getClosedLoopError());
+ //debugging 
 
-   // System.out.print("Bot Error:");
-   // System.out.print(m_bottom.getClosedLoopError());
- }
+//  public void printEncoderError()
+//  {
+//  //   System.out.print("Top Error:");
+//    // System.out.print(m_top.getClosedLoopError());
 
- /**
-  * Turns off the motors
-  */
+//    // System.out.print("Bot Error:");
+//    // System.out.print(m_bottom.getClosedLoopError());
+//  }
+
 public void motorsOff()
   {
     m_top.set(0);
