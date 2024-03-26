@@ -72,8 +72,7 @@ public class Climber extends SubsystemBase {
   }
 
   public double getCurrentPosition() {
-    // TODO: Fix this?
-    return m_leftLeader.getPosition().getAsDouble();
+    return m_leftLeader.getPosition().getValueAsDouble();
   }
 
   @Override

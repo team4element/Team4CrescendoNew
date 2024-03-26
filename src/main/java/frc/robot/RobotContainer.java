@@ -17,6 +17,7 @@ import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
 import frc.robot.Commands.climbToSetpoint;
 import frc.robot.Commands.getPusherToSetpoint;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ConveyorConstants;
 import frc.robot.Constants.PusherConstants;
@@ -78,15 +79,15 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // ControllerConstants.driveController.y().whileTrue(m_driveTrain.c_cardinalLock(0));
+     ControllerConstants.driveController.y().whileTrue(new Climb(m_climber, -.5));
     // ControllerConstants.driveController.x().whileTrue(m_driveTrain.c_cardinalLock(90));
     // ControllerConstants.driveController.a().whileTrue(m_driveTrain.c_cardinalLock(180));
     // ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
     ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
 
-    ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(m_climber, 10));
-    ControllerConstants.driveController.povDown().whileTrue(new climbToSetpoint(m_climber, 0));
+    ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(m_climber, ClimberConstants.setpointUp));
+    ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, .5));
 
     ControllerConstants.operatorController.leftBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
