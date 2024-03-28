@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.Subsystems;
 
+// import edu.wpi.first.cameraserver.CameraServer;
+// import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -16,6 +18,8 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry m_tx; 
   private NetworkTableEntry m_ty;
   private NetworkTableEntry m_ta;
+  
+  // HttpCamera camera;
 
   private double m_x;
   private double m_y;
@@ -26,37 +30,38 @@ public class Limelight extends SubsystemBase {
     m_tx = m_limelightNT.getEntry("tx");
     m_ty = m_limelightNT.getEntry("ty");
     m_ta = m_limelightNT.getEntry("ta");
+    
+  //  // camera = new HttpCamera("limelight camera", "https://frcvision.local:4/stream.mjpg");
+    
   }
-
-
-  /**
-   * Gets the distance of the target from the Limelight in inches
-   * @return Distance in inches 
-   */
+  // /**
+  //  * Gets the distance of the target from the Limelight in inches
+  //  * @return Distance in inches 
+  //  */
   public double getDistance()
   {
     return (VisionConstants.goalHeightInches - VisionConstants.limelightLensHeightInches) / Math.tan(getAngleToGoalRadians());
   }
 
-  /**
-   * Gets the angle of the of the target from the Limelight
-   * @return Angle in degrees
-   */
+  // /**
+  //  * Gets the angle of the of the target from the Limelight
+  //  * @return Angle in degrees
+  //  */
   public double getAngleToTargetDegrees()
   {
     return VisionConstants.limelightMountAngleDegrees + m_y;
   }
 
-  /**
-   * Gets the angle to the goal in radians
-   * @return Angle in radians
-   */
+  // /**
+  //  * Gets the angle to the goal in radians
+  //  * @return Angle in radians
+  //  */
   public double getAngleToGoalRadians()
   {
     return getAngleToTargetDegrees() * (Math.PI/180.0);
   }
 
-  @Override
+  // @Override
   public void periodic() {
     m_x    = m_tx.getDouble(0.0);
     m_y    = m_ty.getDouble(0.0);
