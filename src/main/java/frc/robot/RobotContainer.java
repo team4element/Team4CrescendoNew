@@ -86,7 +86,7 @@ public class RobotContainer {
     ControllerConstants.operatorController.y()
         .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
     // ControllerConstants.operatorController.b()
-    //     .toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, 0, ShooterConstants.timeoutMedium));
+    //      .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrap, ShooterConstants.rpmBotTrap, ShooterConstants.timeoutMedium));
     ControllerConstants.operatorController.a()
         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
     ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));

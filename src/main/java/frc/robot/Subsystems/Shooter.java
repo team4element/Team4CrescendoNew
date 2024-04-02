@@ -38,6 +38,7 @@ public class Shooter extends SubsystemBase {
     m_bottom.getConfigurator().apply(config);
     
     m_top.setInverted(true);
+    m_bottom.setInverted(true);
   }
 
   //debugging 

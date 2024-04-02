@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7735726582564278,
-      "y": 6.655801089379956
+      "x": 0.816329410436599,
+      "y": 4.446702226737787
     },
-    "rotation": -120.76271953423887
+    "rotation": 119.5387822595581
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "left to first note"
+                  "pathName": "comp right"
                 }
               },
               {
@@ -39,7 +39,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "back to speaker left"
+            "pathName": "comp return"
           }
         },
         {

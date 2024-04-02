@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7165636553495331,
-      "y": 4.403945474557616
+      "x": 1.3579149380520985,
+      "y": 5.529873281968787
     },
-    "rotation": 118.73979529168801
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right to last note"
+                  "pathName": "Drive to note"
                 }
               },
               {
@@ -39,7 +39,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "last note to right"
+            "pathName": "Center to speaker"
           }
         },
         {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right to far"
+                  "pathName": "Center to last note"
                 }
               },
               {
@@ -70,7 +70,38 @@
         {
           "type": "path",
           "data": {
-            "pathName": "far to right"
+            "pathName": "last note to speaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Push And Shoot High"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "middle speaker to first note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1st note to middle"
           }
         },
         {

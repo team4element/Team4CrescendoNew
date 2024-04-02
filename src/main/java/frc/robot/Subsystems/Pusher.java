@@ -68,9 +68,9 @@ public class Pusher extends SubsystemBase {
 
   public void setPID(){
 
-    double p = SmartDashboard.getNumber(PusherConstants.tableP, 0);
-    double i = SmartDashboard.getNumber(PusherConstants.tableI, 0);
-    double d = SmartDashboard.getNumber(PusherConstants.tableD, 0);
+    double p = SmartDashboard.getNumber(PusherConstants.tableP, PusherConstants.kP);
+    double i = SmartDashboard.getNumber(PusherConstants.tableI, PusherConstants.kI);
+    double d = SmartDashboard.getNumber(PusherConstants.tableD, PusherConstants.kD);
 
     m_pid.setPID(p, i, d);
   }
@@ -82,8 +82,8 @@ public class Pusher extends SubsystemBase {
 
   @Override
   public void periodic(){
-   // System.out.println("Encoder:" + getEncoder());
-   // System.out.println("ERROR: " + m_pid.getPositionError());
+  //  System.out.println("Encoder:" + getEncoder());
+  //  System.out.println("ERROR: " + m_pid.getPositionError());
     setPID();
   }
 }
