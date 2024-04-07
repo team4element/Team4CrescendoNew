@@ -4,7 +4,8 @@
 
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
+//import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -23,13 +24,16 @@ public class Shooter extends SubsystemBase {
     // SmartDashboard.putNumber(ShooterConstants.tableTopRPM, ShooterConstants.rpmTopHigh);
     // SmartDashboard.putNumber(ShooterConstants.tableBotRPM, ShooterConstants.rpmBotHigh);
 
-    Slot0Configs config = new Slot0Configs();
+    TalonFXConfiguration config = new TalonFXConfiguration();
     
-    config.kS = 0.05; // Add 0.05 V output to overcome static friction
-    config.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    config.kP = 0.15; // An error of 1 rps results in 0.11 V output
-    config.kI = 0;    // no output for integrated error
-    config.kD = 0;    // no output for error derivative
+    config.Slot0.kS = 0.05; // Add 0.05 V output to overcome static friction
+    config.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    config.Slot0.kP = 0.15; // An error of 1 rps results in 0.11 V output
+    config.Slot0.kI = 0;    // no output for integrated error
+    config.Slot0.kD = 0;    // no output for error derivative
+
+    config.CurrentLimits.SupplyCurrentLimit = ShooterConstants.currentLimitAmps;
+    config.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     m_requestTop = new VelocityVoltage(0).withSlot(0);
     m_requestBot = new VelocityVoltage(0).withSlot(0);

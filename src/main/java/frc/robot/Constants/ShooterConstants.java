@@ -16,8 +16,8 @@ public class ShooterConstants {
     public static final int rpmTopTrap = 1200;
     public static final int rpmBotTrap = 6300;
 
-    public static double rpmTopHigh   = 1200;
-    public static double rpmBotHigh   = 6300;
+    public static double rpmTopHigh   = 5000;
+    public static double rpmBotHigh   = 5000; 
 
     public static final int rpmReverse = -300;
 
@@ -25,7 +25,9 @@ public class ShooterConstants {
     public static final double timeoutMedium = 1.2;
     public static final double timeoutHigh   = 1.2;
 
-    public static final double rampUpTime = 1;
+    public static final double rampUpTime = .25;
+
+    public static final double currentLimitAmps = 80;
 
     public static final String tableTopRPM = "Shooter Top RPM";
     public static final String tableBotRPM = "Shooter Bot RPM";

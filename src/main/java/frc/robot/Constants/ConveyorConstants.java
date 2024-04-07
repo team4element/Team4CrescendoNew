@@ -11,4 +11,6 @@ public class ConveyorConstants {
   public static final int topLeaderId = 17;
 
   public static final double conveyorSpeed = .8;
+
+  public static final double currentLimitAmps = 100;
 }
