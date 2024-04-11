@@ -4,5 +4,41 @@
 
 package frc.robot.Subsystems;
 
-/** Add your docs here. */
-public class LEDs {}
+// import edu.wpi.first.wpilibj.DigitalInput;
+// import  edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+//import frc.robot.Constants.LEDConstants;
+
+public class LEDs extends SubsystemBase {
+
+//    Spark m_blinkin;
+//    DigitalInput m_limitSwitch;
+
+//     public LEDs(){
+
+//         m_blinkin = new Spark(LEDConstants.blinkinID);
+//         m_limitSwitch = new DigitalInput(LEDConstants.switchID);
+
+//     }
+
+//     public void blue(){
+
+//         if (m_limitSwitch.get() == true) {
+//              m_blinkin.set(LEDConstants.blinkinSpeedBlue);
+//         }
+//         else {
+//              m_blinkin.set(LEDConstants.blinkinSpeedNothing);
+//         }
+//     }
+
+//     // public void skyBlue(){
+//     //     m_blinkin.set(LEDConstants.blinkinSpeedSkyBlue);
+//     // }
+
+//     @Override
+//     public void periodic(){
+//         blue();
+//     }
+}
+
+

@@ -5,4 +5,11 @@
 package frc.robot.Constants;
 
 /** Add your docs here. */
-public class LEDConstants {}
+public class LEDConstants {
+    // public static final int blinkinID = 0;
+    // public static final int switchID = 8;
+    
+    // public static final double blinkinSpeedBlue = 0.87;
+    // public static final double blinkinSpeedNothing = 0;
+    // public static final double blinkinSpeedSkyBlue = 0.83;
+}
