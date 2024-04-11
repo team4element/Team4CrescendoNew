@@ -68,40 +68,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Push And Shoot High"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "left to center"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "center to left"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Push And Shoot High"
+            "pathName": "left to center"
           }
         }
       ]
