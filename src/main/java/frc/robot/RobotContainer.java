@@ -20,6 +20,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ConveyorConstants;
 import frc.robot.Constants.PusherConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
@@ -37,6 +38,7 @@ public class RobotContainer {
   public static final Shooter m_shooter = new Shooter();
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
+  public static final Arm m_arm = new Arm();
 
   // private final Telemetry logger;
 
@@ -62,6 +64,7 @@ public class RobotContainer {
     // m_driveTrain.registerTelemetry(logger::telemeterize);
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
+    m_arm.setDefaultCommand(m_arm.c_manualMovement());
 
   }
 
