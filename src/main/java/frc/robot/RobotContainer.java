@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Commands.BlinkLeds;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
@@ -25,7 +26,6 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
-import frc.robot.Subsystems.LEDs;
 import frc.robot.Subsystems.Pusher;
 import frc.robot.Subsystems.Shooter;
 
@@ -38,7 +38,6 @@ public class RobotContainer {
   public static final Shooter m_shooter = new Shooter();
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
-  public static final LEDs m_led = new LEDs();
 
   public RobotContainer() {
 
@@ -58,7 +57,6 @@ public class RobotContainer {
 
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
-    m_led.setDefaultCommand(m_led.lights());
 
   }
 
@@ -73,9 +71,12 @@ public class RobotContainer {
     m_climber.resetMotor();
   }
 
+  public void switchLedColor(){
+    new BlinkLeds(m_conveyor, m_conveyor.lastColor()).schedule();
+  }
+
   private void configureBindings() {
      ControllerConstants.driveController.y().whileTrue(new Climb(m_climber, -.5));
-     ControllerConstants.driveController.a().whileTrue(m_led.Blue());
     //ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
     ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
 
@@ -89,8 +90,6 @@ public class RobotContainer {
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.y()
         .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
-    // ControllerConstants.operatorController.b()
-    //      .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrap, ShooterConstants.rpmBotTrap, ShooterConstants.timeoutMedium));
     ControllerConstants.operatorController.a()
         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
     ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
