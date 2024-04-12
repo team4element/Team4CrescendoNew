@@ -4,41 +4,60 @@
 
 package frc.robot.Subsystems;
 
-// import edu.wpi.first.wpilibj.DigitalInput;
-// import  edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.DigitalInput;
+import  edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//import frc.robot.Constants.LEDConstants;
+import frc.robot.Constants.LEDConstants;
 
 public class LEDs extends SubsystemBase {
 
-//    Spark m_blinkin;
-//    DigitalInput m_limitSwitch;
+    Spark m_blinkin;
+   DigitalInput m_limitSwitch;
 
-//     public LEDs(){
+    public LEDs(){
 
-//         m_blinkin = new Spark(LEDConstants.blinkinID);
-//         m_limitSwitch = new DigitalInput(LEDConstants.switchID);
+         m_blinkin = new Spark(LEDConstants.blinkinID);
+        m_limitSwitch = new DigitalInput(LEDConstants.switchID);
 
-//     }
+    }
 
-//     public void blue(){
+    public void blue(){
 
-//         if (m_limitSwitch.get() == true) {
-//              m_blinkin.set(LEDConstants.blinkinSpeedBlue);
-//         }
-//         else {
-//              m_blinkin.set(LEDConstants.blinkinSpeedNothing);
-//         }
-//     }
+        if (m_limitSwitch.get()) {
 
-//     // public void skyBlue(){
-//     //     m_blinkin.set(LEDConstants.blinkinSpeedSkyBlue);
-//     // }
+              m_blinkin.set(LEDConstants.blinkinSpeedBlue);
+        }
+        else {
+              m_blinkin.set(LEDConstants.blinkinSpeedNothing);
+        }
+    }
 
-//     @Override
-//     public void periodic(){
-//         blue();
-//     }
+    public void isSwitchTriggered(){
+        m_limitSwitch.get();
+    }
+
+
+    public Command lights(){
+        return runOnce(
+            () -> blue()
+        );
+    }
+
+    public void skyBlue(){
+        m_blinkin.set(LEDConstants.blinkinSpeedSkyBlue);
+    }
+
+    public Command Blue(){
+        return runOnce(() -> skyBlue());
+    }
+
+    @Override
+    public void periodic(){
+        isSwitchTriggered();
+        System.out.println("Hello");
+    }
+
 }
 
 

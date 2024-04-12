@@ -25,6 +25,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
+import frc.robot.Subsystems.LEDs;
 import frc.robot.Subsystems.Pusher;
 import frc.robot.Subsystems.Shooter;
 
@@ -37,6 +38,7 @@ public class RobotContainer {
   public static final Shooter m_shooter = new Shooter();
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
+  public static final LEDs m_led = new LEDs();
 
   public RobotContainer() {
 
@@ -56,6 +58,7 @@ public class RobotContainer {
 
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
+    m_led.setDefaultCommand(m_led.lights());
 
   }
 
@@ -72,7 +75,8 @@ public class RobotContainer {
 
   private void configureBindings() {
      ControllerConstants.driveController.y().whileTrue(new Climb(m_climber, -.5));
-    ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
+     ControllerConstants.driveController.a().whileTrue(m_led.Blue());
+    //ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
     ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
 
     ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(
