@@ -71,8 +71,8 @@ public class Conveyor extends SubsystemBase {
   public double parseLedColor(Color color){
     double speed;
     switch (color) {
-      case BLUE: speed = .87; break;
-      case ORANGE: speed = .65; break;
+      case BLUE: speed = .81; break;
+      case ORANGE: speed = .63; break;
       case PURPLE: speed = .91; break;
 
       default: speed = .87; break; //blue
