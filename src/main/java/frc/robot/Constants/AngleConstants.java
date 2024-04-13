@@ -7,11 +7,12 @@ package frc.robot.Constants;
 /** Add your docs here. */
 public class AngleConstants {
 //TODO: change ids later
-    public static final int m_followerID = 0;
-    public static final int m_leaderID = 0;
+    public static final int m_angleMotorID = 0;
+    public static final int m_shootMotorID = 0;
 
-    public static final int Ks = 0;
-    public static final int Kg = 0;
-    public static final int Kv = 0;
-    public static final int Ka = 0;
+    public static final int angleCurrentLimitAmps = 80;
+    public static final int shootCurrentLimitAmps = 80;
+
+    public static final double forwardLimit = 360;
+    public static final double reverseLimit = 0;
 }

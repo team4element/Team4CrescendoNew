@@ -24,24 +24,34 @@ import frc.robot.Constants.ControllerConstants;
 /** Add your docs here. */
 public class Arm extends SubsystemBase{
     TalonFX m_angleMotor = new TalonFX(AngleConstants.m_angleMotorID);
-    VictorSPX m_shootMotor = new VictorSPX(AngleConstants.m_shootMotorID);
+    TalonFX m_shootMotor = new TalonFX(AngleConstants.m_shootMotorID);
 
     public Arm(){
 
-        VictorSPXPIDSetConfiguration shootConfigs = new VictorSPXPIDSetConfiguration();
+        TalonFXConfiguration angleConfigs = new TalonFXConfiguration();
 
-        TalonFXConfiguration configs = new TalonFXConfiguration();
+        angleConfigs.Slot0.kS = 0;  
+        angleConfigs.Slot0.kV = 0;
+        angleConfigs.Slot0.kP = 0;
+        angleConfigs.Slot0.kI = 0;
+        angleConfigs.Slot0.kD = 0;
 
-        configs.Slot0.kS = 0;  
-        configs.Slot0.kV = 0;
-        configs.Slot0.kP = 0;
-        configs.Slot0.kI = 0;
-        configs.Slot0.kD = 0;
+        TalonFXConfiguration shootConfigs = new TalonFXConfiguration();
 
-        configs.CurrentLimits.SupplyCurrentLimit = AngleConstants.currentLimitAmps;
-        configs.CurrentLimits.SupplyCurrentLimitEnable = true;
+        shootConfigs.Slot0.kS = 0;
+        shootConfigs.Slot0.kV = 0;
+        shootConfigs.Slot0.kP = 0;
+        shootConfigs.Slot0.kI = 0;
+        shootConfigs.Slot0.kD = 0; 
 
-        m_shootMotor.getPIDConfigs(shootConfigs);
+        angleConfigs.CurrentLimits.SupplyCurrentLimit = AngleConstants.angleCurrentLimitAmps;
+        angleConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+        shootConfigs.CurrentLimits.SupplyCurrentLimit = AngleConstants.shootCurrentLimitAmps;
+        shootConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+        m_angleMotor.getConfigurator().apply(angleConfigs);
+        m_shootMotor.getConfigurator().apply(shootConfigs);
 
         m_angleMotor.setNeutralMode(NeutralModeValue.Brake);
 
@@ -61,16 +71,16 @@ public class Arm extends SubsystemBase{
     }
 
     public void shoot(double speed){
-        m_shootMotor.set(ControlMode.Velocity, speed);
+        m_shootMotor.set(speed);
     }
 
 
     public void take(double speed){
-        m_shootMotor.set(ControlMode.Velocity, speed * -1);
+        m_shootMotor.set( speed * -1);
     }
 
     public void motorOff(){
-        m_shootMotor.set(ControlMode.Velocity, 0);
+        m_shootMotor.set(0);
     }
 
     public Command c_manualMovement(){
