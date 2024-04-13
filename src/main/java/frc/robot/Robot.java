@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if(m_ledTimer.hasElapsed(3)){
+    if(m_ledTimer.hasElapsed(1)){
       m_ledTimer.reset();
       m_robotContainer.switchLedColor();
     }

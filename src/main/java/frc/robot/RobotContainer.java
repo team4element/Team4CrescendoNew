@@ -28,6 +28,7 @@ import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
 import frc.robot.Subsystems.Pusher;
 import frc.robot.Subsystems.Shooter;
+import frc.robot.Subsystems.Conveyor.Color;
 
 public class RobotContainer {
   SendableChooser<Command> autoChooser;
@@ -69,6 +70,7 @@ public class RobotContainer {
     m_driveTrain.seedFieldRelative();
     m_pusher.resetEncoder();
     m_climber.resetMotor();
+    switchLedColor();
   }
 
   public void switchLedColor(){
