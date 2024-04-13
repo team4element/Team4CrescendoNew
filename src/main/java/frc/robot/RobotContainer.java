@@ -66,6 +66,10 @@ public class RobotContainer {
     m_pusher.resetEncoder();
   }
 
+  public boolean getLimitSwitch(){
+     return m_conveyor.getLimitSwitch();
+  }
+
   public void onTeleopInit() {
     m_driveTrain.seedFieldRelative();
     m_pusher.resetEncoder();
