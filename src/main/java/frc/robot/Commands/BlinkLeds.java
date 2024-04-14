@@ -22,7 +22,7 @@ public class BlinkLeds extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(m_conveyor.getLimitSwitch()){
+    if(m_conveyor.getLimitSwitchFront() || m_conveyor.getLimitSwitchBack()){
       m_conveyor.setLEDColor(Color.ORANGE);
     } 
     else if (m_lastColor == Color.PURPLE || m_lastColor == Color.ORANGE){

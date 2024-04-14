@@ -17,7 +17,8 @@ import frc.robot.Constants.ConveyorConstants;
 public class Conveyor extends SubsystemBase {
   private static TalonFX m_bottomLeader;
   private static TalonFX m_bottomFollower;
-  private static DigitalInput m_limitSwitch;
+  private static DigitalInput m_limitSwitchFront;
+  private static DigitalInput m_limitSwitchBack;
   private static Spark m_addressable_LEDS;
   private static TalonFX m_topLeader;
 
@@ -41,7 +42,8 @@ public class Conveyor extends SubsystemBase {
     m_bottomControlRequest = new DutyCycleOut(.8);
     m_topControlRequest = new DutyCycleOut(.8);
 
-    m_limitSwitch = new DigitalInput(ConveyorConstants.limitSwitchID);
+    m_limitSwitchFront = new DigitalInput(ConveyorConstants.limitSwitchFrontID);
+    m_limitSwitchBack = new DigitalInput(ConveyorConstants.limitSwitchBackID);
     m_addressable_LEDS = new Spark(ConveyorConstants.blinkinID);
 
     m_bottomLeader = new TalonFX(ConveyorConstants.bottomLeaderId);
@@ -64,8 +66,12 @@ public class Conveyor extends SubsystemBase {
     m_topLeader.setControl(m_topControlRequest.withOutput(speed));
   }
 
-  public boolean getLimitSwitch(){
-    return m_limitSwitch.get();
+  public boolean getLimitSwitchFront(){
+    return m_limitSwitchFront.get();
+  }
+
+  public boolean getLimitSwitchBack() {
+    return m_limitSwitchBack.get();
   }
 
   public double parseLedColor(Color color){
@@ -89,7 +95,8 @@ public class Conveyor extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_limitSwitch.get();
+    m_limitSwitchFront.get();
+    m_limitSwitchBack.get();
 
   }
 
