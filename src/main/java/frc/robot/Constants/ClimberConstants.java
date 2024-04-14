@@ -9,4 +9,16 @@ public class ClimberConstants {
 
     public static final int leftID = 0;
     public static final int rightID = 2;
+
+    public static final double kP = 0.2;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kF = 0;
+
+    public static final int setpointUp = 49;
+
+    public static final String tableP = "Climber P";
+    public static final String tableI = "Climber I";
+    public static final String tableD = "Climber D";
+
 }

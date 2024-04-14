@@ -4,14 +4,15 @@
 
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
-//import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ConveyorConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class Conveyor extends SubsystemBase {
   public static TalonFX m_bottomLeader;
@@ -28,6 +29,12 @@ public class Conveyor extends SubsystemBase {
 
   public Conveyor() {
     // Setting Motors
+
+    // TalonFXConfiguration config = new TalonFXConfiguration();
+
+    // config.CurrentLimits.SupplyCurrentLimit = ConveyorConstants.currentLimitAmps;
+    // config.CurrentLimits.SupplyCurrentLimitEnable = true;
+
     m_bottomLeader = new TalonFX(ConveyorConstants.bottomLeaderId);
     m_bottomFollower = new TalonFX(ConveyorConstants.bottomFollowerId);
     m_bottomFollower.setControl(new Follower(ConveyorConstants.bottomLeaderId, false));
@@ -36,6 +43,10 @@ public class Conveyor extends SubsystemBase {
 
     m_bottomLeader.setInverted(true);
     m_topLeader.setInverted(false);
+
+    // m_bottomLeader.getConfigurator().apply(config);
+    // m_topLeader.getConfigurator().apply(config);
+    // m_bottomFollower.getConfigurator().apply(config);
   }
 
   public void setBottom(double speed) {

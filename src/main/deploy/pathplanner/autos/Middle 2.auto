@@ -37,12 +37,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Center to speaker"
@@ -52,12 +46,6 @@
           "type": "named",
           "data": {
             "name": "Push And Shoot High"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Drive From High"
           }
         }
       ]

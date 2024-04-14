@@ -2,25 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7165636553495331,
-      "y": 4.389693223830892
+      "x": 1.3721671887788225,
+      "y": 5.529873281968787
     },
-    "rotation": 119.98163936884934
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Push And Shoot High"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "go far"
+            "pathName": "taxi"
           }
         }
       ]

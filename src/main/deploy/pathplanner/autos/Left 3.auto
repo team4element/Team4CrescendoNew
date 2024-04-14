@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7735726582564278,
-      "y": 6.655801089379956
+      "x": 0.7593204075297043,
+      "y": 6.684305590833405
     },
-    "rotation": -120.76271953423887
+    "rotation": -118.6104596659652
   },
   "command": {
     "type": "sequential",
@@ -40,6 +40,37 @@
           "type": "path",
           "data": {
             "pathName": "back to speaker left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Push And Shoot High"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "left to far note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "far to left"
           }
         },
         {

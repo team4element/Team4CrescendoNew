@@ -5,10 +5,12 @@
 package frc.robot.Constants;
 
 public class ConveyorConstants {
-  public static final int bottomLeaderId = 3;
+  public static final int bottomLeaderId = 1;
   public static final int bottomFollowerId = 4;
 
   public static final int topLeaderId = 17;
 
   public static final double conveyorSpeed = .8;
+
+  public static final double currentLimitAmps = 100;
 }

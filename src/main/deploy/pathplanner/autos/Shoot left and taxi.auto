@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7206357269857403,
-      "y": 6.699372255887369
+      "x": 0.7963108085776007,
+      "y": 6.618715190662844
     },
     "rotation": -118.44292862436333
   },
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "From Corner"
+                  "pathName": "Drive From High"
                 }
               }
             ]

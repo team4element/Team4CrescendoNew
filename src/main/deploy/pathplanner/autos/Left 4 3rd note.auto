@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7735726582564278,
-      "y": 6.655801089379956
+      "x": 0.7939330164374621,
+      "y": 6.6553938822163365
     },
-    "rotation": -120.76271953423887
+    "rotation": -119.35775354279129
   },
   "command": {
     "type": "sequential",
@@ -46,6 +46,31 @@
           "type": "named",
           "data": {
             "name": "Push And Shoot High"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "left to far note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "far to left"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "left to center"
           }
         }
       ]

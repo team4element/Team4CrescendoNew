@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7735726582564278,
-      "y": 6.655801089379956
+      "x": 0.7165636553495331,
+      "y": 4.403945474557616
     },
-    "rotation": -120.76271953423887
+    "rotation": 118.73979529168801
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "left to first note"
+                  "pathName": "right to last note"
                 }
               },
               {
@@ -37,9 +37,15 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "back to speaker left"
+            "pathName": "last note to right"
           }
         },
         {

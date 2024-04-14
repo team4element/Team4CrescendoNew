@@ -3,44 +3,35 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.Commands;
-
+import java.lang.Math;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Climber;
 
-public class Climb extends Command {
-
+public class climbToSetpoint extends Command {
   Climber m_climber = new Climber();
-  boolean m_high = false;
-  double m_speed;
+  double m_setpoint = 0;
 
-  public Climb(Climber climber, double speed) {
-
+  public climbToSetpoint(Climber climber, double target) {
     m_climber = climber;
-    m_speed = speed;
-  
+    m_setpoint = target;
+    addRequirements(climber);
   }
 
-  
+
   @Override
   public void initialize() {
-    
+    m_climber.goToSetPoint(m_setpoint);
   }
-
- 
-  @Override
-  public void execute() {
-    m_climber.setMotors(m_speed);
-  }
-
 
   @Override
   public void end(boolean interrupted) {
     m_climber.motorsOff();
   }
 
-
   @Override
+  // TODO: Fix this
   public boolean isFinished() {
-    return false;
+    // TODO: Test what error there is when it is at the setpoint.
+    return Math.abs(m_climber.getCurrentPosition() - m_setpoint) <= 0.1;
   }
 }

@@ -2,25 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7165636553495331,
-      "y": 4.389693223830892
+      "x": 0.5455366466288492,
+      "y": 2.36
     },
-    "rotation": 119.98163936884934
+    "rotation": 179.32538350289917
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Push And Shoot High"
+            "pathName": "sweep"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "go far"
+            "pathName": "to speaker from sweep"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Push And Shoot High"
           }
         }
       ]

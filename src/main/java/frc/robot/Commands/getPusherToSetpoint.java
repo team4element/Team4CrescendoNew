@@ -13,8 +13,6 @@ public class getPusherToSetpoint extends Command {
   private Pusher m_pusher;
   private double m_setpoint;
 
-
-
   public getPusherToSetpoint(Pusher pusher, double setpoint) {
     
     m_pusher = pusher;
@@ -26,11 +24,12 @@ public class getPusherToSetpoint extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_pusher.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {    
+  public void execute() {  
     m_pusher.controlPID(m_setpoint);
   }
 
@@ -43,6 +42,6 @@ public class getPusherToSetpoint extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_pusher.isOnSetpoint();
     }
 }

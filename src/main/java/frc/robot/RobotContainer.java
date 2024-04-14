@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
+import frc.robot.Commands.climbToSetpoint;
 import frc.robot.Commands.getPusherToSetpoint;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ConveyorConstants;
 import frc.robot.Constants.PusherConstants;
@@ -30,8 +32,6 @@ import frc.robot.Subsystems.Shooter;
 public class RobotContainer {
   SendableChooser<Command> autoChooser;
 
-  // final ColorMatch m_colorMatcher = new ColorMatch();
-
   // Subsystems
   public static final CommandSwerveDrivetrain m_driveTrain = new CommandSwerveDrivetrain();
   public static final Conveyor m_conveyor = new Conveyor();
@@ -40,11 +40,8 @@ public class RobotContainer {
   public static final Climber m_climber = new Climber();
   public static final Arm m_arm = new Arm();
 
-  // private final Telemetry logger;
-
   public RobotContainer() {
 
-    // NamedCommands.registerCommand("shoot", m_shooter.setMotorRPM(0, false));
     NamedCommands.registerCommand("Push And Shoot High",
         pushAndShoot(
         ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
@@ -55,13 +52,10 @@ public class RobotContainer {
        m_conveyor.c_runBoth(
       Conveyor.Direction.INTAKE, 0.8).withTimeout(2.5));
 
-    //.withTimeout(.5));
     autoChooser = AutoBuilder.buildAutoChooser(); // Defaults to an empty command.
 
-    // logger = new Telemetry(m_driveTrain.maxSpeedSupplier.get());
-
     SmartDashboard.putData("Auto Chooser", autoChooser);
-    // m_driveTrain.registerTelemetry(logger::telemeterize);
+
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
     m_arm.setDefaultCommand(m_arm.c_manualMovement());
@@ -70,35 +64,35 @@ public class RobotContainer {
 
   public void onAutonInit() {
     m_driveTrain.seedFieldRelative();
-     m_pusher.getDegree();
+    m_pusher.resetEncoder();
   }
 
   public void onTeleopInit() {
     m_driveTrain.seedFieldRelative();
-    m_pusher.getDegree();
+    m_pusher.resetEncoder();
+    m_climber.resetMotor();
   }
 
   private void configureBindings() {
-    ControllerConstants.driveController.y().whileTrue(m_driveTrain.c_cardinalLock(0));
-    ControllerConstants.driveController.x().whileTrue(m_driveTrain.c_cardinalLock(90));
-    ControllerConstants.driveController.a().whileTrue(m_driveTrain.c_cardinalLock(180));
-    ControllerConstants.driveController.b().whileTrue(m_driveTrain.c_cardinalLock(270));
+     ControllerConstants.driveController.y().whileTrue(new Climb(m_climber, -.5));
     ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
+    ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
 
-    ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, -1));
-    ControllerConstants.driveController.povUp().whileTrue(new Climb(m_climber, 1));
+    ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(
+      m_climber, ClimberConstants.setpointUp));
+    ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, .5));
 
     ControllerConstants.operatorController.leftBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.y()
-        .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
+        .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
     // ControllerConstants.operatorController.b()
-    //     .toggleOnTrue(pushAndShoot(ShooterConstants.rmpMedium, 0, ShooterConstants.timeoutMedium));
+    //      .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrap, ShooterConstants.rpmBotTrap, ShooterConstants.timeoutMedium));
     ControllerConstants.operatorController.a()
         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
-    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.resetPosition));
+    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
     ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
     ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
   }
@@ -111,7 +105,7 @@ public class RobotContainer {
     return new SequentialCommandGroup(new Shoot(m_shooter, rpmTop, rpmBot).withTimeout(ShooterConstants.rampUpTime),
         new ParallelCommandGroup(
             new Shoot(m_shooter, rpmTop, rpmBot),
-            new getPusherToSetpoint(m_pusher, PusherConstants.shootPosition)).withTimeout(timeout),
-            new getPusherToSetpoint(m_pusher, PusherConstants.resetPosition).withTimeout(timeout));
+            new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition))
+            .withTimeout(timeout));
   }
 }

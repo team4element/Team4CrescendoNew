@@ -9,7 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.PusherConstants;
@@ -21,14 +22,21 @@ public class Pusher extends SubsystemBase {
   }
 
   private WPI_VictorSPX m_motorController;
-  private AnalogPotentiometer m_pot;
   private PIDController m_pid;
+  private Encoder m_encoder;
 
   public Pusher() {
     m_motorController = new WPI_VictorSPX(PusherConstants.motorId);
-    m_pot = new AnalogPotentiometer(PusherConstants.potID, PusherConstants.potMax, 0);
-    m_pid = new PIDController(.0025, 0 , 0.000000);
-    m_pid.setTolerance(10);
+    m_motorController.setInverted(true);
+    m_pid = new PIDController(PusherConstants.kP, PusherConstants.kI, PusherConstants.kD);
+    m_pid.setTolerance(5);
+    m_encoder = new Encoder(1, 2);
+
+   // debugging 
+   
+    // SmartDashboard.putNumber(PusherConstants.tableP, PusherConstants.kP);
+    // SmartDashboard.putNumber(PusherConstants.tableI, PusherConstants.kI);
+    // SmartDashboard.putNumber(PusherConstants.tableD, PusherConstants.kD);
 
   }
 
@@ -41,27 +49,41 @@ public class Pusher extends SubsystemBase {
   };
 
   public void controlPower(double power){
-    double pot_value = getDegree();
-    if ((pot_value >= PusherConstants.potLimitHigh && power > 0) 
-    || (pot_value <= PusherConstants.potLimitLow && power < 0)) {
-      setMotor(0);
-
-    }else{
       setMotor(power);
-    }
   };
 
   public void controlPID(double setpoint){
-    m_motorController.set(MathUtil.clamp(m_pid.calculate(getDegree(), setpoint), -.5, .5));
+    m_motorController.set(MathUtil.clamp(m_pid.calculate(getEncoder(), setpoint), -.5, .5));
   };
 
-  public double getDegree()
+  public double getEncoder()
   {
-    return PusherConstants.potMax - m_pot.get();
+    return m_encoder.getRaw();
+  }
+
+  public void resetEncoder()
+  {
+    m_encoder.reset();
+  }
+
+  public void setPID(){
+
+    double p = SmartDashboard.getNumber(PusherConstants.tableP, PusherConstants.kP);
+    double i = SmartDashboard.getNumber(PusherConstants.tableI, PusherConstants.kI);
+    double d = SmartDashboard.getNumber(PusherConstants.tableD, PusherConstants.kD);
+
+    m_pid.setPID(p, i, d);
+  }
+
+  public boolean isOnSetpoint()
+  {
+    return m_pid.atSetpoint();
   }
 
   @Override
   public void periodic(){
-    // System.out.println("Potentiometer:" + getDegree());
+  //  System.out.println("Encoder:" + getEncoder());
+  //  System.out.println("ERROR: " + m_pid.getPositionError());
+    setPID();
   }
 }

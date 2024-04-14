@@ -4,10 +4,12 @@
 
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
+//import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -19,13 +21,19 @@ public class Shooter extends SubsystemBase {
   final VelocityVoltage m_requestBot;
 
   public Shooter() {
-    Slot0Configs config = new Slot0Configs();
+    // SmartDashboard.putNumber(ShooterConstants.tableTopRPM, ShooterConstants.rpmTopHigh);
+    // SmartDashboard.putNumber(ShooterConstants.tableBotRPM, ShooterConstants.rpmBotHigh);
+
+    TalonFXConfiguration config = new TalonFXConfiguration();
     
-    config.kS = 0.05; // Add 0.05 V output to overcome static friction
-    config.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    config.kP = 0.15; // An error of 1 rps results in 0.11 V output
-    config.kI = 0;    // no output for integrated error
-    config.kD = 0;    // no output for error derivative
+    config.Slot0.kS = 0.05; // Add 0.05 V output to overcome static friction
+    config.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    config.Slot0.kP = 0.15; // An error of 1 rps results in 0.11 V output
+    config.Slot0.kI = 0;    // no output for integrated error
+    config.Slot0.kD = 0;    // no output for error derivative
+
+    config.CurrentLimits.SupplyCurrentLimit = ShooterConstants.currentLimitAmps;
+    config.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     m_requestTop = new VelocityVoltage(0).withSlot(0);
     m_requestBot = new VelocityVoltage(0).withSlot(0);
@@ -34,12 +42,27 @@ public class Shooter extends SubsystemBase {
     m_bottom.getConfigurator().apply(config);
     
     m_top.setInverted(true);
-
+    m_bottom.setInverted(true);
   }
+
+  //debugging 
+
+  // public void updateHighRpmFromTable()
+  // {
+  //   ShooterConstants.rpmTopHigh = SmartDashboard.getNumber(ShooterConstants.tableTopRPM, 0);
+  //   ShooterConstants.rpmBotHigh = SmartDashboard.getNumber(ShooterConstants.tableBotRPM, 0);
+  // }
+
+  //  public void updateLowRpmFromTable()
+  // {
+  //   ShooterConstants.rpmTop = SmartDashboard.getNumber(ShooterConstants.tableTopRPM, 0);
+  //   ShooterConstants.rpmBotHigh = SmartDashboard.getNumber(ShooterConstants.tableBotRPM, 0);
+  // }
 
   @Override
   public void periodic() {
-    printEncoderError();
+   // printEncoderError();
+   // updateHighRpmFromTable();
   }
 
   /**
@@ -51,22 +74,17 @@ public class Shooter extends SubsystemBase {
       m_bottom.setControl(m_requestBot.withVelocity(setpointBot).withFeedForward(.5));
  }
 
- /**
-  * Prints the velocity error with the motors
-  */
- public void printEncoderError()
- {
-    System.out.print("Top Error:");
-    System.out.print(m_top.getClosedLoopError());
+ //debugging 
 
-    System.out.print("Bot Error:");
-    System.out.print(m_bottom.getClosedLoopError());
- }
+//  public void printEncoderError()
+//  {
+//  //   System.out.print("Top Error:");
+//    // System.out.print(m_top.getClosedLoopError());
 
+//    // System.out.print("Bot Error:");
+//    // System.out.print(m_bottom.getClosedLoopError());
+//  }
 
- /**
-  * Turns off the motors
-  */
 public void motorsOff()
   {
     m_top.set(0);
