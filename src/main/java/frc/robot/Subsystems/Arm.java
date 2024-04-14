@@ -61,18 +61,18 @@ public class Arm extends SubsystemBase{
 
     public void moveArm(double speed){
 
-     if(speed > 0 && m_angle >= ArmConstants.forwardLimit
-       || speed < 0 && m_angle <= ArmConstants.reverseLimit) {
+     if(speed * m_invert > 0 && m_angle >= ArmConstants.forwardLimit
+       || speed * m_invert < 0 && m_angle <= ArmConstants.reverseLimit) {
 
         m_angleMotor.set(0);
 
      } else{
-        m_angleMotor.set(speed);
+        m_angleMotor.set(speed * m_invert);
         }
     }
 
     public void setSpeed(double speed){
-        m_shootMotor.set(speed * m_invert);
+        m_shootMotor.set(speed);
     }
 
     public void motorOff(){
