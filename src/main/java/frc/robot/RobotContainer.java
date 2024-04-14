@@ -16,6 +16,7 @@ import frc.robot.Commands.Climb;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
 import frc.robot.Commands.climbToSetpoint;
+import frc.robot.Commands.ShootWithArm;
 import frc.robot.Commands.getPusherToSetpoint;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ControllerConstants;
@@ -65,6 +66,7 @@ public class RobotContainer {
   public void onAutonInit() {
     m_driveTrain.seedFieldRelative();
     m_pusher.resetEncoder();
+    m_arm.zeroEncoder();
   }
 
   public void onTeleopInit() {
@@ -87,14 +89,15 @@ public class RobotContainer {
     ControllerConstants.operatorController.rightBumper()
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.y()
-        .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
-    // ControllerConstants.operatorController.b()
-    //      .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrap, ShooterConstants.rpmBotTrap, ShooterConstants.timeoutMedium));
+        .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
     ControllerConstants.operatorController.a()
         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
-    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
     ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
     ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
+
+    ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, .3));
+    ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, -.3));
+
   }
 
   public Command getAutonomousCommand() {

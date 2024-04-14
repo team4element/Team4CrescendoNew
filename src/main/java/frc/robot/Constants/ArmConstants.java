@@ -5,10 +5,9 @@
 package frc.robot.Constants;
 
 /** Add your docs here. */
-public class AngleConstants {
-//TODO: change ids later
-    public static final int m_angleMotorID = 0;
-    public static final int m_shootMotorID = 0;
+public class ArmConstants {
+    public static final int m_angleMotorID = 20;
+    public static final int m_shootMotorID = 19;
 
     public static final int angleCurrentLimitAmps = 80;
     public static final int shootCurrentLimitAmps = 80;
