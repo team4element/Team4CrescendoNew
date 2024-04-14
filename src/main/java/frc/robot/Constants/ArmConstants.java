@@ -12,6 +12,6 @@ public class ArmConstants {
     public static final int angleCurrentLimitAmps = 80;
     public static final int shootCurrentLimitAmps = 80;
 
-    public static final double forwardLimit = 360;
-    public static final double reverseLimit = 0;
+    public static final double forwardLimit = 30;
+    public static final double reverseLimit = 2;
 }

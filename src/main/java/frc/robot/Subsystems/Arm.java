@@ -19,6 +19,7 @@ import frc.robot.Constants.ControllerConstants;
 public class Arm extends SubsystemBase{
     TalonFX m_angleMotor; 
     TalonFX m_shootMotor; 
+    int m_invert;
 
     double m_angle;
 
@@ -26,6 +27,7 @@ public class Arm extends SubsystemBase{
 
         m_angleMotor = new TalonFX(ArmConstants.m_angleMotorID);
         m_shootMotor = new TalonFX(ArmConstants.m_shootMotorID);
+        m_invert = -1;
 
         TalonFXConfiguration angleConfigs = new TalonFXConfiguration();
 
@@ -70,9 +72,8 @@ public class Arm extends SubsystemBase{
     }
 
     public void setSpeed(double speed){
-        m_shootMotor.set(speed);
+        m_shootMotor.set(speed * m_invert);
     }
-
 
     public void motorOff(){
         m_shootMotor.set(0);

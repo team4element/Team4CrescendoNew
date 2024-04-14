@@ -95,8 +95,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
     ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
 
-    ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, .3));
-    ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, -.3));
+    ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, .6));
+    ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, -.6));
 
   }
 
