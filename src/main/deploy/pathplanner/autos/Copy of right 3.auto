@@ -24,37 +24,6 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right to last note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "last note to right"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Push And Shoot High"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
                   "pathName": "right to far"
                 }
               },
@@ -77,6 +46,12 @@
           "type": "named",
           "data": {
             "name": "Push And Shoot High"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Path"
           }
         }
       ]
