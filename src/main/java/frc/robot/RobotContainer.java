@@ -17,12 +17,15 @@ import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
 import frc.robot.Commands.climbToSetpoint;
 import frc.robot.Commands.ShootWithArm;
+import frc.robot.Commands.armToAmp;
 import frc.robot.Commands.getPusherToSetpoint;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ConveyorConstants;
 import frc.robot.Constants.PusherConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
@@ -38,6 +41,7 @@ public class RobotContainer {
   public static final Shooter m_shooter = new Shooter();
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
+  public static final Arm m_arm = new Arm();
 
   public RobotContainer() {
 
@@ -57,6 +61,7 @@ public class RobotContainer {
 
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
+    m_arm.setDefaultCommand(m_arm.c_manualMovement());
 
   }
 
@@ -86,16 +91,22 @@ public class RobotContainer {
         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.y()
         .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
-    // ControllerConstants.operatorController.b()
-    //      .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrap, ShooterConstants.rpmBotTrap, ShooterConstants.timeoutMedium));
+      ControllerConstants.operatorController.b()
+         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmBotTrapv2, ShooterConstants.timeoutMedium));
     ControllerConstants.operatorController.a()
+        // .whileTrue(ampShoot(ShooterConstants.rpmTopTrap, ShooterConstants.rpmBotTrap, ShooterConstants.timeoutMedium,
+        //  ArmConstants.forwardLimit, ArmConstants.shootSpeed));
         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
-    ControllerConstants.operatorController.x().onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
+     ControllerConstants.operatorController.x()
+    // .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmBotTrapv2, ShooterConstants.timeoutHigh));
+   .onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
     ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
     ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
+    ControllerConstants.operatorController.povLeft().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv3, ShooterConstants.rpmTopTrapv3, ShooterConstants.timeoutMedium));
+    ControllerConstants.operatorController.povRight().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv4, ShooterConstants.rpmTopTrapv4, ShooterConstants.timeoutMedium));
 
-   // ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, .3));
-    //ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, -.3));
+    //ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, .6));
+   // ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, -.2));
 
   }
 
@@ -110,4 +121,11 @@ public class RobotContainer {
             new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition))
             .withTimeout(timeout));
   }
+
+   private SequentialCommandGroup ampShoot(double rpmTop, double rpmBot, double timeout, double setpoint, double armSpeed) {
+     return new SequentialCommandGroup(new armToAmp(m_arm, setpoint),
+       new ParallelCommandGroup(
+        pushAndShoot(rpmTop, rpmBot, timeout),
+        new ShootWithArm(m_arm, .6)));
+   }
 }

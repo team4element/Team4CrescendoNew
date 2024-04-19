@@ -25,6 +25,8 @@ public class Pusher extends SubsystemBase {
   private PIDController m_pid;
   private Encoder m_encoder;
 
+  int invert = -1;
+
   public Pusher() {
     m_motorController = new WPI_VictorSPX(PusherConstants.motorId);
     m_motorController.setInverted(true);
@@ -34,9 +36,9 @@ public class Pusher extends SubsystemBase {
 
    // debugging 
    
-    // SmartDashboard.putNumber(PusherConstants.tableP, PusherConstants.kP);
-    // SmartDashboard.putNumber(PusherConstants.tableI, PusherConstants.kI);
-    // SmartDashboard.putNumber(PusherConstants.tableD, PusherConstants.kD);
+      SmartDashboard.putNumber(PusherConstants.tableP, PusherConstants.kP);
+      SmartDashboard.putNumber(PusherConstants.tableI, PusherConstants.kI);
+      SmartDashboard.putNumber(PusherConstants.tableD, PusherConstants.kD);
 
   }
 
@@ -58,7 +60,7 @@ public class Pusher extends SubsystemBase {
 
   public double getEncoder()
   {
-    return m_encoder.getRaw();
+    return m_encoder.getRaw() * invert;
   }
 
   public void resetEncoder()
@@ -82,8 +84,8 @@ public class Pusher extends SubsystemBase {
 
   @Override
   public void periodic(){
-  //  System.out.println("Encoder:" + getEncoder());
-  //  System.out.println("ERROR: " + m_pid.getPositionError());
+     System.out.println("Encoder:" + getEncoder());
+     System.out.println("ERROR: " + m_pid.getPositionError());
     setPID();
   }
 }

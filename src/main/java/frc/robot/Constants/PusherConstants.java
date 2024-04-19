@@ -8,7 +8,7 @@ public class PusherConstants {
     public static final double medSpeed = .5;
     public static final double highSpeed = .08;
 
-    public static final double kP = 0.0008;
+    public static final double kP = 0.00015; 
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 

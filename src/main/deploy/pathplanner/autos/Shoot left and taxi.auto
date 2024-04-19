@@ -12,22 +12,21 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Push And Shoot High"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Drive From High"
-                }
-              }
-            ]
+            "name": "Push And Shoot High"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 10.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drive From High"
           }
         }
       ]

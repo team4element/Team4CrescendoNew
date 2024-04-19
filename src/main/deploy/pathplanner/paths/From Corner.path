@@ -59,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Comp Specific",
+  "folder": null,
   "previewStartingState": {
     "rotation": -120.0359419847487,
     "velocity": 0

@@ -8,34 +8,34 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Arm;
 
 public class ShootWithArm extends Command {
-  //double m_speed;
- // Arm m_arm;
+  double m_speed;
+ Arm m_arm;
 
   public ShootWithArm(Arm arm, double speed) {
-  //   m_speed = speed;
-  //   m_arm = arm;
-  // }
+    m_speed = speed;
+    m_arm = arm;
+  }
 
-  // // Called when the command is initially scheduled.
-  // @Override
-  // public void initialize() {
-  //   m_arm.setSpeed(m_speed);
-  // }
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    m_arm.setSpeed(m_speed);
+  }
 
-  // // Called every time the scheduler runs while the command is scheduled.
-  // @Override
-  // public void execute() {
-  // }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+  }
 
-  // // Called once the command ends or is interrupted.
-  // @Override
-  // public void end(boolean interrupted) {
-  //   m_arm.setSpeed(0);
-  // }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_arm.setSpeed(0);
+  }
 
-  // // Returns true when the command should end.
-  // @Override
-  // public boolean isFinished() {
-  //   return false;
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
    }
 }
