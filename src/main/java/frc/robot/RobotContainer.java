@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Commands.BlinkLeds;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.Push;
 import frc.robot.Commands.Shoot;
@@ -70,15 +71,28 @@ public class RobotContainer {
     m_pusher.resetEncoder();
   }
 
+  public boolean getLimitSwitchFront(){
+     return m_conveyor.getLimitSwitchFront();
+  }
+
+  public boolean getLimitSwitchBack(){
+    return m_conveyor.getLimitSwitchBack();
+  }
+
   public void onTeleopInit() {
     m_driveTrain.seedFieldRelative();
     m_pusher.resetEncoder();
     m_climber.resetMotor();
+    switchLedColor();
+  }
+
+  public void switchLedColor(){
+    new BlinkLeds(m_conveyor, m_conveyor.lastColor()).schedule();
   }
 
   private void configureBindings() {
      ControllerConstants.driveController.y().whileTrue(new Climb(m_climber, -.5));
-    ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
+    //ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
     ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
 
     ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(
@@ -92,8 +106,8 @@ public class RobotContainer {
     ControllerConstants.operatorController.y()
         .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
       ControllerConstants.operatorController.b()
-         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmBotTrapv2, ShooterConstants.timeoutMedium));
-    ControllerConstants.operatorController.a()
+         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv4, ShooterConstants.rpmBotTrapv4, ShooterConstants.timeoutMedium));
+             ControllerConstants.operatorController.a()
         // .whileTrue(ampShoot(ShooterConstants.rpmTopTrap, ShooterConstants.rpmBotTrap, ShooterConstants.timeoutMedium,
         //  ArmConstants.forwardLimit, ArmConstants.shootSpeed));
         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
@@ -102,8 +116,8 @@ public class RobotContainer {
    .onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
     ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
     ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
-    ControllerConstants.operatorController.povLeft().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv3, ShooterConstants.rpmTopTrapv3, ShooterConstants.timeoutMedium));
-    ControllerConstants.operatorController.povRight().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv4, ShooterConstants.rpmTopTrapv4, ShooterConstants.timeoutMedium));
+    ControllerConstants.operatorController.povLeft().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmTopTrapv2, ShooterConstants.timeoutMedium));
+    ControllerConstants.operatorController.povRight().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv3, ShooterConstants.rpmTopTrapv3, ShooterConstants.timeoutMedium));
 
     //ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, .6));
    // ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, -.2));

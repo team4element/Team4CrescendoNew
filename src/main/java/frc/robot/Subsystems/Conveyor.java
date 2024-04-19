@@ -4,36 +4,47 @@
 
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ConveyorConstants;
-import frc.robot.Constants.ShooterConstants;
 
 public class Conveyor extends SubsystemBase {
-  public static TalonFX m_bottomLeader;
-  public static TalonFX m_bottomFollower;
-  DutyCycleOut bottomControlRequest = new DutyCycleOut(.8);
+  private static TalonFX m_bottomLeader;
+  private static TalonFX m_bottomFollower;
+  private static DigitalInput m_limitSwitchFront;
+  private static DigitalInput m_limitSwitchBack;
+  private static Spark m_addressable_LEDS;
+  private static TalonFX m_topLeader;
 
-  public static TalonFX m_topLeader;
-  DutyCycleOut topControlRequest = new DutyCycleOut(.8);
+  private DutyCycleOut m_bottomControlRequest;
+  private DutyCycleOut m_topControlRequest;
+
+  Color m_lastColor;
 
   public static enum Direction {
     INTAKE,
     OUTTAKE
   }
 
+  public static enum Color{
+    BLUE,
+    PURPLE,
+    ORANGE,
+  }
+
   public Conveyor() {
-    // Setting Motors
+    m_bottomControlRequest = new DutyCycleOut(.8);
+    m_topControlRequest = new DutyCycleOut(.8);
 
-    // TalonFXConfiguration config = new TalonFXConfiguration();
-
-    // config.CurrentLimits.SupplyCurrentLimit = ConveyorConstants.currentLimitAmps;
-    // config.CurrentLimits.SupplyCurrentLimitEnable = true;
+    m_limitSwitchFront = new DigitalInput(ConveyorConstants.limitSwitchFrontID);
+    m_limitSwitchBack = new DigitalInput(ConveyorConstants.limitSwitchBackID);
+    m_addressable_LEDS = new Spark(ConveyorConstants.blinkinID);
 
     m_bottomLeader = new TalonFX(ConveyorConstants.bottomLeaderId);
     m_bottomFollower = new TalonFX(ConveyorConstants.bottomFollowerId);
@@ -44,19 +55,50 @@ public class Conveyor extends SubsystemBase {
     m_bottomLeader.setInverted(true);
     m_topLeader.setInverted(false);
 
-    // m_bottomLeader.getConfigurator().apply(config);
-    // m_topLeader.getConfigurator().apply(config);
-    // m_bottomFollower.getConfigurator().apply(config);
+    m_lastColor = Color.PURPLE;
   }
 
   public void setBottom(double speed) {
-    m_bottomLeader.setControl(bottomControlRequest.withOutput(speed));
+    m_bottomLeader.setControl(m_bottomControlRequest.withOutput(speed));
   }
 
   public void setTop(double speed) {
-    m_topLeader.setControl(topControlRequest.withOutput(speed));
+    m_topLeader.setControl(m_topControlRequest.withOutput(speed));
   }
 
+  public boolean getLimitSwitchFront(){
+    return m_limitSwitchFront.get();
+  }
+
+  public boolean getLimitSwitchBack() {
+    return m_limitSwitchBack.get();
+  }
+
+  public double parseLedColor(Color color){
+    double speed;
+    switch (color) {
+      case BLUE: speed = .81; break;
+      case ORANGE: speed = .63; break;
+      case PURPLE: speed = .91; break;
+
+      default: speed = .87; break; //blue
+    }
+    return speed;
+  }
+
+  public void setLEDColor(Color color){
+    m_lastColor = color;
+    m_addressable_LEDS.set(parseLedColor(color));
+    System.out.println("REACH" + color);
+  }
+
+
+  @Override
+  public void periodic() {
+    m_limitSwitchFront.get();
+    m_limitSwitchBack.get();
+
+  }
 
   // Define all commands here
   public Command c_runTop(Direction direction, double speed) {
@@ -65,7 +107,7 @@ public class Conveyor extends SubsystemBase {
     return startEnd(
         () -> setTop(modifiedSpeed),
         () -> setTop(0.5));
-      
+
   }
 
   public Command c_runBottom(Direction direction, double speed) {
@@ -87,4 +129,9 @@ public class Conveyor extends SubsystemBase {
       setTop(0);
     });
   }
+
+  public Color lastColor(){
+    return m_lastColor;
+  }
 }
+

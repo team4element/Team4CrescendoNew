@@ -47,12 +47,6 @@
           "data": {
             "name": "Push And Shoot High"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "New Path"
-          }
         }
       ]
     }

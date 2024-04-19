@@ -13,4 +13,10 @@ public class ConveyorConstants {
   public static final double conveyorSpeed = .8;
 
   public static final double currentLimitAmps = 100;
+
+  public static final int blinkinID = 7;
+  public static final int limitSwitchFrontID = 8;
+  public static final int limitSwitchBackID = 9;
+
+
 }

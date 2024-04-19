@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7963108085776007,
-      "y": 6.618715190662844
+      "x": 0.7878249089831516,
+      "y": 4.418197725284339
     },
-    "rotation": -118.44292862436333
+    "rotation": 119.7448812969422
   },
   "command": {
     "type": "sequential",
@@ -14,36 +14,32 @@
         {
           "type": "named",
           "data": {
-<<<<<<< HEAD
             "name": "Push And Shoot High"
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 10.0
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "right to 2nd far"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Drive From High"
-=======
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Push And Shoot High"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Drive From High"
-                }
-              }
-            ]
->>>>>>> Lights
+            "pathName": "2nd far to right"
           }
         }
       ]
