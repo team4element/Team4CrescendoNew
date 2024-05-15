@@ -10,8 +10,8 @@ public class ShooterConstants {
     public static final int m_topMotorID = 18;
     public static final int m_bottomMotorID = 3;
 
-    public static final int rpmTopLow    = 400;
-    public static final int rpmBotLow    = 625;
+    public static final int rpmTopLow    =  400;
+    public static final int rpmBotLow    =  625;
 
         public static final int rpmTopTrapv2 = 4000;
     public static final int rpmBotTrapv2 = 4000;
