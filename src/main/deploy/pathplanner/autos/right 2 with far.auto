@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7878249089831516,
-      "y": 4.418197725284339
+      "x": 0.9303474162503883,
+      "y": 4.218666215110209
     },
     "rotation": 119.7448812969422
   },
@@ -40,6 +40,12 @@
           "type": "path",
           "data": {
             "pathName": "2nd far to right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Push And Shoot High"
           }
         }
       ]

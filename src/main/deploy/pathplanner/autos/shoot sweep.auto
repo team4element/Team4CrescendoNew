@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7308159060762569,
-      "y": 4.375440973104168
+      "x": 0.8448339118900462,
+      "y": 4.118900460023142
     },
     "rotation": 120.34324888423957
   },
@@ -21,12 +21,6 @@
           "type": "path",
           "data": {
             "pathName": "part sweep"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "rest of sweep"
           }
         }
       ]

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3656518741608918,
-      "y": 5.52661562465982
+      "x": 1.57,
+      "y": 5.54412553269551
     },
     "rotation": 180.0
   },
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "middle speaker to first notev2"
+                  "pathName": "middle speaker to first note"
                 }
               },
               {

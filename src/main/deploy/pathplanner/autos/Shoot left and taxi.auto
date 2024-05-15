@@ -14,7 +14,6 @@
         {
           "type": "named",
           "data": {
-<<<<<<< HEAD
             "name": "Push And Shoot High"
           }
         },
@@ -28,22 +27,6 @@
           "type": "path",
           "data": {
             "pathName": "Drive From High"
-=======
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Push And Shoot High"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Drive From High"
-                }
-              }
-            ]
->>>>>>> Lights
           }
         }
       ]

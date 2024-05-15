@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3579149380520985,
-      "y": 5.529873281968787
+      "x": 1.57,
+      "y": 5.54
     },
     "rotation": 180.0
   },
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Center to last notev2"
+                  "pathName": "Center to last note"
                 }
               },
               {
