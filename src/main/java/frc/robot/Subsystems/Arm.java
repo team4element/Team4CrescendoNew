@@ -115,6 +115,11 @@ public class Arm extends SubsystemBase{
         return Commands.run(() -> moveArm(ControllerConstants.operatorController.getLeftY() * .3), this);
     }
 
+    //     public Command c_manualMovement2(){
+    //     return Commands.run(() -> moveArm(ControllerConstants.driveController.getLeftTriggerAxis() * .3), this);
+    // }
+    
+
      @Override
      public void periodic(){
         m_angle = m_angleMotor.getPosition().getValue();

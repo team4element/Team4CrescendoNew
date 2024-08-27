@@ -11,6 +11,7 @@ public class ShootWithArm extends Command {
   double m_speed;
  Arm m_arm;
 
+
   public ShootWithArm(Arm arm, double speed) {
     m_speed = speed;
     m_arm = arm;
@@ -25,6 +26,7 @@ public class ShootWithArm extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_arm.setSpeed(-.6);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,3 +41,4 @@ public class ShootWithArm extends Command {
     return false;
    }
 }
+;

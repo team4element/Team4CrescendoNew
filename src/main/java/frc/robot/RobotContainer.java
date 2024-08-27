@@ -63,7 +63,7 @@ public class RobotContainer {
     configureBindings();
     m_driveTrain.setDefaultCommand(m_driveTrain.c_OpenLoopDrive());
     m_arm.setDefaultCommand(m_arm.c_manualMovement());
-
+    //m_arm.setDefaultCommand(m_arm.c_manualMovement2());
   }
 
   public void onAutonInit() {
@@ -92,35 +92,57 @@ public class RobotContainer {
 
   private void configureBindings() {
      ControllerConstants.driveController.y().whileTrue(new Climb(m_climber, -.5));
-    //ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
-    ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
+     //for demo only 
 
-    ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(
-      m_climber, ClimberConstants.setpointUp));
-    ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, .5));
+     ControllerConstants.driveController.a().whileTrue(m_driveTrain.c_cardinalLock(60));
+    ControllerConstants.driveController.leftBumper().onTrue(m_driveTrain.c_seedFieldRelative());
+   // ControllerConstants.driveController.rightBumper().onTrue(m_driveTrain.c_invertControls());
+
+     //ControllerConstants.driveController.y()
+        //.toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
+    //  ControllerConstants.driveController.a()
+        // .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
+    //  ControllerConstants.driveController.b().whileTrue(new ShootWithArm(m_arm, -.6));
+     // ControllerConstants.driveController.x().whileTrue(new ShootWithArm(m_arm, .2));
+
+     ControllerConstants.driveController.povUp().whileTrue(new climbToSetpoint(
+       m_climber, ClimberConstants.setpointUp));
+     ControllerConstants.driveController.povDown().whileTrue(new Climb(m_climber, .5));
+    // ControllerConstants.driveController.povUp()
+    // .whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
+    // ControllerConstants.driveController.povDown()
+    // .whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
+    // ControllerConstants.driveController.povLeft()
+    // .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
+    // ControllerConstants.driveController.povRight()
+    // .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
+
 
     ControllerConstants.operatorController.leftBumper()
-        .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
+         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.rightBumper()
-        .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
-    ControllerConstants.operatorController.y()
-        .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
-      ControllerConstants.operatorController.b()
-         .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv4, ShooterConstants.rpmBotTrapv4, ShooterConstants.timeoutMedium));
-             ControllerConstants.operatorController.a()
-        // .whileTrue(ampShoot(ShooterConstants.rpmTopTrap, ShooterConstants.rpmBotTrap, ShooterConstants.timeoutMedium,
-        //  ArmConstants.forwardLimit, ArmConstants.shootSpeed));
-        .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
-     ControllerConstants.operatorController.x()
-    // .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmBotTrapv2, ShooterConstants.timeoutHigh));
-   .onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
-    ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
-    ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
-    ControllerConstants.operatorController.povLeft().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmTopTrapv2, ShooterConstants.timeoutMedium));
-    ControllerConstants.operatorController.povRight().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv3, ShooterConstants.rpmTopTrapv3, ShooterConstants.timeoutMedium));
+         .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
+     ControllerConstants.operatorController.y()
+         .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopHigh, ShooterConstants.rpmBotHigh, ShooterConstants.timeoutHigh));
+      //  ControllerConstants.operatorController.b()
+      //     .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv4, ShooterConstants.rpmBotTrapv4, ShooterConstants.timeoutMedium));
+              ControllerConstants.operatorController.a()
+          .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
+      // ControllerConstants.operatorController.x()
+      // .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmBotTrapv2, ShooterConstants.timeoutHigh));
+  //  .onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
+     ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
+     ControllerConstants.operatorController.povDown().whileTrue(new Push(m_pusher,-PusherConstants.lowSpeed));
+     ControllerConstants.operatorController.povLeft().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmTopTrapv2, ShooterConstants.timeoutMedium));
+     ControllerConstants.operatorController.povRight().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv3, ShooterConstants.rpmTopTrapv3, ShooterConstants.timeoutMedium));
 
-    //ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, .6));
-   // ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, -.2));
+     //ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, -.6));
+     ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, .2));
+
+      ControllerConstants.operatorController.b()
+          .toggleOnTrue (ampShot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow, -.9, ArmConstants.timeout));
+         // .toggleOnTrue (ampShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, 
+         // ShooterConstants.timeoutLow, 1, -.6));
 
   }
 
@@ -136,10 +158,21 @@ public class RobotContainer {
             .withTimeout(timeout));
   }
 
-   private SequentialCommandGroup ampShoot(double rpmTop, double rpmBot, double timeout, double setpoint, double armSpeed) {
-     return new SequentialCommandGroup(new armToAmp(m_arm, setpoint),
-       new ParallelCommandGroup(
-        pushAndShoot(rpmTop, rpmBot, timeout),
-        new ShootWithArm(m_arm, .6)));
-   }
+
+
+private SequentialCommandGroup ampShot(double rpmTop, double rpmBot, double timeout, double armSpeed, double timeout2) {
+    return new SequentialCommandGroup(new ShootWithArm(m_arm, -.6).withTimeout(ArmConstants.ramp),
+        new ParallelCommandGroup(
+            new ShootWithArm(m_arm, -.9),
+            new Shoot(m_shooter, rpmTop, rpmBot),
+            new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition))
+            .withTimeout(1.5));
+}
+  //  private SequentialCommandGroup ampShoot(int rpmTop, int rpmBot, double timeout, double setpoint, double armSpeed) {
+  //    return new SequentialCommandGroup(new armToAmp(m_arm, setpoint),
+  //      new ParallelCommandGroup(
+  //       pushAndShoot(rpmTop, rpmBot, timeout),
+  //       new ShootWithArm(m_arm, -.6))
+  //       .withTimeout(3));
+  //  }
 }

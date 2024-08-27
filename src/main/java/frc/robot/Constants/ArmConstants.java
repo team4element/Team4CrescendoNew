@@ -20,9 +20,13 @@ public class ArmConstants {
     public static double kI = 0;
     public static double kD = 0;
 
-    public static double shootSpeed = .6;
+    public static double shootSpeed = -.6;
 
     public static final String tableP = "Arm P";
     public static final String tableI = "Arm I";
     public static final String tableD = "Arm D";
+
+    public static final double timeout = .35;
+    public static final double ramp = .25;
+
 }

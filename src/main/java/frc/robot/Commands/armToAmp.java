@@ -11,6 +11,8 @@ public class armToAmp extends Command {
   /** Creates a new armToAmp. */
   Arm m_arm = new Arm();
   double setpoint= 0;
+  
+
 
   public armToAmp(Arm arm, double target) {
     // Use addRequirements() here to declare subsystem dependencies.
