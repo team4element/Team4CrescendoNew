@@ -32,6 +32,7 @@ import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
 import frc.robot.Subsystems.Pusher;
 import frc.robot.Subsystems.Shooter;
+import frc.robot.Subsystems.poseEstimator;
 
 public class RobotContainer {
   SendableChooser<Command> autoChooser;
@@ -43,6 +44,8 @@ public class RobotContainer {
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
   public static final Arm m_arm = new Arm();
+  public static final poseEstimator m_poseEstimator = new poseEstimator();
+ // TODO: Combine poseEstimatior and limelight together
 
   public RobotContainer() {
 
@@ -117,7 +120,6 @@ public class RobotContainer {
     // ControllerConstants.driveController.povRight()
     // .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.INTAKE, ConveyorConstants.conveyorSpeed));
 
-
     ControllerConstants.operatorController.leftBumper()
          .whileTrue(m_conveyor.c_runBoth(Conveyor.Direction.OUTTAKE, ConveyorConstants.conveyorSpeed));
     ControllerConstants.operatorController.rightBumper()
@@ -129,6 +131,7 @@ public class RobotContainer {
               ControllerConstants.operatorController.a()
           .toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow));
       // ControllerConstants.operatorController.x()
+      
       // .toggleOnTrue( pushAndShoot(ShooterConstants.rpmTopTrapv2, ShooterConstants.rpmBotTrapv2, ShooterConstants.timeoutHigh));
   //  .onTrue(new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition).withTimeout(1.5));
      ControllerConstants.operatorController.povUp().whileTrue(new Push(m_pusher, PusherConstants.lowSpeed));
@@ -137,7 +140,7 @@ public class RobotContainer {
      ControllerConstants.operatorController.povRight().toggleOnTrue(pushAndShoot(ShooterConstants.rpmTopTrapv3, ShooterConstants.rpmTopTrapv3, ShooterConstants.timeoutMedium));
 
      //ControllerConstants.operatorController.b().whileTrue(new ShootWithArm(m_arm, -.6));
-     ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, .2));
+    //  ControllerConstants.operatorController.x().whileTrue(new ShootWithArm(m_arm, .2));
 
       ControllerConstants.operatorController.b()
           .toggleOnTrue (ampShot(ShooterConstants.rpmTopLow, ShooterConstants.rpmBotLow, ShooterConstants.timeoutLow, -.9, ArmConstants.timeout));
@@ -157,8 +160,6 @@ public class RobotContainer {
             new getPusherToSetpoint(m_pusher, PusherConstants.encoderPosition))
             .withTimeout(timeout));
   }
-
-
 
 private SequentialCommandGroup ampShot(double rpmTop, double rpmBot, double timeout, double armSpeed, double timeout2) {
     return new SequentialCommandGroup(new ShootWithArm(m_arm, -.6).withTimeout(ArmConstants.ramp),

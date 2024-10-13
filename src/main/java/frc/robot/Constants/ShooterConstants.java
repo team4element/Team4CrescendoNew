@@ -22,11 +22,11 @@ public class ShooterConstants {
         public static final int rpmTopTrapv4 = 4500;
     public static final int rpmBotTrapv4 = 4500;
 
-    // public static double rpmTopHigh   = 6300;
-    // public static double rpmBotHigh   = 6300; 
+     public static double rpmTopHigh   = 6300;
+     public static double rpmBotHigh   = 6300; 
 
-    public static double rpmTopHigh   = 2400;
-    public static double rpmBotHigh   = 2400; 
+    //public static double rpmTopHigh   = 2400;
+    //public static double rpmBotHigh   = 2400; 
 
 
     public static final int rpmReverse = -300;

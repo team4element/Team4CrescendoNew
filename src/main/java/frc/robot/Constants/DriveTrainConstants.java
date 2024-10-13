@@ -32,6 +32,9 @@ public class DriveTrainConstants{
     public static final double kDeadZone = .8;
     public static final double kSpeedMultiplyer = 4;
 
+    private double limelightTolerance = 0.5; //describes the 'wiggle room' that the
+    // limelight can track the apriltag in terms of inches
+
     public static final Map<Integer, String> IDtoEncoderName = new HashMap<Integer, String>(); 
 
     DriveTrainConstants() {

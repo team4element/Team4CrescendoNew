@@ -89,7 +89,7 @@ public class Conveyor extends SubsystemBase {
   public void setLEDColor(Color color){
     m_lastColor = color;
     m_addressable_LEDS.set(parseLedColor(color));
-    System.out.println("REACH" + color);
+   // System.out.println("REACH" + color);
   }
 
 
