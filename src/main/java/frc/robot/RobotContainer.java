@@ -43,6 +43,7 @@ public class RobotContainer {
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
   public static final Arm m_arm = new Arm();
+  public static final VisionTracking = new VisionTracking();
 
   public RobotContainer() {
 
