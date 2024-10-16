@@ -84,8 +84,8 @@ public class Pusher extends SubsystemBase {
 
   @Override
   public void periodic(){
-     System.out.println("Encoder:" + getEncoder());
-     System.out.println("ERROR: " + m_pid.getPositionError());
+     //System.out.println("Encoder:" + getEncoder());
+     //System.out.println("ERROR: " + m_pid.getPositionError());
     setPID();
   }
 }

@@ -32,6 +32,7 @@ import frc.robot.Subsystems.CommandSwerveDrivetrain;
 import frc.robot.Subsystems.Conveyor;
 import frc.robot.Subsystems.Pusher;
 import frc.robot.Subsystems.Shooter;
+import frc.robot.Subsystems.VisionTracking;
 
 public class RobotContainer {
   SendableChooser<Command> autoChooser;
@@ -43,7 +44,7 @@ public class RobotContainer {
   public static final Pusher m_pusher = new Pusher();
   public static final Climber m_climber = new Climber();
   public static final Arm m_arm = new Arm();
-  public static final VisionTracking = new VisionTracking();
+  public static final VisionTracking m_tracking = new VisionTracking();
 
   public RobotContainer() {
 
@@ -85,6 +86,11 @@ public class RobotContainer {
     m_pusher.resetEncoder();
     m_climber.resetMotor();
     switchLedColor();
+  }
+
+  public void track(){
+
+    m_tracking.data();
   }
 
   public void switchLedColor(){
